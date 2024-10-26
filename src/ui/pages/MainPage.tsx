@@ -3,11 +3,10 @@ import Body from '../components/layout/Body';
 import styleToken from '../styles/styleToken.ts';
 import RightArrowIcon from '../../assets/character.png';
 import ComplimentItem from '../components/mainPage/ComplimentItem.tsx'; // 이미지 경로에 맞게 수정하세요
+import PlusImageIcon from '../../assets/plus.png';
 
 const ComplimentCard = styled.div`
-  //width: 100%;
-  //max-width: 440px;
-  background-color: #e0f4ff;
+  background-color: ${styleToken.color.primary};
   border: 1px solid #d3e9ff;
   padding: 20px 0;
   text-align: left;
@@ -19,7 +18,6 @@ const ContentWrapper = styled.div`
   align-items: center;
   justify-content: center;
   margin-left: 15px;
-  /* 왼쪽에 텍스트, 오른쪽에 아이콘 */
 `;
 
 const TextGroup = styled.div`
@@ -48,32 +46,54 @@ const Icon = styled.img`
   margin-bottom: 10px;
 `;
 
-const Button = styled.button`
-  background-color: ${styleToken.color.secondary};
-  color: white;
-  width: 100%;
-  font-size: 18px;
-  border: none;
-  padding: 18px 0;
-  margin: 0 16px;
+const PlusIcon = styled.img`
+  width: 17px;
+  height: 17px;
+  margin-right: 5px;
+`;
+
+const FloatingButton = styled.button`
+  position: fixed;
+  bottom: 20px;
+  left: 73%;
+  transform: translateX(-50%);
+  background-color: ${styleToken.color.background};
+  color: ${styleToken.color.secondary};
+  width: calc(100% - 32px);
+  max-width: 146px;
+  font-size: 16px;
+  line-height: 19px;
   font-weight: 700;
-  line-height: 21px;
-  //cursor: pointer;
-  filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+  padding: 18px 0;
+  border-radius: 32px;
+  border: 1px solid ${styleToken.color.secondary};
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000; /* 다른 요소 위에 고정되도록 z-index 추가 */
 `;
 
 const ComplimentList = styled.div`
   width: 100%;
   max-width: 500px;
-  margin-top: 20px;
   text-align: left;
+  padding-bottom: 50px;
+  background-color: ${styleToken.color.background};
 `;
+
+const ListGap = styled.div`
+  background-color: ${styleToken.color.backgroundSecondary};
+  height: 8px;
+`;
+
+const array = ['2', '3', '4', '5', '6', '7', '8', '9'];
 
 // 컴포넌트
 export default function MainPage() {
   console.log('homePage');
   return (
-    <Body>
+    <Body color={styleToken.color.backgroundSecondary}>
       <ComplimentCard>
         <ContentWrapper>
           <TextGroup>
@@ -83,21 +103,28 @@ export default function MainPage() {
               좋습니다. 글을 올리면 칭찬요정들이 찾아갈거에요~
             </Subtitle>
           </TextGroup>
-
           <Icon src={RightArrowIcon} alt="Right arrow" />
-        </ContentWrapper>
-        <ContentWrapper>
-          <Button>칭찬글 쓰기</Button>
         </ContentWrapper>
       </ComplimentCard>
       <ComplimentList>
-        {Array(10)
-          .fill(0)
-          .map((item, idx) => {
-            console.log('item', item, idx);
-            return <ComplimentItem />;
-          })}
+        {array.map((item, idx) => {
+          console.log('item>>', item, idx);
+          return (
+            <>
+              <ComplimentItem
+                key={idx}
+                index={idx}
+                isLast={idx === array.length - 1}
+              />
+              {idx !== array.length - 1 && <ListGap />}
+            </>
+          );
+        })}
       </ComplimentList>
+      <FloatingButton>
+        <PlusIcon src={PlusImageIcon} alt="plus" />
+        칭찬글 쓰기
+      </FloatingButton>
     </Body>
   );
 }

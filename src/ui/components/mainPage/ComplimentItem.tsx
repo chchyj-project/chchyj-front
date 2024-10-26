@@ -1,14 +1,15 @@
 import styled from '@emotion/styled';
 import { Smile } from 'lucide-react';
-import { Siren } from 'lucide-react';
-
-const Container = styled.div`
-  //width: 100%;
-  //max-width: 440px;
-  margin-bottom: 20px;
+import Siren from '../../../assets/siren.png';
+import styleToken from '../../styles/styleToken.ts';
+import { RowFlexBetween } from '../../styles/commonStyle.ts';
+interface ContainerProps {
+  isLast?: boolean;
+}
+const Container = styled.div<ContainerProps>`
+  margin-bottom: ${(props) => (props.isLast ? '0px' : '8px')};
   padding: 20px 15px;
   background-color: #fff;
-  //border: 1px solid #e0e0e0;
 `;
 
 const Header = styled.div`
@@ -27,11 +28,13 @@ const Title = styled.h2`
   font-size: 18px;
   font-weight: 600;
   margin-right: 8px;
+  color: #111111;
 `;
 
-const Icon = styled(Siren)`
+const Icon = styled.img`
   margin-left: 4px;
-  color: #777;
+  width: 12px;
+  height: 12px;
 `;
 
 const Date = styled.span`
@@ -52,31 +55,43 @@ const CommentInfo = styled.div`
   margin-top: 10px;
 `;
 
-const CommentButton = styled.button`
+const AddtionalWrapper = styled.div`
   display: flex;
   align-items: center;
-  font-size: 14px;
-  font-weight: 600;
-  color: #007bff;
-  background-color: #e0f4ff;
-  padding: 6px 12px;
-  border-radius: 16px;
-  border: 1px solid #a0d8f1;
-  cursor: pointer;
-  margin-left: 8px;
+  font-size: 12px;
+  color: ${styleToken.color.textSub};
 
   svg {
     margin-right: 4px;
   }
 `;
 
-const ComplimentItem = () => (
-  <Container>
+const WritingCommentWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  font-size: 12px;
+  color: ${styleToken.color.secondary};
+
+  svg {
+    margin-right: 4px;
+  }
+`;
+
+const ComplimentItem = ({
+  isLast,
+  index,
+}: {
+  isLast: boolean;
+  index: number;
+}) => (
+  <Container isLast={isLast}>
     <Header>
       <TitleWrapper>
-        <Title>꽃내랑</Title>
-        <Icon />
-        신고하기
+        <Title>꽃내랑 {index}</Title>
+        <AddtionalWrapper>
+          <Icon src={Siren} />
+          신고하기
+        </AddtionalWrapper>
       </TitleWrapper>
       <Date>2023.5.20</Date>
     </Header>
@@ -84,11 +99,13 @@ const ComplimentItem = () => (
       오늘 피그마를 배웠어요. 프레임도 만들고 가이드도 만들고 넷플릭스도 만들고
       토스도 만들고 이미지도 넣고, 많이 배웠어요. 이제 기본적인건 할 수 있어요
     </Content>
-    <CommentInfo>칭찬댓글 12개</CommentInfo>
-    <CommentButton>
-      <Smile />
-      칭찬댓글 달기
-    </CommentButton>
+    <RowFlexBetween>
+      <CommentInfo>칭찬댓글 12개</CommentInfo>
+      <WritingCommentWrapper>
+        <Smile size={'14px'} />
+        칭찬댓글 달기
+      </WritingCommentWrapper>
+    </RowFlexBetween>
   </Container>
 );
 

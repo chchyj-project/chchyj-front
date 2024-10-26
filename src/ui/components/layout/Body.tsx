@@ -1,17 +1,33 @@
-import { PropsWithChildren } from 'react';
 import styled from '@emotion/styled';
 import styleToken from '../../styles/styleToken.ts';
+import FixedHeader from './Header.tsx';
+import React from 'react';
 
-export default function Body({ children }: PropsWithChildren) {
+export default function Body({
+  children,
+  color,
+}: {
+  children: React.ReactNode;
+  color: string;
+}) {
   console.log('Body', children);
-  return <Container>{children}</Container>;
+  return (
+    <Container color={color}>
+      <FixedHeader />
+      {children}
+    </Container>
+  );
 }
 
-const Container = styled.div`
-  //height: 100px;
+interface BodyContainerProps {
+  color?: string;
+}
+
+const Container = styled.div<BodyContainerProps>`
+  min-height: 100vh;
   flex: 1 0 auto;
   display: flex;
   padding-top: 60px;
   flex-direction: column;
-  background-color: ${styleToken.color.background};
+  background-color: ${(props) => props.color || styleToken.color.background};
 `;
