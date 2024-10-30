@@ -9,6 +9,7 @@ export default function Page({ children }: PropsWithChildren) {
     </Container>
   );
 }
+
 const Container = styled.div`
   width: 100vw;
   height: 100vh;

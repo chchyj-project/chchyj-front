@@ -10,7 +10,6 @@ export default function Body({
   children: React.ReactNode;
   color: string;
 }) {
-  console.log('Body', children);
   return (
     <Container color={color}>
       <FixedHeader />

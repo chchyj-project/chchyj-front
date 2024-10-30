@@ -2,10 +2,10 @@ import styled from '@emotion/styled';
 import Body from '../components/layout/Body';
 import styleToken from '../styles/styleToken.ts';
 import RightArrowIcon from '../../assets/character.png';
-import ComplimentItem from '../components/mainPage/ComplimentItem.tsx'; // 이미지 경로에 맞게 수정하세요
+import PraiseItem from '../components/mainPage/PraiseItem.tsx'; // 이미지 경로에 맞게 수정하세요
 import PlusImageIcon from '../../assets/plus.png';
 
-const ComplimentCard = styled.div`
+const PraiseCard = styled.div`
   background-color: ${styleToken.color.primary};
   border: 1px solid #d3e9ff;
   padding: 20px 0;
@@ -74,7 +74,7 @@ const FloatingButton = styled.button`
   z-index: 1000; /* 다른 요소 위에 고정되도록 z-index 추가 */
 `;
 
-const ComplimentList = styled.div`
+const PraiseList = styled.div`
   width: 100%;
   max-width: 500px;
   text-align: left;
@@ -87,14 +87,33 @@ const ListGap = styled.div`
   height: 8px;
 `;
 
-const array = ['2', '3', '4', '5', '6', '7', '8', '9'];
+const array = [
+  '2',
+  '3',
+  '4',
+  '5',
+  '6',
+  '7',
+  '8',
+  '9',
+  '10',
+  '11',
+  '12',
+  '13',
+  '14',
+  '15',
+  '16',
+  '17',
+  '18',
+  '19',
+];
 
 // 컴포넌트
 export default function MainPage() {
   console.log('homePage');
   return (
     <Body color={styleToken.color.backgroundSecondary}>
-      <ComplimentCard>
+      <PraiseCard>
         <ContentWrapper>
           <TextGroup>
             <Title>당신의 칭찬요정을 만나보세요!</Title>
@@ -105,13 +124,13 @@ export default function MainPage() {
           </TextGroup>
           <Icon src={RightArrowIcon} alt="Right arrow" />
         </ContentWrapper>
-      </ComplimentCard>
-      <ComplimentList>
+      </PraiseCard>
+      <PraiseList>
         {array.map((item, idx) => {
           console.log('item>>', item, idx);
           return (
             <>
-              <ComplimentItem
+              <PraiseItem
                 key={idx}
                 index={idx}
                 isLast={idx === array.length - 1}
@@ -120,7 +139,7 @@ export default function MainPage() {
             </>
           );
         })}
-      </ComplimentList>
+      </PraiseList>
       <FloatingButton>
         <PlusIcon src={PlusImageIcon} alt="plus" />
         칭찬글 쓰기
