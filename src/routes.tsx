@@ -1,6 +1,7 @@
 import RouterLayout from './ui/components/RouterLayout.tsx';
 import PATH from './config/urls.ts';
 import MainPage from './ui/pages/MainPage.tsx';
+import CreatePraise from './ui/pages/CreatePraise.tsx';
 
 const routes = [
   {
@@ -9,7 +10,7 @@ const routes = [
     element: <RouterLayout />,
     children: [
       { path: PATH.HOME, element: <MainPage /> },
-      // { path: PATH.SIGN_IN, element: <SigninPage /> },
+      { path: PATH.CREATE_PRAISE, element: <CreatePraise /> },
       // { path: PATH.SIGN_UP, element: <SignupPage /> },
       // { path: PATH.CALENDAR, element: <CalendarPage /> },
       // { path: PATH.TIMELINE, element: <TimelinePage /> },

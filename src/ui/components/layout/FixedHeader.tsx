@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import styled from '@emotion/styled';
-
+import { ContainerProps } from '../../../types/MainPage';
 // 상위 컨테이너 추가
 const PageContainer = styled.div`
   display: flex;
@@ -20,7 +20,7 @@ const FixedHeaderWrapper = styled.div`
   background-color: #ffffff;
 `;
 
-const HeaderContainer = styled.header`
+const HeaderContainer = styled.header<ContainerProps>`
   width: 100%;
   max-width: 440px;
   height: 60px;
@@ -32,7 +32,7 @@ const HeaderContainer = styled.header`
   box-sizing: border-box;
   margin-left: 15px;
   margin-right: 15px;
-  background-color: #ffffff;
+  background-color: ${(props) => props.bgColor || '#ffffff'};
 `;
 
 const Title = styled.h1`
@@ -50,8 +50,10 @@ const MenuButton = styled.button`
   align-items: center;
 `;
 
-export default function FixedHeader() {
+export default function FixedHeader(bgColor: string | undefined) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  console.log('bgColor', bgColor);
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -60,7 +62,7 @@ export default function FixedHeader() {
   return (
     <PageContainer>
       <FixedHeaderWrapper>
-        <HeaderContainer>
+        <HeaderContainer bgColor={bgColor}>
           <Title>칭찬요정</Title>
           <MenuButton
             onClick={toggleMenu}
