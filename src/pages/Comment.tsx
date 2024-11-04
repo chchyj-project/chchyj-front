@@ -1,8 +1,8 @@
 import styled from 'styled-components';
-import { AddtionalWrapper, Icon, TitleWrapper } from '../../styles/MainPage.ts';
-import Siren from '../../images/siren.png';
-import { ContainerProps } from '../../types/MainPage.ts';
-import Heart from '../../images/heart.png';
+import { AddtionalWrapper, Icon, TitleWrapper } from '../style/MainPage.ts';
+import Siren from '../images/siren.png';
+import { ContainerProps } from '../types/MainPage.ts';
+import Heart from '../images/heart.png';
 
 const CommentCard = styled.div<ContainerProps>`
   border-radius: 8px;

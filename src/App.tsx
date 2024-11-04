@@ -1,16 +1,30 @@
-import routes from './routes';
-import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import Page from './components/layout/Page.tsx';
+import styled from 'styled-components';
+import Home from './pages/Home';
+import { GlobalStyle } from './global-style';
+import { Route, Routes, BrowserRouter, Navigate } from 'react-router-dom';
+import Onboarding from './pages/Login/Onboarding.tsx';
+import LoginCallback from './pages/Login/LoginCallback.tsx';
+import SetNickName from './pages/Login/SetNickName.tsx';
 
-const router = createBrowserRouter(routes);
-
-function App() {
+const AppWrap = styled.div`
+  height: 100vh;
+`;
+const App = () => {
   return (
-    <Page>
-      <RouterProvider router={router} />
-      {/*<Global styles={globalStyle} />*/}
-    </Page>
+    <BrowserRouter>
+      <AppWrap>
+        <GlobalStyle />
+        <Routes>
+          <Route path="*" element={<Navigate replace to="/login" />} />
+          <Route path="/home" element={<Home />} />
+          <Route path="/login" element={<Onboarding />} />
+
+          <Route path="/login/callback" element={<LoginCallback />} />
+          <Route path="/login/nickname" element={<SetNickName />} />
+        </Routes>
+      </AppWrap>
+    </BrowserRouter>
   );
-}
+};
 
 export default App;

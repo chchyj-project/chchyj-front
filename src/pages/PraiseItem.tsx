@@ -1,12 +1,12 @@
 import styled from 'styled-components';
 import { Smile } from 'lucide-react';
-import Siren from '../../images/siren.png';
-import styleToken from '../../styles/styleToken.ts';
-import { RowFlexBetween } from '../../styles/commonStyle.ts';
+import Siren from '../images/siren.png';
+import styleToken from '../style/styleToken.ts';
+import { RowFlexBetween } from '../style/commonStyle.ts';
 import Comment from './Comment.tsx';
 import { useState } from 'react';
-import { AddtionalWrapper, Icon, TitleWrapper } from '../../styles/MainPage.ts';
-import { ContainerProps } from '../../types/MainPage.ts';
+import { AddtionalWrapper, Icon, TitleWrapper } from '../style/MainPage.ts';
+import { ContainerProps } from '../types/MainPage.ts';
 
 const Container = styled.div<ContainerProps>`
   margin-bottom: ${(props) => (props.isLast ? '0px' : '8px')};

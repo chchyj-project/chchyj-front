@@ -1,7 +1,7 @@
 import styled from 'styled-components';
-import styleToken from '../../styles/styleToken.ts';
 import FixedHeader from './FixedHeader.tsx';
 import React from 'react';
+import styleToken from '../style/styleToken.ts';
 
 export default function Body({
   children,

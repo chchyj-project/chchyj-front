@@ -1,6 +1,9 @@
 import { useState } from 'react';
 import styled from 'styled-components';
-import { ContainerProps } from '../../types/MainPage.ts';
+interface ContainerProps {
+  bgColor: string;
+}
+
 // 상위 컨테이너 추가
 const PageContainer = styled.div`
   display: flex;
@@ -22,7 +25,7 @@ const FixedHeaderWrapper = styled.div`
 
 const HeaderContainer = styled.header<ContainerProps>`
   width: 100%;
-  max-width: 440px;
+  //max-width: 440px;
   height: 60px;
   color: #111111;
   display: flex;

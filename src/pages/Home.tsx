@@ -1,14 +1,15 @@
 import styled from 'styled-components';
-import Body from '../components/layout/Body.tsx';
-import styleToken from '../styles/styleToken.ts';
+import styleToken from '../style/styleToken.ts';
 import RightArrowIcon from '../images/character.png';
-import PraiseItem from '../components/mainPage/PraiseItem.tsx'; // 이미지 경로에 맞게 수정하세요
+import PraiseItem from './PraiseItem.tsx'; // 이미지 경로에 맞게 수정하세요
 import PlusImageIcon from '../images/plus.png';
+import FixedHeader from '../components/FixedHeader.tsx';
 
 const PraiseCard = styled.div`
   background-color: ${styleToken.color.primary};
   border: 1px solid #d3e9ff;
-  padding: 20px 0;
+  padding: 70px 0 40px 0;
+
   text-align: left;
   box-sizing: border-box;
 `;
@@ -17,7 +18,7 @@ const ContentWrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-left: 15px;
+  padding-left: 15px;
 `;
 
 const TextGroup = styled.div`
@@ -43,7 +44,7 @@ const Subtitle = styled.p`
 const Icon = styled.img`
   width: 150px;
   height: 150px;
-  margin-bottom: 10px;
+  margin-top: -10px;
 `;
 
 const PlusIcon = styled.img`
@@ -55,8 +56,7 @@ const PlusIcon = styled.img`
 const FloatingButton = styled.button`
   position: fixed;
   bottom: 20px;
-  left: 73%;
-  transform: translateX(-50%);
+  right: 20px; /* 화면의 오른쪽에 고정 */
   background-color: ${styleToken.color.background};
   color: ${styleToken.color.secondary};
   width: calc(100% - 32px);
@@ -76,9 +76,11 @@ const FloatingButton = styled.button`
 
 const PraiseList = styled.div`
   width: 100%;
-  max-width: 500px;
-  text-align: left;
-  padding-bottom: 50px;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  height: 30%;
   background-color: ${styleToken.color.background};
 `;
 
@@ -87,32 +89,18 @@ const ListGap = styled.div`
   height: 8px;
 `;
 
-const array = [
-  '2',
-  '3',
-  '4',
-  '5',
-  '6',
-  '7',
-  '8',
-  '9',
-  '10',
-  '11',
-  '12',
-  '13',
-  '14',
-  '15',
-  '16',
-  '17',
-  '18',
-  '19',
-];
-
+const array = ['2', '3', '4', '5', '6'];
+const HomePage = styled.div`
+  //position: relative;
+  //height: 100vh;
+  //width: 100%;
+`;
 // 컴포넌트
-export default function MainPage() {
+const Home = () => {
   console.log('homePage');
   return (
-    <Body color={styleToken.color.backgroundSecondary}>
+    <HomePage>
+      <FixedHeader />
       <PraiseCard>
         <ContentWrapper>
           <TextGroup>
@@ -144,6 +132,7 @@ export default function MainPage() {
         <PlusIcon src={PlusImageIcon} alt="plus" />
         칭찬글 쓰기
       </FloatingButton>
-    </Body>
+    </HomePage>
   );
-}
+};
+export default Home;
