@@ -1,5 +1,4 @@
-import styled from '@emotion/styled';
-
+import styled from 'styled-components';
 import { PropsWithChildren } from 'react';
 import { Outlet } from 'react-router-dom';
 

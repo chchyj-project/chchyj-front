@@ -1,6 +1,6 @@
-import styled from '@emotion/styled';
+import styled from 'styled-components';
 import styleToken from './styleToken.ts';
-import { IconProps } from '../../types/MainPage.ts';
+import { IconProps } from '../types/MainPage.ts';
 
 export const AddtionalWrapper = styled.div`
   display: flex;

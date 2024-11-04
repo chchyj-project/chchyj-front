@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import styled from '@emotion/styled';
-import { ContainerProps } from '../../../types/MainPage';
+import styled from 'styled-components';
+import { ContainerProps } from '../../types/MainPage.ts';
 // 상위 컨테이너 추가
 const PageContainer = styled.div`
   display: flex;
@@ -50,7 +50,7 @@ const MenuButton = styled.button`
   align-items: center;
 `;
 
-export default function FixedHeader(bgColor: string | undefined) {
+const FixedHeader = ({ bgColor }: any) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   console.log('bgColor', bgColor);
@@ -75,4 +75,6 @@ export default function FixedHeader(bgColor: string | undefined) {
       </FixedHeaderWrapper>
     </PageContainer>
   );
-}
+};
+
+export default FixedHeader;

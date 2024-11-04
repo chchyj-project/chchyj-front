@@ -1,7 +1,7 @@
-import RouterLayout from './ui/components/RouterLayout.tsx';
+import RouterLayout from './components/RouterLayout.tsx';
 import PATH from './config/urls.ts';
-import MainPage from './ui/pages/MainPage.tsx';
-import CreatePraise from './ui/pages/CreatePraise.tsx';
+import MainPage from './pages/MainPage.tsx';
+import CreatePraise from './pages/CreatePraise.tsx';
 
 const routes = [
   {

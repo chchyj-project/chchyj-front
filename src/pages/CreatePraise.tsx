@@ -1,5 +1,4 @@
-/** @jsxImportSource @emotion/react */
-import styled from '@emotion/styled';
+import styled from 'styled-components';
 import Body from '../components/layout/Body.tsx';
 
 const Container = styled.div`
@@ -83,23 +82,25 @@ const Button = styled.button`
   }
 `;
 
-const CreatePraise = () => (
-  <Body color={'#4D4D4D'}>
-    <Container>
-      <Wrapper>
-        <Title>칭찬받고 싶은 내용을 입력하세요 😉</Title>
-        <Subtitle>칭찬요정들이 찾아올거에요~</Subtitle>
-        <Textarea placeholder="이런저런 내용 입력..."></Textarea>
-        <NoteContainer>
-          <Note>❤️ 칭찬글 입력시 하트 1개가 차감됩니다.</Note>
-          <Note>✏️ 칭찬글은 입력 후 15분 이내에만 수정할 수 있습니다.</Note>
-          <Note>❤️ 칭찬글 삭제 15분 이후에는 하트는 반환되지 않습니다.</Note>
-          <Note>⏰ 욕설/비방 등은 동의없이 삭제될 수 있습니다.</Note>
-        </NoteContainer>
-        <Button>칭찬글 쓰기</Button>
-      </Wrapper>
-    </Container>
-  </Body>
-);
+const CreatePraise = () => {
+  return (
+    <Body color={'#4D4D4D'}>
+      <Container>
+        <Wrapper>
+          <Title>칭찬받고 싶은 내용을 입력하세요 😉</Title>
+          <Subtitle>칭찬요정들이 찾아올거에요~</Subtitle>
+          <Textarea placeholder="이런저런 내용 입력..."></Textarea>
+          <NoteContainer>
+            <Note>❤️ 칭찬글 입력시 하트 1개가 차감됩니다.</Note>
+            <Note>✏️ 칭찬글은 입력 후 15분 이내에만 수정할 수 있습니다.</Note>
+            <Note>❤️ 칭찬글 삭제 15분 이후에는 하트는 반환되지 않습니다.</Note>
+            <Note>⏰ 욕설/비방 등은 동의없이 삭제될 수 있습니다.</Note>
+          </NoteContainer>
+          <Button>칭찬글 쓰기</Button>
+        </Wrapper>
+      </Container>
+    </Body>
+  );
+};
 
 export default CreatePraise;

@@ -1,9 +1,9 @@
-import styled from '@emotion/styled';
-import Body from '../components/layout/Body';
+import styled from 'styled-components';
+import Body from '../components/layout/Body.tsx';
 import styleToken from '../styles/styleToken.ts';
-import RightArrowIcon from '../../assets/character.png';
+import RightArrowIcon from '../images/character.png';
 import PraiseItem from '../components/mainPage/PraiseItem.tsx'; // 이미지 경로에 맞게 수정하세요
-import PlusImageIcon from '../../assets/plus.png';
+import PlusImageIcon from '../images/plus.png';
 
 const PraiseCard = styled.div`
   background-color: ${styleToken.color.primary};

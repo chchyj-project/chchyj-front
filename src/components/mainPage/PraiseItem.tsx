@@ -1,12 +1,12 @@
-import styled from '@emotion/styled';
+import styled from 'styled-components';
 import { Smile } from 'lucide-react';
-import Siren from '../../../assets/siren.png';
+import Siren from '../../images/siren.png';
 import styleToken from '../../styles/styleToken.ts';
 import { RowFlexBetween } from '../../styles/commonStyle.ts';
 import Comment from './Comment.tsx';
 import { useState } from 'react';
 import { AddtionalWrapper, Icon, TitleWrapper } from '../../styles/MainPage.ts';
-import { ContainerProps } from '../../../types/MainPage.ts';
+import { ContainerProps } from '../../types/MainPage.ts';
 
 const Container = styled.div<ContainerProps>`
   margin-bottom: ${(props) => (props.isLast ? '0px' : '8px')};
@@ -126,7 +126,7 @@ const PraiseItem = ({ isLast, index }: { isLast: boolean; index: number }) => {
       {isCommentOpen && (
         <CommentContainer>
           <StartGreyLine />
-          {commentMockData.map((item, index) => (
+          {commentMockData.slice(0, 2).map((item, index) => (
             <Comment
               commenterId={item.commenterId}
               content={item.content}

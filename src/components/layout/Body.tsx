@@ -1,4 +1,4 @@
-import styled from '@emotion/styled';
+import styled from 'styled-components';
 import styleToken from '../../styles/styleToken.ts';
 import FixedHeader from './FixedHeader.tsx';
 import React from 'react';
@@ -12,7 +12,7 @@ export default function Body({
 }) {
   return (
     <Container color={color}>
-      <FixedHeader bgColor={color} />
+      <FixedHeader bgColor={''} />
       {children}
     </Container>
   );

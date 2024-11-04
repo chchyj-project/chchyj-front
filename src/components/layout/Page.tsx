@@ -1,5 +1,5 @@
 import Layout from './Layout.tsx';
-import styled from '@emotion/styled';
+import styled from 'styled-components';
 import { PropsWithChildren } from 'react';
 
 export default function Page({ children }: PropsWithChildren) {
