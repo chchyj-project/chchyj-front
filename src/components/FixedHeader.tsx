@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import styled from 'styled-components';
+import { useNavigate } from 'react-router-dom';
 interface ContainerProps {
   bgColor: string;
 }
@@ -55,11 +56,13 @@ const MenuButton = styled.button`
 
 const FixedHeader = ({ bgColor }: any) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const navigate = useNavigate();
 
   console.log('bgColor', bgColor);
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
+    navigate('/login');
   };
 
   return (

@@ -1,8 +1,8 @@
 import { useEffect } from 'react';
 import styled from 'styled-components';
 import axiosPath from '../../api/axiosPath';
-import image from '../../images/onBoarding_3.png';
 import { Button } from '../../components';
+import Logo from '../../images/character.png';
 
 const LoginPage = styled.div`
   position: relative;
@@ -59,10 +59,10 @@ const Login = () => {
   return (
     <LoginPage>
       <Image>
-        <img src={image} alt="" />
+        <img src={Logo} alt="" />
       </Image>
       <Text>
-        지금 <strong>IMYMEWINE</strong>에서 시작해보세요.
+        지금 <strong>칭찬요정</strong>에서 시작해보세요.
       </Text>
       <Button
         disabled={false}

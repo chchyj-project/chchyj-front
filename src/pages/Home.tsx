@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import styleToken from '../style/styleToken.ts';
-import RightArrowIcon from '../images/character.png';
+import Logo from '../images/character.png';
 import PraiseItem from './PraiseItem.tsx'; // 이미지 경로에 맞게 수정하세요
 import PlusImageIcon from '../images/plus.png';
 import FixedHeader from '../components/FixedHeader.tsx';
@@ -110,7 +110,7 @@ const Home = () => {
               좋습니다. 글을 올리면 칭찬요정들이 찾아갈거에요~
             </Subtitle>
           </TextGroup>
-          <Icon src={RightArrowIcon} alt="Right arrow" />
+          <Icon src={Logo} alt="logo" />
         </ContentWrapper>
       </PraiseCard>
       <PraiseList>
