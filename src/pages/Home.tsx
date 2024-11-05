@@ -7,7 +7,7 @@ import FixedHeader from '../components/FixedHeader.tsx';
 import Slider from 'react-slick';
 import { useState } from 'react';
 import '../pages/Login/slick.css';
-// import 'slick-carousel/slick/slick-theme.css';
+import { X } from 'lucide-react';
 import Common from '../style/Common.ts';
 
 const PraiseCard = styled.div`
@@ -88,6 +88,7 @@ const WriteSlide = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  position: relative; /* X 아이콘을 절대 위치로 정렬하기 위해 추가 */
 `;
 
 interface SlideWrapperProps {
@@ -179,7 +180,6 @@ const Home = () => {
       background-color: #add8e6;
     }
   `;
-
   const sliderSettings = {
     dots: false,
     infinite: false,
@@ -189,6 +189,7 @@ const Home = () => {
     vertical: true,
     verticalSwiping: true,
   };
+
   return (
     <>
       <FixedHeader />
@@ -234,6 +235,15 @@ const Home = () => {
             <WriteSlide>
               <Title>칭찬받고 싶은 내용을 입력하세요 😉</Title>
               <Subtitle>칭찬요정들이 찾아올거에요~</Subtitle>
+              <X
+                style={{
+                  position: 'absolute',
+                  top: '20px',
+                  right: '20px',
+                  cursor: 'pointer',
+                }}
+                onClick={handleWriteClick}
+              />
               <Textarea placeholder="이런저런 내용 입력..."></Textarea>
               <NoteContainer>
                 <Note>❤️ 칭찬글 입력시 하트 1개가 차감됩니다.</Note>
