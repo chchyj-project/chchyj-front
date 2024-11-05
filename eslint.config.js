@@ -23,6 +23,8 @@ export default tseslint.config(
         'warn',
         { allowConstantExport: true },
       ],
+      'react/jsx-uses-vars': 'off', // JSX 요소를 위한 추가 설정
+
       'no-unused-vars': 'off', // 기존 규칙 비활성화
       '@typescript-eslint/no-explicit-any': 'off', // 이 줄을 추가하여 규칙 비활성화
     },
