@@ -6,8 +6,9 @@ import PlusImageIcon from '../images/plus.png';
 import FixedHeader from '../components/FixedHeader.tsx';
 import Slider from 'react-slick';
 import { useState } from 'react';
-import 'slick-carousel/slick/slick.css';
-import 'slick-carousel/slick/slick-theme.css';
+import '../pages/Login/slick.css';
+// import 'slick-carousel/slick/slick-theme.css';
+import Common from '../style/Common.ts';
 
 const PraiseCard = styled.div`
   background-color: ${styleToken.color.primary};
@@ -80,7 +81,6 @@ const ListGap = styled.div`
 
 const WriteSlide = styled.div`
   width: 100%;
-  height: 100%;
   background-color: white;
   padding: 20px;
   box-sizing: border-box;
@@ -95,10 +95,9 @@ interface SlideWrapperProps {
 }
 const SlideWrapper = styled.div<SlideWrapperProps>`
   position: fixed;
-  bottom: 0;
+  bottom: 20px;
   left: 0;
   width: 100%;
-  height: 90%;
   background-color: white;
   z-index: 2000;
   transition: transform 0.5s ease;
@@ -133,9 +132,9 @@ const Home = () => {
 
   const Textarea = styled.textarea`
     width: 100%;
-    height: 150px;
+    height: 45vh;
     padding: 10px;
-    border: 2px solid #b0e0e6;
+    border: 1px solid ${Common.colors.skyblue};
     border-radius: 8px;
     resize: none;
     outline: none;
@@ -143,20 +142,21 @@ const Home = () => {
     line-height: 1.5;
     margin-bottom: 15px;
     color: #333333;
-    background-color: #f8f9fa;
+    background-color: #ffffff;
   `;
 
   const NoteContainer = styled.div`
-    margin-bottom: 20px;
+    gap: 16px;
+    display: flex;
+    flex-direction: column;
   `;
 
   const Note = styled.div`
     display: flex;
     align-items: center;
     font-size: 12px;
-    color: #666666;
-    margin-bottom: 5px;
-
+    color: #b3b3b3;
+    line-height: 17px;
     & svg {
       margin-right: 5px;
       color: #ff6b6b;
@@ -166,7 +166,7 @@ const Home = () => {
   const Button = styled.button`
     width: 100%;
     padding: 12px;
-    background-color: #b0e0e6;
+    background-color: ${Common.colors.skyblue};
     color: #ffffff;
     font-size: 14px;
     font-weight: bold;
@@ -190,7 +190,7 @@ const Home = () => {
     verticalSwiping: true,
   };
   return (
-    <div>
+    <>
       <FixedHeader />
       {!isWriteMode && (
         <>
@@ -244,13 +244,13 @@ const Home = () => {
                   ❤️ 칭찬글 삭제 15분 이후에는 하트는 반환되지 않습니다.
                 </Note>
                 <Note>⏰ 욕설/비방 등은 동의없이 삭제될 수 있습니다.</Note>
+                <Button>칭찬글 저장</Button>
               </NoteContainer>
-              <Button>칭찬글 쓰기</Button>
             </WriteSlide>
           </Slider>
         </SlideWrapper>
       )}
-    </div>
+    </>
   );
 };
 export default Home;
