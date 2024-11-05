@@ -52,7 +52,7 @@ function SetNickName() {
   return (
     <Wrap>
       <div className="contentsBox">
-        <p>IMEMYWINE에서 사용하실 닉네임을 알려주세요.</p>
+        <p>칭찬요정에서 사용하실 닉네임을 알려주세요.</p>
 
         <InputBox
           placeholder="닉네임을 입력해주세요."
@@ -69,7 +69,7 @@ function SetNickName() {
           left: '50%',
           transform: 'translate(-50%, 0)',
         }}
-        buttonColor={'red'}
+        buttonColor={'skyblue'}
         textColor={'#fff'}
       />
     </Wrap>

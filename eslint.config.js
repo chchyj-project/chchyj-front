@@ -32,6 +32,7 @@ export default tseslint.config(
           ignoreRestSiblings: true,
         },
       ],
+      '@typescript-eslint/no-explicit-any': 'off', // 이 줄을 추가하여 규칙 비활성화
     },
   },
 );

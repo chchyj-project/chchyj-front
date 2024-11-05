@@ -1,6 +1,5 @@
-import React from "react";
-import styled from "styled-components";
-import Common from "../style/Common";
+import styled from 'styled-components';
+import Common from '../style/Common';
 
 interface ButtonProps {
   disabled: boolean;
@@ -8,13 +7,14 @@ interface ButtonProps {
   text: string;
   styles?: any;
   buttonColor:
-    | "red"
-    | "beige100"
-    | "beige200"
-    | "green"
-    | "yellow"
-    | "white"
-    | "black";
+    | 'red'
+    | 'skyblue'
+    | 'beige100'
+    | 'beige200'
+    | 'green'
+    | 'yellow'
+    | 'white'
+    | 'black';
   textColor: string;
 }
 const Layout = styled.button`
