@@ -1,6 +1,6 @@
 import axios from 'axios';
-export const HOST_NAME = 'https://i.my.me.wine.wandookongproject.com';
-export const ACCESS_TOKEN_NAME = 'i_m_m_w';
+export const HOST_NAME = 'http://localhost:3000';
+export const ACCESS_TOKEN_NAME = 'praise_fairy';
 
 const axiosInstance = axios.create({
   baseURL: `${HOST_NAME}/api`,

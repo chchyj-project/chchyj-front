@@ -24,14 +24,6 @@ export default tseslint.config(
         { allowConstantExport: true },
       ],
       'no-unused-vars': 'off', // 기존 규칙 비활성화
-      '@typescript-eslint/no-unused-vars': [
-        'warn', // 경고로 설정
-        {
-          vars: 'all',
-          args: 'none',
-          ignoreRestSiblings: true,
-        },
-      ],
       '@typescript-eslint/no-explicit-any': 'off', // 이 줄을 추가하여 규칙 비활성화
     },
   },
