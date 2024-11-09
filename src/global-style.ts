@@ -133,7 +133,7 @@ export const GlobalStyle = createGlobalStyle`
         font-family: "sans-serif";
     }
     body {
-        background-color: ${Common.colors.white};
+        background-color: ${Common.colors.gray};
     }
     ul,
     ol,

@@ -7,7 +7,9 @@ import LoginCallback from './pages/Login/LoginCallback.tsx';
 import SetNickName from './pages/Login/SetNickName.tsx';
 
 const AppWrap = styled.div`
-  height: 100vh;
+  //height: 100vh;
+  width: 480px;
+  margin: 0 auto;
 `;
 const App = () => {
   return (

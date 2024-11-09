@@ -43,29 +43,52 @@ const PlusIcon = styled.img`
   margin-right: 5px;
 `;
 
-const FloatingButton = styled.button`
+const ButtonWrapper = styled.div`
+  // color: ${styleToken.color.secondary};
+  // width: calc(100% - 32px);
+  // max-width: 146px;
+  // font-size: 16px;
+  // line-height: 19px;
+  // font-weight: 700;
+  // padding: 18px 0;
+  // border-radius: 32px;
+  // border: 1px solid ${styleToken.color.secondary};
+  // cursor: pointer;
+  // display: flex;
+  // align-items: center;
+  // justify-content: center;
   position: fixed;
   bottom: 20px;
-  right: 20px; /* 화면의 오른쪽에 고정 */
-  background-color: ${styleToken.color.background};
+  left: 300px;
+  right: 0;
+  z-index: 100;
+  //width: 480px;
+`;
+
+const FloatingButton = styled.button`
+  padding: 12px 20px;
+  background-color: ${Common.colors.white};
   color: ${styleToken.color.secondary};
-  width: calc(100% - 32px);
-  max-width: 146px;
-  font-size: 16px;
-  line-height: 19px;
+  font-size: 14px;
   font-weight: 700;
-  padding: 18px 0;
-  border-radius: 32px;
+  line-height: 19px;
+  margin: 0 auto;
+
   border: 1px solid ${styleToken.color.secondary};
-  cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 1000; /* 다른 요소 위에 고정되도록 z-index 추가 */
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+
+  &:hover {
+    background-color: #add8e6;
+  }
 `;
 
 const PraiseList = styled.div`
-  width: 100%;
+  width: 480px;
   position: absolute;
   left: 50%;
   top: 50%;
@@ -96,90 +119,90 @@ interface SlideWrapperProps {
 }
 const SlideWrapper = styled.div<SlideWrapperProps>`
   position: fixed;
+  border-radius: 24px;
   bottom: 20px;
   left: 0;
   width: 100%;
-  background-color: white;
   z-index: 2000;
   transition: transform 0.5s ease;
   transform: ${({ isOpen }) => (isOpen ? 'translateY(0)' : 'translateY(100%)')};
   overflow: hidden;
 `;
+
+const Title = styled.h1`
+  font-size: 18px;
+  font-weight: bold;
+  color: #333333;
+  text-align: center;
+  margin-bottom: 10px;
+`;
+
+const Subtitle = styled.p`
+  font-size: 14px;
+  color: #333333;
+  text-align: center;
+  margin-bottom: 20px;
+`;
+
+const Textarea = styled.textarea`
+  width: 100%;
+  height: 45vh;
+  padding: 10px;
+  border: 1px solid ${Common.colors.skyblue};
+  border-radius: 8px;
+  resize: none;
+  outline: none;
+  font-size: 14px;
+  line-height: 1.5;
+  margin-bottom: 15px;
+  color: #333333;
+  background-color: #ffffff;
+`;
+
+const NoteContainer = styled.div`
+  gap: 16px;
+  display: flex;
+  flex-direction: column;
+`;
+
+const Note = styled.div`
+  display: flex;
+  align-items: center;
+  font-size: 12px;
+  color: #b3b3b3;
+  line-height: 17px;
+  & svg {
+    margin-right: 5px;
+    color: #ff6b6b;
+  }
+`;
+
+const Button = styled.button`
+  position: fixed;
+  //bottom: 20px;
+  //right: 20px; /* 화면의 오른쪽에 고정 */
+  background-color: ${styleToken.color.background};
+
+  z-index: 1000; /* 다른 요소 위에 고정되도록 z-index 추가 */
+`;
+
 const Home = () => {
   console.log('homePage');
   const array = ['2', '3', '4', '5', '6'];
 
   const [isWriteMode, setWriteMode] = useState(false);
+  const [bgColor, setBgColor] = useState<string>('white');
 
   const handleWriteClick = () => {
     console.log('write click');
+    if (!isWriteMode) {
+      setBgColor('#4D4D4D');
+    } else {
+      setBgColor('white');
+    }
     setWriteMode(!isWriteMode);
   };
 
-  const Title = styled.h1`
-    font-size: 18px;
-    font-weight: bold;
-    color: #333333;
-    text-align: center;
-    margin-bottom: 10px;
-  `;
-
-  const Subtitle = styled.p`
-    font-size: 14px;
-    color: #333333;
-    text-align: center;
-    margin-bottom: 20px;
-  `;
-
-  const Textarea = styled.textarea`
-    width: 100%;
-    height: 45vh;
-    padding: 10px;
-    border: 1px solid ${Common.colors.skyblue};
-    border-radius: 8px;
-    resize: none;
-    outline: none;
-    font-size: 14px;
-    line-height: 1.5;
-    margin-bottom: 15px;
-    color: #333333;
-    background-color: #ffffff;
-  `;
-
-  const NoteContainer = styled.div`
-    gap: 16px;
-    display: flex;
-    flex-direction: column;
-  `;
-
-  const Note = styled.div`
-    display: flex;
-    align-items: center;
-    font-size: 12px;
-    color: #b3b3b3;
-    line-height: 17px;
-    & svg {
-      margin-right: 5px;
-      color: #ff6b6b;
-    }
-  `;
-
-  const Button = styled.button`
-    width: 100%;
-    padding: 12px;
-    background-color: ${Common.colors.skyblue};
-    color: #ffffff;
-    font-size: 14px;
-    font-weight: bold;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-
-    &:hover {
-      background-color: #add8e6;
-    }
-  `;
   const sliderSettings = {
     dots: false,
     infinite: false,
@@ -192,7 +215,7 @@ const Home = () => {
 
   return (
     <>
-      <FixedHeader />
+      <FixedHeader bgColor={bgColor} />
       {!isWriteMode && (
         <>
           {' '}
@@ -225,10 +248,12 @@ const Home = () => {
           </PraiseList>
         </>
       )}
-      <FloatingButton onClick={handleWriteClick}>
-        <PlusIcon src={PlusImageIcon} alt="plus" />
-        칭찬글 쓰기
-      </FloatingButton>
+      <ButtonWrapper>
+        <FloatingButton onClick={handleWriteClick}>
+          <PlusIcon src={PlusImageIcon} alt="plus" />
+          칭찬글 쓰기
+        </FloatingButton>
+      </ButtonWrapper>
       {isWriteMode && (
         <SlideWrapper isOpen={isWriteMode}>
           <Slider {...sliderSettings}>

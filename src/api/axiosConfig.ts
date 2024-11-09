@@ -1,30 +1,38 @@
 import axios from 'axios';
-export const HOST_NAME = 'http://localhost:3000';
+export const HOST_NAME = 'https://chchyj-api.wandookongproject.com';
 export const ACCESS_TOKEN_NAME = 'praise_fairy';
 
 const axiosInstance = axios.create({
-  baseURL: `${HOST_NAME}/api`,
-  timeout: 5000,
+  baseURL: `${HOST_NAME}`,
+  timeout: 10000,
   headers: { 'Content-Type': 'application/json' },
 });
 
-axiosInstance.interceptors.request.use((config) => {
-  const token = localStorage.getItem(ACCESS_TOKEN_NAME);
-  if (token && config.headers) {
-    config.headers['Authorization'] = `Bearer ${token}`;
-  }
-  return config;
-});
+axiosInstance.interceptors.request.use(
+  (config) => {
+    const token = localStorage.getItem(ACCESS_TOKEN_NAME);
+    console.log('token', token);
+    if (token && config.headers) {
+      config.headers['Authorization'] = `Bearer ${token}`;
+    }
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
+  },
+);
 
 axiosInstance.interceptors.response.use(
   (response) => response.data,
   (error) => {
     if (error.response?.status === 401) {
       console.log('auth error');
-      return (window.location.href = '/Login');
+      localStorage.removeItem('praise-fairy');
+
+      return (window.location.href = '/login');
     }
-    alert(error.response?.data?.message ?? '잠시 후 다시 시도해주세요');
     console.log(error.response?.data);
+    return Promise.reject(error);
   },
 );
 

@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import AuthService from '../../api/AuthService';
 import axiosPath from '../../api/axiosPath';
 
@@ -7,7 +7,7 @@ const LoginCallback = () => {
   const href = window.location.href;
   const [searchParams] = useSearchParams(href);
   const code = searchParams.get('code');
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
 
   useEffect(() => {
     console.log(code);
@@ -16,11 +16,10 @@ const LoginCallback = () => {
       AuthService.kakaoLogin(code, axiosPath.REDIRECT_URI)
         .then(() => {
           console.log('성공');
-          window.location.href = axiosPath.KAKAO_URL;
         })
         .catch((error) => {
           console.log(error);
-          // navigate('/login');
+          navigate('/login');
         });
     }
   }, [code]);

@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
+import Common from '../style/Common.ts';
 interface ContainerProps {
   bgColor: string;
 }
@@ -14,28 +15,27 @@ const PageContainer = styled.div`
 `;
 
 const FixedHeaderWrapper = styled.div`
-  display: flex;
-  justify-content: center;
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
   z-index: 100;
-  background-color: #ffffff;
+  background-color: ${Common.colors.gray};
 `;
 
 const HeaderContainer = styled.header<ContainerProps>`
-  width: 100%;
   //max-width: 440px;
   height: 60px;
   color: #111111;
   display: flex;
   align-items: center;
   justify-content: space-between;
+  width: 480px;
+  margin: 0 auto;
   padding: 0 8px;
   box-sizing: border-box;
-  margin-left: 15px;
-  margin-right: 15px;
+  //margin-left: 15px;
+  //margin-right: 15px;
   background-color: ${(props) => props.bgColor || '#ffffff'};
 `;
 
