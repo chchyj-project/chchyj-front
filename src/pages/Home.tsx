@@ -75,9 +75,14 @@ const PlusIcon = styled.img`
 const ButtonWrapper = styled.div`
   position: fixed;
   bottom: 20px;
-  left: 300px;
-  right: 0;
   z-index: 100;
+  display: flex;
+  justify-content: flex-end;
+  max-width: 784px;
+  width: 100%;
+  margin: 0 auto;
+  left: 50%;
+  transform: translateX(-50%);
 `;
 
 const FloatingButton = styled.button`
@@ -87,12 +92,8 @@ const FloatingButton = styled.button`
   font-size: 14px;
   font-weight: 700;
   line-height: 19px;
-  margin: 0 auto;
-
+  margin-right: 4vw;
   border: 1px solid ${styleToken.color.secondary};
-  display: flex;
-  align-items: center;
-  justify-content: center;
   border-radius: 8px;
   cursor: pointer;
   transition: background-color 0.3s ease;
