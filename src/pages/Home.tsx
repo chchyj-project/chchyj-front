@@ -5,27 +5,56 @@ import PraiseItem from './PraiseItem.tsx'; // 이미지 경로에 맞게 수정�
 import PlusImageIcon from '../images/plus.png';
 import FixedHeader from '../components/FixedHeader.tsx';
 import Slider from 'react-slick';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import '../pages/Login/slick.css';
 import { X } from 'lucide-react';
 import Common from '../style/Common.ts';
 
-const PraiseCard = styled.div`
-  background-color: ${styleToken.color.primary};
-  border: 1px solid #d3e9ff;
-  padding: 70px 0 40px 0;
-
-  text-align: left;
+const PageContainer = styled.div`
+  display: flex;
+  //width: 100vw;
+  flex-direction: column;
+  //align-items: center;
+  background-color: white;
+  //width: 100vw;
+  overflow-x: hidden;
   box-sizing: border-box;
 `;
 
-const ContentWrapper = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding-left: 15px;
+const PraiseCard = styled.div`
+  background-color: ${styleToken.color.primary};
+  //position: relative;
+  //top: 60px;
+  //left: 0;
+  //right: 0;
+  margin-top: 60px;
+  //z-index: 100;
+  border: 1px solid #d3e9ff;
+  padding: 25px 0;
+  //width: 100%;
+
+  text-align: left;
+  box-sizing: border-box;
+
+  @media (max-width: 768px) {
+    padding: 50px 0 30px 0;
+  }
 `;
 
+const ContentWrapper = styled.div`
+  color: #111111;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 0 auto;
+  padding: 0 18px;
+  box-sizing: border-box;
+  text-align: center; /* 가운데 정렬 */
+
+  @media (max-width: 768px) {
+    width: 100%;
+  }
+`;
 const TextGroup = styled.div`
   display: flex;
   flex-direction: column;
@@ -44,25 +73,11 @@ const PlusIcon = styled.img`
 `;
 
 const ButtonWrapper = styled.div`
-  // color: ${styleToken.color.secondary};
-  // width: calc(100% - 32px);
-  // max-width: 146px;
-  // font-size: 16px;
-  // line-height: 19px;
-  // font-weight: 700;
-  // padding: 18px 0;
-  // border-radius: 32px;
-  // border: 1px solid ${styleToken.color.secondary};
-  // cursor: pointer;
-  // display: flex;
-  // align-items: center;
-  // justify-content: center;
   position: fixed;
   bottom: 20px;
   left: 300px;
   right: 0;
   z-index: 100;
-  //width: 480px;
 `;
 
 const FloatingButton = styled.button`
@@ -88,12 +103,13 @@ const FloatingButton = styled.button`
 `;
 
 const PraiseList = styled.div`
-  width: 480px;
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  height: 30%;
+  position: relative;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  border: 1px solid #d3e9ff;
+  padding: 10px 0 40px 0;
   background-color: ${styleToken.color.background};
 `;
 
@@ -118,30 +134,45 @@ interface SlideWrapperProps {
   isOpen: boolean;
 }
 const SlideWrapper = styled.div<SlideWrapperProps>`
-  position: fixed;
+  //position: fixed;
+  height: 100vh;
   border-radius: 24px;
-  bottom: 20px;
-  left: 0;
-  width: 100%;
+  //bottom: 20px;
+  position: relative;
+  top: 50px;
+  //left: 0;
+  width: 100vw;
+  //max-width: 480px; /* 가로 너비 제한 */
   z-index: 2000;
   transition: transform 0.5s ease;
   transform: ${({ isOpen }) => (isOpen ? 'translateY(0)' : 'translateY(100%)')};
   overflow: hidden;
+  margin: 0 auto;
+
+  @media (max-width: 768px) {
+    left: 0;
+    bottom: 0;
+  }
 `;
 
 const Title = styled.h1`
   font-size: 18px;
   font-weight: bold;
   color: #333333;
-  text-align: center;
+  text-align: left;
   margin-bottom: 10px;
+  line-height: 1.4; /* 줄 간격 조정 */
+  word-wrap: break-word; /* 단어 단위로 줄바꿈 */
 `;
 
 const Subtitle = styled.p`
   font-size: 14px;
   color: #333333;
-  text-align: center;
+  text-align: left;
   margin-bottom: 20px;
+  line-height: 1.4; /* 줄 간격 조정 */
+  max-width: 400px; /* 줄바꿈 일정하게 유지 */
+  word-wrap: break-word;
 `;
 
 const Textarea = styled.textarea`
@@ -193,6 +224,11 @@ const Home = () => {
   const [isWriteMode, setWriteMode] = useState(false);
   const [bgColor, setBgColor] = useState<string>('white');
 
+  useEffect(() => {
+    const nickname = localStorage.getItem('nickname');
+    console.log('nickname', nickname);
+  }, []);
+
   const handleWriteClick = () => {
     console.log('write click');
     if (!isWriteMode) {
@@ -201,6 +237,7 @@ const Home = () => {
       setBgColor('white');
     }
     setWriteMode(!isWriteMode);
+    // document.documentElement.style.zoom = 'reset';
   };
 
   const sliderSettings = {
@@ -217,8 +254,7 @@ const Home = () => {
     <>
       <FixedHeader bgColor={bgColor} />
       {!isWriteMode && (
-        <>
-          {' '}
+        <PageContainer>
           <PraiseCard>
             <ContentWrapper>
               <TextGroup>
@@ -246,7 +282,7 @@ const Home = () => {
               );
             })}
           </PraiseList>
-        </>
+        </PageContainer>
       )}
       <ButtonWrapper>
         <FloatingButton onClick={handleWriteClick}>
@@ -255,35 +291,37 @@ const Home = () => {
         </FloatingButton>
       </ButtonWrapper>
       {isWriteMode && (
-        <SlideWrapper isOpen={isWriteMode}>
-          <Slider {...sliderSettings}>
-            <WriteSlide>
-              <Title>칭찬받고 싶은 내용을 입력하세요 😉</Title>
-              <Subtitle>칭찬요정들이 찾아올거에요~</Subtitle>
-              <X
-                style={{
-                  position: 'absolute',
-                  top: '20px',
-                  right: '20px',
-                  cursor: 'pointer',
-                }}
-                onClick={handleWriteClick}
-              />
-              <Textarea placeholder="이런저런 내용 입력..."></Textarea>
-              <NoteContainer>
-                <Note>❤️ 칭찬글 입력시 하트 1개가 차감됩니다.</Note>
-                <Note>
-                  ✏️ 칭찬글은 입력 후 15분 이내에만 수정할 수 있습니다.
-                </Note>
-                <Note>
-                  ❤️ 칭찬글 삭제 15분 이후에는 하트는 반환되지 않습니다.
-                </Note>
-                <Note>⏰ 욕설/비방 등은 동의없이 삭제될 수 있습니다.</Note>
-                <Button>칭찬글 저장</Button>
-              </NoteContainer>
-            </WriteSlide>
-          </Slider>
-        </SlideWrapper>
+        <PageContainer>
+          <SlideWrapper isOpen={isWriteMode}>
+            <Slider {...sliderSettings}>
+              <WriteSlide>
+                <Title>칭찬받고 싶은 내용을 입력하세요 😉</Title>
+                <Subtitle>칭찬요정들이 찾아올거에요~</Subtitle>
+                <X
+                  style={{
+                    position: 'absolute',
+                    top: '20px',
+                    right: '20px',
+                    cursor: 'pointer',
+                  }}
+                  onClick={handleWriteClick}
+                />
+                <Textarea placeholder="이런저런 내용 입력..."></Textarea>
+                <NoteContainer>
+                  <Note>❤️ 칭찬글 입력시 하트 1개가 차감됩니다.</Note>
+                  <Note>
+                    ✏️ 칭찬글은 입력 후 15분 이내에만 수정할 수 있습니다.
+                  </Note>
+                  <Note>
+                    ❤️ 칭찬글 삭제 15분 이후에는 하트는 반환되지 않습니다.
+                  </Note>
+                  <Note>⏰ 욕설/비방 등은 동의없이 삭제될 수 있습니다.</Note>
+                  <Button>칭찬글 저장</Button>
+                </NoteContainer>
+              </WriteSlide>
+            </Slider>
+          </SlideWrapper>
+        </PageContainer>
       )}
     </>
   );

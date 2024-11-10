@@ -2,6 +2,7 @@ import { useState, ChangeEvent } from 'react';
 import styled from 'styled-components';
 import { Button } from '../../components';
 import { useNavigate, useSearchParams } from 'react-router-dom';
+import { axiosInstance } from '../../api/axiosConfig.ts';
 
 const Wrap = styled.div`
   width: 100%;
@@ -35,18 +36,19 @@ function SetNickName() {
   const handleSubmit = async () => {
     const userSocialId = searchParams.get('userSocialId');
     if (userNickName) {
-      // const response = await axiosInstance.post("/api/users/me", {
-      //   nickname: userNickName,
-      // });
+      const response = await axiosInstance.post('/users/by-social', {
+        userSocialId,
+        nickname: userNickName,
+      });
+      console.log('userNickName', userNickName);
 
-      // if (response.status === 200) {
-      //   navigate("/home");
-      // } else {
-      //   console.log(response.status);
-      // }
-      console.log(userSocialId);
-      localStorage.setItem('nickname', userNickName);
-      navigate('/home');
+      if (response.status === 200) {
+        localStorage.setItem('nickname', userNickName);
+
+        navigate('/home');
+      } else {
+        console.log(response.status);
+      }
     }
   };
   return (

@@ -134,6 +134,9 @@ export const GlobalStyle = createGlobalStyle`
     }
     body {
         background-color: ${Common.colors.gray};
+      margin: 0;
+      padding: 0;
+      overflow-x: hidden; /* 가로 스크롤 방지 */
     }
     ul,
     ol,

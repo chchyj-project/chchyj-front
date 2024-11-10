@@ -1,12 +1,13 @@
-import { AxiosResponse } from 'axios';
+// import { AxiosResponse } from 'axios';
 import { axiosInstance } from './axiosConfig';
 // import axiosPath from "./axiosPath";
 
-export type KakaoLoginResponse = {
+export type KakaoLoginReturnType = {
   isNewUser: boolean;
   userSocialId?: number;
   accessToken?: string;
 };
+
 const ACCESS_TOKEN_NAME = 'praise-fairy';
 const USER_NAME = 'user';
 
@@ -50,41 +51,34 @@ class AuthService {
         redirectUri,
       });
 
+      console.log('response>>', response);
+
       const { isNewUser, userSocialId, accessToken } = response;
 
       if (isNewUser && userSocialId) {
+        console.log('userSocialId>>', userSocialId);
+
         window.location.href = `/login/nickname?userSocialId=${userSocialId}`;
       } else if (accessToken) {
         this.registerLoginSuccess(accessToken);
+        window.location.href = `/home?userSocialId=${userSocialId}`;
       } else {
         throw new Error('ERROR: Invalid KakaoLogin response');
       }
-
-      return response;
     } catch (error) {
       console.error('Kakao login error:', error);
       throw error;
     }
   }
 
-  private async executeKakao({
+  private executeKakao({
     code,
     redirectUri,
   }: {
     code: string;
     redirectUri: string;
-  }): Promise<KakaoLoginResponse> {
-    try {
-      const response: AxiosResponse<KakaoLoginResponse> =
-        await axiosInstance.post('/auth/kakao', {
-          code,
-          redirectUri,
-        });
-      return response.data; // response.data로 실제 데이터 반환
-    } catch (error) {
-      console.error('Execute kakao error:', error);
-      throw error;
-    }
+  }): Promise<KakaoLoginReturnType> {
+    return axiosInstance.post('/auth/kakao', { code, redirectUri });
   }
 }
 

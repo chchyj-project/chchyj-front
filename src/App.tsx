@@ -7,9 +7,11 @@ import LoginCallback from './pages/Login/LoginCallback.tsx';
 import SetNickName from './pages/Login/SetNickName.tsx';
 
 const AppWrap = styled.div`
-  //height: 100vh;
-  width: 480px;
+  width: 100%;
+  max-width: 768px; /* 최대 너비 제한 */
   margin: 0 auto;
+  overflow-x: hidden; /* 가로 스크롤 방지 */
+  box-sizing: border-box;
 `;
 const App = () => {
   return (
@@ -20,7 +22,6 @@ const App = () => {
           <Route path="*" element={<Navigate replace to="/login" />} />
           <Route path="/home" element={<Home />} />
           <Route path="/login" element={<Onboarding />} />
-
           <Route path="/login/callback" element={<LoginCallback />} />
           <Route path="/login/nickname" element={<SetNickName />} />
         </Routes>
