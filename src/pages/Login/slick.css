@@ -2,6 +2,7 @@
   height: 100vh;
   overflow: hidden;
 }
+
 .dots_custom {
   display: inline-block;
   vertical-align: middle;

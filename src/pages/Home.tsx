@@ -10,7 +10,8 @@ import Common from '../style/Common.ts';
 import { axiosInstance } from '../api/axiosConfig.ts';
 import { Article, ArticleResponse } from '../types/MainPage.ts';
 import { PageContainer, Subtitle, TitleStyle } from '../style/MainPage.ts';
-import WritePraise from './WritePraise.tsx';
+import Footer from './Footer.tsx';
+import WriteSlidingPanel from './WriteSlidingPanel.tsx';
 
 const PraiseCard = styled.div`
   background-color: ${styleToken.color.primary};
@@ -129,59 +130,65 @@ const Home = () => {
     fetchArticles();
   }, [nickname]);
 
-  const handleWriteClick = () => {
+  const handleWriteClick = (isWriteMode: boolean) => {
     console.log('write click');
     if (!isWriteMode) {
       setBgColor('#4D4D4D');
     } else {
       setBgColor('white');
     }
-    setWriteMode(!isWriteMode);
+    setWriteMode(isWriteMode);
   };
 
   return (
     <>
       <FixedHeader bgColor={bgColor} />
       {!isWriteMode && (
-        <PageContainer>
-          <PraiseCard>
-            <ContentWrapper>
-              <TextGroup>
-                <TitleStyle>당신의 칭찬요정을 만나보세요!</TitleStyle>
-                <Subtitle>
-                  오늘 하루, 뿌듯한 일이 있으셨나요? 너무 작고 사소한 일이라도
-                  좋습니다. 글을 올리면 칭찬요정들이 찾아갈거에요~
-                </Subtitle>
-              </TextGroup>
-              <Icon src={Logo} alt="logo" />
-            </ContentWrapper>
-          </PraiseCard>
-          <PraiseList>
-            {articles.map((item, idx) => {
-              console.log('item>>', item, idx);
-              return (
-                <>
-                  <PraiseItem
-                    key={idx}
-                    index={idx}
-                    isLast={idx === array.length - 1}
-                    article={item}
-                  />
-                  {idx !== array.length - 1 && <ListGap />}
-                </>
-              );
-            })}
-          </PraiseList>
-        </PageContainer>
+        <>
+          <PageContainer>
+            <PraiseCard>
+              <ContentWrapper>
+                <TextGroup>
+                  <TitleStyle>당신의 칭찬요정을 만나보세요!</TitleStyle>
+                  <Subtitle>
+                    오늘 하루, 뿌듯한 일이 있으셨나요? 너무 작고 사소한 일이라도
+                    좋습니다. 글을 올리면 칭찬요정들이 찾아갈거에요~
+                  </Subtitle>
+                </TextGroup>
+                <Icon src={Logo} alt="logo" />
+              </ContentWrapper>
+            </PraiseCard>
+
+            <PraiseList>
+              {articles.map((item, idx) => {
+                console.log('item>>', item, idx);
+                return (
+                  <>
+                    <PraiseItem
+                      key={idx}
+                      index={idx}
+                      isLast={idx === array.length - 1}
+                      article={item}
+                    />
+                    {idx !== array.length - 1 && <ListGap />}
+                  </>
+                );
+              })}
+            </PraiseList>
+          </PageContainer>
+          <Footer />
+        </>
       )}
-      <ButtonWrapper>
-        <FloatingButton onClick={handleWriteClick}>
-          <PlusIcon src={PlusImageIcon} alt="plus" />
-          칭찬글 쓰기
-        </FloatingButton>
-      </ButtonWrapper>
+      {!isWriteMode && (
+        <ButtonWrapper>
+          <FloatingButton onClick={() => handleWriteClick(true)}>
+            <PlusIcon src={PlusImageIcon} alt="plus" />
+            칭찬글 쓰기
+          </FloatingButton>
+        </ButtonWrapper>
+      )}
       {isWriteMode && (
-        <WritePraise
+        <WriteSlidingPanel
           isWriteMode={isWriteMode}
           handleWriteClick={handleWriteClick}
         />

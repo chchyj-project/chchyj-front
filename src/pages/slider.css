@@ -1,0 +1,11 @@
+
+
+.react-slider {
+  border-radius: 24px !important;
+  overflow: hidden !important;
+}
+
+.react-slider .track {
+  border-radius: inherit !important;
+  overflow: hidden !important;
+}
