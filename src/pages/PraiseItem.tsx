@@ -6,7 +6,8 @@ import { RowFlexBetween } from '../style/commonStyle.ts';
 import Comment from './Comment.tsx';
 import { useState } from 'react';
 import { AddtionalWrapper, Icon, TitleWrapper } from '../style/MainPage.ts';
-import { ContainerProps } from '../types/MainPage.ts';
+import { Article, ContainerProps } from '../types/MainPage.ts';
+import dayjs from 'dayjs';
 
 const Container = styled.div<ContainerProps>`
   margin-bottom: ${(props) => (props.isLast ? '0px' : '8px')};
@@ -69,7 +70,14 @@ const StartGreyLine = styled.div`
   margin: 25px 0 12.5px 0;
 `;
 
-const PraiseItem = ({ isLast, index }: { isLast: boolean; index: number }) => {
+const PraiseItem = ({
+  isLast,
+  article,
+}: {
+  isLast: boolean;
+  index: number;
+  article: Article;
+}) => {
   const [isCommentOpen, setIsCommentOpen] = useState<boolean>(false);
 
   const toggleCommentBox = () => {
@@ -98,26 +106,25 @@ const PraiseItem = ({ isLast, index }: { isLast: boolean; index: number }) => {
       likeCount: 2,
     },
   ];
+  const createdAt = dayjs(article.createdAt);
 
   return (
     <Container isLast={isLast}>
       <Header>
         <TitleWrapper>
-          <Title>꽃내랑 {index}</Title>
+          <Title>{article.userId}</Title>
           <AddtionalWrapper>
             <Icon src={Siren} size={'12px'} />
             신고하기
           </AddtionalWrapper>
         </TitleWrapper>
-        <Date>2023.5.20</Date>
+        <Date>{createdAt.format('YYYY.MM.DD')}</Date>
       </Header>
-      <Content>
-        오늘 피그마를 배웠어요. 프레임도 만들고 가이드도 만들고 넷플릭스도
-        만들고 토스도 만들고 이미지도 넣고, 많이 배웠어요. 이제 기본적인건 할 수
-        있어요
-      </Content>
+      <Content>{article.content}</Content>
       <RowFlexBetween>
-        <CommentInfo onClick={toggleCommentBox}>칭찬댓글 12개</CommentInfo>
+        <CommentInfo onClick={toggleCommentBox}>
+          칭찬댓글 {article.commentCount}개
+        </CommentInfo>
         <WritingCommentWrapper>
           <Smile size={'14px'} />
           칭찬댓글 달기

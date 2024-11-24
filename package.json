@@ -15,6 +15,7 @@
     "@mui/material": "^6.1.6",
     "@types/react-slick": "^0.23.13",
     "axios": "^1.7.7",
+    "dayjs": "^1.11.13",
     "eslint-plugin-import": "^2.31.0",
     "eslint-plugin-react": "^7.37.2",
     "lucide-react": "^0.453.0",
@@ -23,7 +24,8 @@
     "react-router-dom": "6",
     "react-slick": "^0.30.2",
     "slick-carousel": "^1.8.1",
-    "styled-components": "^6.1.13"
+    "styled-components": "^6.1.13",
+    "zustand": "^5.0.1"
   },
   "devDependencies": {
     "@eslint/js": "^9.13.0",

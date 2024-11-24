@@ -23,3 +23,34 @@ export const TitleWrapper = styled.div`
   display: flex;
   align-items: center;
 `;
+
+export const PageContainer = styled.div`
+  display: flex;
+  //width: 100vw;
+  flex-direction: column;
+  //align-items: center;
+  background-color: white;
+  //width: 100vw;
+  overflow-x: hidden;
+  box-sizing: border-box;
+`;
+
+export const TitleStyle = styled.h1`
+  font-size: 18px;
+  font-weight: bold;
+  color: #333333;
+  text-align: left;
+  margin-bottom: 10px;
+  line-height: 1.4; /* 줄 간격 조정 */
+  word-wrap: break-word; /* 단어 단위로 줄바꿈 */
+`;
+
+export const Subtitle = styled.p`
+  font-size: 14px;
+  color: #333333;
+  text-align: left;
+  margin-bottom: 20px;
+  line-height: 1.4; /* 줄 간격 조정 */
+  max-width: 400px; /* 줄바꿈 일정하게 유지 */
+  word-wrap: break-word;
+`;

@@ -2,32 +2,26 @@ import { useState } from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import Common from '../style/Common.ts';
+import FilledHeart from '../images/filled_heart.svg';
 interface ContainerProps {
   bgColor: string;
 }
 
-// // 상위 컨테이너 추가
+// 상위 컨테이너 추가
 const PageContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-
   background-color: white;
-  //width: 100vw;
-  //overflow-x: hidden;
   box-sizing: border-box;
 `;
 
 const FixedHeaderWrapper = styled.div`
   z-index: 150;
-  //top: 60px;
   position: fixed;
-  //width: 768px; /* 최대 너비 제한 */
-
   left: 0;
   right: 0;
   background-color: ${Common.colors.gray};
-  //position: relative;
 `;
 
 const HeaderContainer = styled.header<ContainerProps>`
@@ -39,6 +33,7 @@ const HeaderContainer = styled.header<ContainerProps>`
   display: flex;
   align-items: center;
   justify-content: space-between;
+  flex-direction: row;
 
   padding: 0 15px;
   box-sizing: border-box;
@@ -63,9 +58,38 @@ const MenuButton = styled.button`
   align-items: center;
 `;
 
+const NicknameWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+`;
+
+const Nickname = styled.button`
+  color: #84d1fd;
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 17px;
+  cursor: pointer;
+`;
+
+const Alarm = styled.div`
+  background: #60c3fb;
+  border-radius: 16px;
+  width: 18px;
+  font-size: 12px;
+  line-height: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  font-weight: 600;
+  margin-left: 8px;
+`;
+
 const FixedHeader = ({ bgColor }: any) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const navigate = useNavigate();
+  const nickname = localStorage.getItem('nickname');
 
   console.log('bgColor', bgColor);
 
@@ -79,13 +103,25 @@ const FixedHeader = ({ bgColor }: any) => {
       <FixedHeaderWrapper>
         <HeaderContainer bgColor={bgColor}>
           <Title>칭찬요정</Title>
-          <MenuButton
-            onClick={toggleMenu}
-            aria-expanded={isMenuOpen}
-            aria-controls="mobile-menu"
-          >
-            로그인
-          </MenuButton>
+          {!nickname ? (
+            <MenuButton
+              onClick={toggleMenu}
+              aria-expanded={isMenuOpen}
+              aria-controls="mobile-menu"
+            >
+              회원가입 / 로그인
+            </MenuButton>
+          ) : (
+            <NicknameWrapper>
+              <div style={{ padding: '0 4px' }}>
+                <img src={FilledHeart} alt={'filled_heart'} />
+              </div>
+              <Nickname>{nickname}</Nickname>
+              <Alarm>
+                <span style={{ display: 'block' }}>17</span>
+              </Alarm>
+            </NicknameWrapper>
+          )}
         </HeaderContainer>
       </FixedHeaderWrapper>
     </PageContainer>
