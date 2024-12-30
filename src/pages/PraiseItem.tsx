@@ -10,7 +10,7 @@ import { Article, ContainerProps } from '../types/MainPage.ts';
 import dayjs from 'dayjs';
 
 const Container = styled.div<ContainerProps>`
-  margin-bottom: ${(props) => (props.isLast ? '0px' : '8px')};
+  margin-bottom: ${(props) => (props.islast ? '0px' : '8px')};
   padding: 20px 15px;
   background-color: #fff;
 `;
@@ -71,10 +71,10 @@ const StartGreyLine = styled.div`
 `;
 
 const PraiseItem = ({
-  isLast,
+  islast,
   article,
 }: {
-  isLast: boolean;
+  islast: boolean;
   index: number;
   article: Article;
 }) => {
@@ -109,7 +109,7 @@ const PraiseItem = ({
   const createdAt = dayjs(article.createdAt);
 
   return (
-    <Container isLast={isLast}>
+    <Container islast={islast}>
       <Header>
         <TitleWrapper>
           <Title>{article.userId}</Title>
@@ -139,7 +139,7 @@ const PraiseItem = ({
               content={item.content}
               likeCount={item.likeCount}
               isFirst={index === 0}
-              isLast={index === commentMockData.length - 1}
+              islast={index === commentMockData.length - 1}
             />
           ))}
         </CommentContainer>

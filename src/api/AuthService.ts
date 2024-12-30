@@ -1,6 +1,5 @@
-// import { AxiosResponse } from 'axios';
+import { AxiosResponse } from 'axios';
 import { axiosInstance } from './axiosConfig';
-// import axiosPath from "./axiosPath";
 
 export type KakaoLoginReturnType = {
   isNewUser: boolean;
@@ -12,24 +11,10 @@ const ACCESS_TOKEN_NAME = 'praise-fairy';
 const USER_NAME = 'user';
 
 class AuthService {
-  // constructor() {
-  //   this.api = {
-  //     Login: axiosPath.Login,
-  //   };
-  // }
-
-  // executeService(username, password) {
-  //   return axiosInstance.post(this.api.Login, {
-  //     id: username,
-  //     passwd: password,
-  //   });
-  // }
-
   private registerLoginSuccess(accessToken: string) {
     console.log('accessToken>>', accessToken);
     localStorage.setItem(ACCESS_TOKEN_NAME, accessToken);
-    // 유저 이름은 localStorage에 저장하기 보다는, 필요한 화면에서 api 콜하는게 나을 거 같아서 삭제했는데,
-    // 여기서 받는게 좋을거같으면 추가할게요~!
+    // 필요 시 사용자 이름을 저장하는 로직 추가
   }
 
   logout() {
@@ -41,28 +26,39 @@ class AuthService {
   }
 
   getUserName() {
-    // 로그인이 안됐을때, 유저 이름 표시하는 부분이 있으면, 빈 값보다 나을거 같아서..
     return localStorage.getItem(USER_NAME) ?? '로그인 오류';
   }
+
   async kakaoLogin(code: string, redirectUri: string) {
+    console.log(
+      'kakaoLogin called with code:',
+      code,
+      'redirectUri:',
+      redirectUri,
+    );
     try {
-      const response = await this.executeKakao({
+      const response = await this.executeKakao<KakaoLoginReturnType>({
         code,
         redirectUri,
       });
-
       console.log('response>>', response);
 
-      const { isNewUser, userSocialId, accessToken } = response;
+      const { isNewUser, userSocialId, accessToken } = response.data;
+      console.log('Parsed response>>', {
+        isNewUser,
+        userSocialId,
+        accessToken,
+      });
 
-      if (isNewUser && userSocialId) {
-        console.log('userSocialId>>', userSocialId);
-
+      if (isNewUser && !userSocialId) {
+        console.log('New user detected, userSocialId:', userSocialId);
         window.location.href = `/login/nickname?userSocialId=${userSocialId}`;
       } else if (accessToken) {
+        console.log('Access token obtained:', accessToken);
         this.registerLoginSuccess(accessToken);
         window.location.href = `/home?userSocialId=${userSocialId}`;
       } else {
+        console.error('ERROR: Invalid KakaoLogin response', response);
         throw new Error('ERROR: Invalid KakaoLogin response');
       }
     } catch (error) {
@@ -71,14 +67,30 @@ class AuthService {
     }
   }
 
-  private executeKakao({
+  private async executeKakao<T>({
     code,
     redirectUri,
   }: {
     code: string;
     redirectUri: string;
-  }): Promise<KakaoLoginReturnType> {
-    return axiosInstance.post('/auth/kakao', { code, redirectUri });
+  }): Promise<AxiosResponse<T>> {
+    try {
+      // Axios 요청을 await하여 결과를 기다립니다.
+      const result = await axiosInstance.post<T>('/auth/kakao', {
+        code,
+        redirectUri,
+      });
+      debugger;
+      // 결과를 콘솔에 출력하여 디버깅을 용이하게 합니다.
+      console.log('executeKakao result:', result);
+
+      // 결과를 반환합니다.
+      return result;
+    } catch (error) {
+      // 오류 발생 시 콘솔에 오류를 출력하고, 오류를 다시 던집니다.
+      console.error('executeKakao error:', error);
+      throw error;
+    }
   }
 }
 

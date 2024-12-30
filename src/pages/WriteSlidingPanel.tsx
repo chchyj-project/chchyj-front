@@ -1,8 +1,9 @@
 import styled from 'styled-components';
 import { motion, AnimatePresence } from 'framer-motion';
+import { axiosInstance } from '../api/axiosConfig.ts';
 
 const Button = styled.button`
-  background-color: #4caf50;
+  background-color: #60c3fb;
   border: none;
   color: white;
   padding: 15px 32px;
@@ -18,18 +19,20 @@ const Button = styled.button`
 const Panel = styled(motion.div)`
   position: fixed;
   bottom: 0;
-  left: 0;
-  right: 0;
-  height: 93vh; // 화면 높이의 80%
+  //left: 50%; // 화면 중앙으로 정렬하기 위한 기준점
+  transform: translateX(-50%); // 중앙 정렬
+  width: 100%; // 원하는 비율로 가로 크기를 설정 (ex: 90%)
+  max-width: 768px; // 최대 너비를 제한
+  height: 93vh;
   background-color: white;
   border-top-left-radius: 20px;
   border-top-right-radius: 20px;
   box-shadow: 0px -2px 10px rgba(0, 0, 0, 0.1);
-  overflow-y: auto; // 내용이 넘칠 경우 스크롤 가능하도록 설정
+  overflow-y: auto;
 `;
 
 const PanelContent = styled.div`
-  max-width: 500px;
+  //max-width: 500px;
   margin: 0 auto;
   padding: 20px;
   height: 100%;
@@ -41,21 +44,58 @@ const StyledTextarea = styled.textarea`
   width: 100%;
   flex-grow: 1;
   margin: 20px 0;
-  padding: 10px;
-  border: 1px solid #ccc;
+  padding: 25px 20px;
+  border: 1px solid #60c3fb;
   border-radius: 4px;
   resize: none;
+  font-size: 16px;
 `;
 
-export default function WriteSlidingPanel({
-  isWriteMode,
-  handleWriteClick,
-}: any) {
-  // const [isOpen, setIsOpen] = useState(false);
+const Wrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 8px; /* 각 항목 간격 */
+  color: #9e9e9e; /* 텍스트 색상 */
+  font-size: 14px; /* 기본 폰트 크기 */
+  line-height: 1.5; /* 텍스트 간격 */
+  margin-bottom: 20px;
+`;
 
+const Item = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 10px; /* 아이콘과 텍스트 간격 */
+`;
+
+const Icon = styled.span`
+  font-size: 18px; /* 아이콘 크기 */
+`;
+
+const Text = styled.span`
+  display: inline-block;
+`;
+const Title = styled(Text)`
+  font-style: normal;
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 24px;
+  color: #404040;
+`;
+// const UnderlinedText = styled(Text)`
+//   text-decoration: underline; /* 밑줄 적용 */
+//   color: #5478f6; /* 밑줄 텍스트 색상 */
+// `;
+
+export default function WriteSlidingPanel({ isWriteMode }: any) {
+  // const [isOpen, setIsOpen] = useState(false);
+  const save = async () => {
+    const result = await axiosInstance.post<any>('/articles', {
+      content: '',
+    });
+    console.log('write result********', result);
+  };
   return (
-    <div>
-      {/*<Button onClick={() => setIsOpen(true)}>청찬요정</Button>*/}
+    <>
       <AnimatePresence>
         {isWriteMode && (
           <Panel
@@ -65,14 +105,39 @@ export default function WriteSlidingPanel({
             transition={{ type: 'spring', damping: 30, stiffness: 300 }}
           >
             <PanelContent>
-              <h2>청찬요정</h2>
-              <p>청찬받고 싶은 내용을 입력하세요 😉</p>
+              <Title>
+                청찬받고 싶은 내용을 입력하세요 😉
+                <br />
+                칭찬요정들이 찾아올거에요~
+              </Title>
               <StyledTextarea placeholder="이러쿵저러쿵 이렇게 저렇게 글을 써봅니다. 어떻게 쓸까요?" />
-              <Button onClick={() => handleWriteClick(false)}>닫기</Button>
+              <Wrapper>
+                <Item>
+                  <Icon>❤️</Icon>
+                  <Text>칭찬글 입력시 하트 1개가 차감됩니다.</Text>
+                </Item>
+                <Item>
+                  <Icon>✏️</Icon>
+                  <Text>
+                    칭찬글은 입력 후 15분 이내에만 수정할 수 있습니다.
+                  </Text>
+                </Item>
+                <Item>
+                  <Icon>💟</Icon>
+                  {/*<UnderlinedText>*/}
+                  칭찬글 삭제 15분 이후에는 하트는 반환되지 않습니다.
+                  {/*</UnderlinedText>*/}
+                </Item>
+                <Item>
+                  <Icon>🚨</Icon>
+                  <Text>욕설/비방 등은 동의없이 삭제될 수 있습니다.</Text>
+                </Item>
+              </Wrapper>
+              <Button onClick={save}>칭찬글 저장</Button>
             </PanelContent>
           </Panel>
         )}
       </AnimatePresence>
-    </div>
+    </>
   );
 }

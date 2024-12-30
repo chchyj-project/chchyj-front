@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import Common from '../style/Common.ts';
 import FilledHeart from '../images/filled_heart.svg';
 interface ContainerProps {
-  bgColor: string;
+  $bgColor: string;
 }
 
 // 상위 컨테이너 추가
@@ -37,7 +37,7 @@ const HeaderContainer = styled.header<ContainerProps>`
 
   padding: 0 15px;
   box-sizing: border-box;
-  background-color: ${(props) => props.bgColor || '#ffffff'};
+  background-color: ${(props) => props.$bgColor || '#ffffff'};
   @media (max-width: 768px) {
     padding: 50px 10px 30px 10px;
   }
@@ -86,7 +86,11 @@ const Alarm = styled.div`
   margin-left: 8px;
 `;
 
-const FixedHeader = ({ bgColor }: any) => {
+interface FixedHeaderProps {
+  bgColor: string;
+}
+
+const FixedHeader = ({ bgColor }: FixedHeaderProps) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const navigate = useNavigate();
   const nickname = localStorage.getItem('nickname');
@@ -101,7 +105,7 @@ const FixedHeader = ({ bgColor }: any) => {
   return (
     <PageContainer>
       <FixedHeaderWrapper>
-        <HeaderContainer bgColor={bgColor}>
+        <HeaderContainer $bgColor={bgColor}>
           <Title>칭찬요정</Title>
           {!nickname ? (
             <MenuButton

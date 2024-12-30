@@ -10,7 +10,7 @@ const LoginCallback = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    console.log(code);
+    console.log('code-->', code);
     if (code) {
       console.log('code:', code);
       AuthService.kakaoLogin(code, axiosPath.REDIRECT_URI)

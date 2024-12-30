@@ -110,28 +110,30 @@ const Home = () => {
   const [articles, setArticles] = useState<Article[]>([]);
   const [isWriteMode, setWriteMode] = useState(false);
   const [bgColor, setBgColor] = useState<string>('white');
-  let nickname: string | null = '';
-
+  const [nickname, setNickname] = useState<string | null>(null); //
   useEffect(() => {
-    nickname = localStorage.getItem('nickname');
-    console.log('nickname', nickname);
+    const storedNickname = localStorage.getItem('nickname'); // Renamed for clarity
+    setNickname(storedNickname); // Updated to use React state setter
+    console.log('nickname', storedNickname);
   }, []);
 
   useEffect(() => {
     const fetchArticles = async () => {
-      if (nickname) {
-        const response: ArticleResponse = await axiosInstance.get('/articles', {
-          params: { limit: 10, offset: 0 },
-        });
-        setArticles(response.list);
-        console.log('response', response);
-      }
+      //TODO: 임시로 로그인이 안되므로 nickname 존재유무 관계없이 포스트 가져오기
+      // if (nickname) {
+      const response: ArticleResponse = await axiosInstance.get('/articles', {
+        params: { limit: 10, offset: 0 },
+      });
+      setArticles(response.data.list);
+      console.log('response', response);
+      // }
     };
     fetchArticles();
-  }, [nickname]);
+  }, []);
 
-  const handleWriteClick = (isWriteMode: boolean) => {
+  const handleWriteClick = async (isWriteMode: boolean) => {
     console.log('write click');
+    // debugger;
     if (!isWriteMode) {
       setBgColor('#4D4D4D');
     } else {
@@ -161,13 +163,12 @@ const Home = () => {
 
             <PraiseList>
               {articles.map((item, idx) => {
-                console.log('item>>', item, idx);
                 return (
                   <>
                     <PraiseItem
                       key={idx}
                       index={idx}
-                      isLast={idx === array.length - 1}
+                      islast={idx === array.length - 1}
                       article={item}
                     />
                     {idx !== array.length - 1 && <ListGap />}
@@ -190,7 +191,7 @@ const Home = () => {
       {isWriteMode && (
         <WriteSlidingPanel
           isWriteMode={isWriteMode}
-          handleWriteClick={handleWriteClick}
+          // handleWriteClick={handleWriteClick}
         />
       )}
     </>

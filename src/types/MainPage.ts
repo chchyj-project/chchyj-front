@@ -1,5 +1,5 @@
 export interface ContainerProps {
-  isLast?: boolean;
+  islast?: boolean;
   isFirst?: boolean;
   bgColor?: string;
 }
@@ -24,6 +24,5 @@ export type PageInfo = {
 };
 
 export type ArticleResponse = {
-  list: Article[];
-  pageInfo: PageInfo;
+  data: { list: Article[]; pageInfo: PageInfo };
 };
