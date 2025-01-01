@@ -5,6 +5,7 @@ import { Route, Routes, BrowserRouter, Navigate } from 'react-router-dom';
 import Onboarding from './pages/Login/Onboarding.tsx';
 import LoginCallback from './pages/Login/LoginCallback.tsx';
 import SetNickName from './pages/Login/SetNickName.tsx';
+import PraiseDetail from './pages/PraiseDetail.tsx';
 
 const AppWrap = styled.div`
   width: 100%;
@@ -24,6 +25,7 @@ const App = () => {
           <Route path="/login" element={<Onboarding />} />
           <Route path="/login/callback" element={<LoginCallback />} />
           <Route path="/login/nickname" element={<SetNickName />} />
+          <Route path="/post/:postId" element={<PraiseDetail />} />
         </Routes>
       </AppWrap>
     </BrowserRouter>

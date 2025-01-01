@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import Common from '../style/Common.ts';
@@ -94,8 +94,6 @@ const FixedHeader = ({ bgColor }: FixedHeaderProps) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const navigate = useNavigate();
   const nickname = localStorage.getItem('nickname');
-
-  console.log('bgColor', bgColor);
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);

@@ -1,5 +1,5 @@
 export interface ContainerProps {
-  islast?: boolean;
+  $islast?: boolean;
   isFirst?: boolean;
   bgColor?: string;
 }
