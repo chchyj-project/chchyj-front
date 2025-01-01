@@ -1,6 +1,6 @@
 import axios from 'axios';
+import { ACCESS_TOKEN_NAME } from '../constant/constant.ts';
 export const HOST_NAME = 'https://chchyj-api.wandookongproject.com';
-export const ACCESS_TOKEN_NAME = 'praise_fairy';
 
 const axiosInstance = axios.create({
   baseURL: `${HOST_NAME}`,

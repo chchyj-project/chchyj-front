@@ -10,7 +10,7 @@ import { Article, ContainerProps } from '../types/MainPage.ts';
 import dayjs from 'dayjs';
 
 const Container = styled.div<ContainerProps>`
-  margin-bottom: ${(props) => (props.islast ? '0px' : '8px')};
+  margin-bottom: ${(props) => (props.$islast ? '0px' : '8px')};
   padding: 20px 15px;
   background-color: #fff;
 `;
@@ -109,7 +109,7 @@ const PraiseItem = ({
   const createdAt = dayjs(article.createdAt);
 
   return (
-    <Container islast={islast}>
+    <Container $islast={islast && !isCommentOpen}>
       <Header>
         <TitleWrapper>
           <Title>{article.userId}</Title>

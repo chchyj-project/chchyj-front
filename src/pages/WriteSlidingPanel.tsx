@@ -19,16 +19,15 @@ const Button = styled.button`
 const Panel = styled(motion.div)`
   position: fixed;
   bottom: 0;
-  //left: 50%; // 화면 중앙으로 정렬하기 위한 기준점
-  transform: translateX(-50%); // 중앙 정렬
-  width: 100%; // 원하는 비율로 가로 크기를 설정 (ex: 90%)
-  max-width: 768px; // 최대 너비를 제한
-  height: 93vh;
+  transform: translateX(-50%);
+  width: 100%;
+  max-width: 768px;
+  height: 90vh;
   background-color: white;
-  border-top-left-radius: 20px;
-  border-top-right-radius: 20px;
+  border-radius: 30px 30px 0 0;
   box-shadow: 0px -2px 10px rgba(0, 0, 0, 0.1);
   overflow-y: auto;
+  z-index: 11; // Overlay보다 높은 z-index
 `;
 
 const PanelContent = styled.div`
@@ -81,6 +80,19 @@ const Title = styled(Text)`
   line-height: 24px;
   color: #404040;
 `;
+
+const Overlay = styled(motion.div)`
+  position: fixed;
+  top: 0;
+  left: 50%;
+  right: 0;
+  bottom: 0;
+  width: 768px;
+  background-color: #4d4d4d; // 반투명 검정색 배경
+  transform: translateX(-50%);
+
+  z-index: 10; // Panel보다 낮은 z-index
+`;
 // const UnderlinedText = styled(Text)`
 //   text-decoration: underline; /* 밑줄 적용 */
 //   color: #5478f6; /* 밑줄 텍스트 색상 */
@@ -98,44 +110,51 @@ export default function WriteSlidingPanel({ isWriteMode }: any) {
     <>
       <AnimatePresence>
         {isWriteMode && (
-          <Panel
-            initial={{ y: '100%' }}
-            animate={{ y: 0 }}
-            exit={{ y: '100%' }}
-            transition={{ type: 'spring', damping: 30, stiffness: 300 }}
-          >
-            <PanelContent>
-              <Title>
-                청찬받고 싶은 내용을 입력하세요 😉
-                <br />
-                칭찬요정들이 찾아올거에요~
-              </Title>
-              <StyledTextarea placeholder="이러쿵저러쿵 이렇게 저렇게 글을 써봅니다. 어떻게 쓸까요?" />
-              <Wrapper>
-                <Item>
-                  <Icon>❤️</Icon>
-                  <Text>칭찬글 입력시 하트 1개가 차감됩니다.</Text>
-                </Item>
-                <Item>
-                  <Icon>✏️</Icon>
-                  <Text>
-                    칭찬글은 입력 후 15분 이내에만 수정할 수 있습니다.
-                  </Text>
-                </Item>
-                <Item>
-                  <Icon>💟</Icon>
-                  {/*<UnderlinedText>*/}
-                  칭찬글 삭제 15분 이후에는 하트는 반환되지 않습니다.
-                  {/*</UnderlinedText>*/}
-                </Item>
-                <Item>
-                  <Icon>🚨</Icon>
-                  <Text>욕설/비방 등은 동의없이 삭제될 수 있습니다.</Text>
-                </Item>
-              </Wrapper>
-              <Button onClick={save}>칭찬글 저장</Button>
-            </PanelContent>
-          </Panel>
+          <>
+            <Overlay
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+            />
+            <Panel
+              initial={{ y: '100%' }}
+              animate={{ y: 0 }}
+              exit={{ y: '100%' }}
+              transition={{ type: 'spring', damping: 30, stiffness: 300 }}
+            >
+              <PanelContent>
+                <Title>
+                  청찬받고 싶은 내용을 입력하세요 😉
+                  <br />
+                  칭찬요정들이 찾아올거에요~
+                </Title>
+                <StyledTextarea placeholder="이러쿵저러쿵 이렇게 저렇게 글을 써봅니다. 어떻게 쓸까요?" />
+                <Wrapper>
+                  <Item>
+                    <Icon>❤️</Icon>
+                    <Text>칭찬글 입력시 하트 1개가 차감됩니다.</Text>
+                  </Item>
+                  <Item>
+                    <Icon>✏️</Icon>
+                    <Text>
+                      칭찬글은 입력 후 15분 이내에만 수정할 수 있습니다.
+                    </Text>
+                  </Item>
+                  <Item>
+                    <Icon>💟</Icon>
+                    {/*<UnderlinedText>*/}
+                    칭찬글 삭제 15분 이후에는 하트는 반환되지 않습니다.
+                    {/*</UnderlinedText>*/}
+                  </Item>
+                  <Item>
+                    <Icon>🚨</Icon>
+                    <Text>욕설/비방 등은 동의없이 삭제될 수 있습니다.</Text>
+                  </Item>
+                </Wrapper>
+                <Button onClick={save}>칭찬글 저장</Button>
+              </PanelContent>
+            </Panel>
+          </>
         )}
       </AnimatePresence>
     </>

@@ -111,6 +111,7 @@ const Home = () => {
   const [isWriteMode, setWriteMode] = useState(false);
   const [bgColor, setBgColor] = useState<string>('white');
   const [nickname, setNickname] = useState<string | null>(null); //
+
   useEffect(() => {
     const storedNickname = localStorage.getItem('nickname'); // Renamed for clarity
     setNickname(storedNickname); // Updated to use React state setter
@@ -133,8 +134,8 @@ const Home = () => {
 
   const handleWriteClick = async (isWriteMode: boolean) => {
     console.log('write click');
-    // debugger;
-    if (!isWriteMode) {
+    //
+    if (isWriteMode) {
       setBgColor('#4D4D4D');
     } else {
       setBgColor('white');

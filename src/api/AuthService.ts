@@ -1,14 +1,13 @@
 import { AxiosResponse } from 'axios';
 import { axiosInstance } from './axiosConfig';
+import { ACCESS_TOKEN_NAME, USER_NAME } from '../constant/constant.ts';
+// eslint-disable-next-line no-debugger
 
 export type KakaoLoginReturnType = {
   isNewUser: boolean;
   userSocialId?: number;
   accessToken?: string;
 };
-
-const ACCESS_TOKEN_NAME = 'praise-fairy';
-const USER_NAME = 'user';
 
 class AuthService {
   private registerLoginSuccess(accessToken: string) {
@@ -41,25 +40,47 @@ class AuthService {
         code,
         redirectUri,
       });
+
       console.log('response>>', response);
 
-      const { isNewUser, userSocialId, accessToken } = response.data;
+      const { isNewUser, accessToken } = response.data;
       console.log('Parsed response>>', {
         isNewUser,
-        userSocialId,
         accessToken,
       });
 
-      if (isNewUser && !userSocialId) {
-        console.log('New user detected, userSocialId:', userSocialId);
-        window.location.href = `/login/nickname?userSocialId=${userSocialId}`;
-      } else if (accessToken) {
-        console.log('Access token obtained:', accessToken);
-        this.registerLoginSuccess(accessToken);
-        window.location.href = `/home?userSocialId=${userSocialId}`;
+      if (typeof accessToken === 'string') {
+        console.log('accessToken>>>', accessToken);
+        localStorage.setItem(ACCESS_TOKEN_NAME, accessToken);
+      }
+
+      if (isNewUser) {
+        window.location.href = `/login/nickname`;
       } else {
-        console.error('ERROR: Invalid KakaoLogin response', response);
-        throw new Error('ERROR: Invalid KakaoLogin response');
+        try {
+          const nickNmRes = await this.getUserInfo();
+          const { nickname: nicknameVal } = nickNmRes;
+          console.log('getUserInfo response:', nicknameVal); // 응답 전체 구조 확인
+
+          if (nickNmRes && nicknameVal) {
+            const nickname = nicknameVal;
+            console.log('Received nickname:', nickname);
+
+            if (typeof nickname === 'string' && nickname.length > 0) {
+              localStorage.setItem('nickname', nickname);
+              window.location.href = `/home?userSocialId=${encodeURIComponent(nickname)}`;
+            } else {
+              console.error('Invalid nickname format:', nickname);
+              throw new Error('Invalid nickname received');
+            }
+          } else {
+            console.error('Invalid getUserInfo response:', nickNmRes);
+            throw new Error('Failed to get user info');
+          }
+        } catch (userInfoError) {
+          console.error('Error getting user info:', userInfoError);
+          throw userInfoError;
+        }
       }
     } catch (error) {
       console.error('Kakao login error:', error);
@@ -80,12 +101,28 @@ class AuthService {
         code,
         redirectUri,
       });
-      debugger;
       // 결과를 콘솔에 출력하여 디버깅을 용이하게 합니다.
       console.log('executeKakao result:', result);
 
       // 결과를 반환합니다.
       return result;
+    } catch (error) {
+      // 오류 발생 시 콘솔에 오류를 출력하고, 오류를 다시 던집니다.
+      console.error('executeKakao error:', error);
+      throw error;
+    }
+  }
+
+  private async getUserInfo(): Promise<AxiosResponse<any, any>> {
+    try {
+      // Axios 요청을 await하여 결과를 기다립니다.
+      const result = await axiosInstance.get('/users/me');
+
+      // 결과를 콘솔에 출력하여 디버깅을 용이하게 합니다.
+      console.log('executeKakao result:', result);
+
+      // 결과를 반환합니다.
+      return result.data;
     } catch (error) {
       // 오류 발생 시 콘솔에 오류를 출력하고, 오류를 다시 던집니다.
       console.error('executeKakao error:', error);
