@@ -1,16 +1,22 @@
 import styled from 'styled-components';
 import { ChevronLeft, MoreVertical } from 'lucide-react';
+import Common from '../style/Common.ts';
+import styleToken from '../style/styleToken.ts';
+import { useNavigate } from 'react-router-dom';
+import { mockPost } from '../data/mockData/praiseDetail.ts';
 
 const Container = styled.div`
   max-width: 768px;
   margin: 0 auto;
   background: white;
+  min-height: 100vh; // height: 100vh 대신 min-height: 100vh 사용
+  padding-bottom: 100px; // 하단 버튼을 위한 여백 추가
 `;
 
 const Header = styled.header`
   display: flex;
   align-items: center;
-  padding: 16px;
+  padding: 80px 16px 16px 16px;
   border-bottom: 1px solid #eee;
 `;
 
@@ -61,8 +67,8 @@ const CommentItem = styled.div`
 `;
 
 const CommentHeader = styled.div`
-  display: flex;
-  align-items: center;
+  //display: flex;
+  //align-items: center;
   margin-bottom: 8px;
 `;
 
@@ -70,6 +76,7 @@ const Nickname = styled.span`
   font-size: 14px;
   color: #333;
   margin-right: auto;
+  font-weight: bolder;
 `;
 
 const ActionButton = styled.button`
@@ -105,19 +112,31 @@ const LikeButton = styled.button`
   cursor: pointer;
 `;
 
-const BottomButton = styled.button`
+const BottomButtonWrapper = styled.div`
   position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  background: #60c3fb;
-  color: white;
-  border: none;
-  padding: 16px;
-  font-size: 16px;
-  cursor: pointer;
-  max-width: 768px;
+  bottom: 25px;
+  z-index: 100;
+  display: flex;
+  justify-content: center;
+  max-width: 784px;
+  width: 100%;
   margin: 0 auto;
+  left: 50%;
+  transform: translateX(-50%);
+`;
+
+const BottomButton = styled.button`
+  //padding: 15px 100px;
+  height: 56px;
+  width: 90%;
+  background-color: ${Common.colors.skyblue};
+  color: ${styleToken.color.white};
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 19px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
 `;
 
 const MenuButton = styled.button`
@@ -132,48 +151,49 @@ const MenuButton = styled.button`
 `;
 
 export default function PraiseDetail() {
+  const navigate = useNavigate();
+  const nickname = localStorage.getItem('nickname');
+  const moveToListPage = () => {
+    navigate('/home?userSocialId=' + nickname);
+  };
+
   return (
     <Container>
       <Header>
-        <BackButton>
+        <BackButton onClick={moveToListPage}>
           <ChevronLeft size={24} />
         </BackButton>
         <Title>꽃네랑</Title>
       </Header>
 
       <PostContainer>
-        <PostTitle>꽃네랑</PostTitle>
-        <PostContent>
-          오늘 피그마를 배웠어요. 프레임도 만들고 가이드도 만들고 넷 플릭스도
-          만들고 토스도 만들고 이미지도 넣고, 많이 배웠어요. 이제 기본적인건 할
-          수 있어요
-        </PostContent>
-        <PostDate>2023.5.20.</PostDate>
+        <PostTitle>{mockPost.title}</PostTitle>
+        <PostContent>{mockPost.content}</PostContent>
+        <PostDate>{mockPost.createdAt}</PostDate>
       </PostContainer>
 
       <CommentSection>
-        {[1, 2, 3, 4].map((index) => (
-          <CommentItem key={index}>
+        {mockPost.comments.map((comment) => (
+          <CommentItem key={comment.id}>
             <MenuButton>
               <MoreVertical size={16} />
             </MenuButton>
             <CommentHeader>
-              <Nickname>닉넴</Nickname>
+              <Nickname>{comment.nickname}</Nickname>
               <ActionButton>신고하기</ActionButton>
             </CommentHeader>
-            <CommentContent>
-              오늘 피그마를 배웠어요. 프레임도 만들고 가이드도 만들고 넷플릭스도
-              만들고 토스도 만들고 이미지도 넣고, 많이 배웠어요. 이제 기본적인건
-              할 수 있어요
-            </CommentContent>
+            <CommentContent>{comment.content}</CommentContent>
             <LikeButton>
               <span>♡</span>
+              {comment.likes > 0 && <span>{comment.likes}</span>}
             </LikeButton>
           </CommentItem>
         ))}
       </CommentSection>
 
-      <BottomButton>칭찬 댓글 달기</BottomButton>
+      <BottomButtonWrapper>
+        <BottomButton>칭찬 댓글 달기</BottomButton>
+      </BottomButtonWrapper>
     </Container>
   );
 }

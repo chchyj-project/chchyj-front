@@ -40,6 +40,7 @@ const Content = styled.p`
   line-height: 1.5;
   color: #333;
   margin: 10px 0;
+  cursor: pointer;
 `;
 
 const CommentInfo = styled.div`
@@ -115,7 +116,7 @@ const PraiseItem = ({
   };
 
   return (
-    <Container $islast={islast && !isCommentOpen} onClick={moveToDetail}>
+    <Container $islast={islast && !isCommentOpen}>
       <Header>
         <TitleWrapper>
           <Title>{article.userId}</Title>
@@ -126,7 +127,7 @@ const PraiseItem = ({
         </TitleWrapper>
         <Date>{createdAt.format('YYYY.MM.DD')}</Date>
       </Header>
-      <Content>{article.content}</Content>
+      <Content onClick={moveToDetail}>{article.content}</Content>
       <RowFlexBetween>
         <CommentInfo onClick={toggleCommentBox}>
           칭찬댓글 {article.commentCount}개
