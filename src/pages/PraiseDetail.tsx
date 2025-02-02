@@ -3,13 +3,13 @@ import { ChevronLeft, MoreVertical, Heart } from 'lucide-react';
 import Common from '../style/Common.ts';
 import styleToken from '../style/styleToken.ts';
 import { useNavigate } from 'react-router-dom';
-import { mockPost } from '../data/mockData/praiseDetail.ts';
 import { useEffect, useState } from 'react';
 import { ArticleDetail } from '../types/PraiseItem.ts';
 import { axiosInstance } from '../api/axiosConfig.ts';
 import { useParams } from 'react-router-dom';
 import { RowFlexBetween } from '../style/commonStyle.ts';
 import CommentActions from '../components/CommentActions.tsx';
+import dayjs from 'dayjs';
 
 const Container = styled.div`
   max-width: 768px;
@@ -79,6 +79,12 @@ const CommentHeader = styled.div`
   margin-bottom: 8px;
 `;
 
+const PostHeader = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center; // 세로 중앙 정렬
+`;
+
 const Nickname = styled.div`
   font-size: 14px;
   color: #333;
@@ -103,18 +109,6 @@ const CommentContent = styled.p`
   color: #333;
   margin-bottom: 8px;
 `;
-
-// const LikeButton = styled.button`
-//   background: none;
-//   border: none;
-//   padding: 0;
-//   font-size: 12px;
-//   color: #999;
-//   display: flex;
-//   align-items: center;
-//   gap: 4px;
-//   cursor: pointer;
-// `;
 
 const BottomButtonWrapper = styled.div`
   position: fixed;
@@ -143,17 +137,6 @@ const BottomButton = styled.button`
   transition: background-color 0.3s ease;
 `;
 
-const MenuButton = styled.button`
-  position: absolute;
-  top: 16px;
-  right: 0;
-  background: none;
-  border: none;
-  padding: 4px 0;
-  cursor: pointer;
-  color: #999;
-`;
-
 const LikeButton = styled.button`
   padding-right: 2px;
   background: none;
@@ -168,8 +151,19 @@ export default function PraiseDetail() {
   const navigate = useNavigate();
   const nickname = localStorage.getItem('nickname');
   const { postId } = useParams();
-  const [isOpen, setIsOpen] = useState(false);
+  // PraiseDetail 컴포넌트 내부
+  const [postDropdownOpen, setPostDropdownOpen] = useState(false);
+  const [commentDropdowns, setCommentDropdowns] = useState<{
+    [key: number]: boolean;
+  }>({});
 
+  // 댓글 드롭다운 토글 함수
+  const toggleCommentDropdown = (commentId: number) => {
+    setCommentDropdowns((prev) => ({
+      ...prev,
+      [commentId]: !prev[commentId],
+    }));
+  };
   const [articleDetail, setArticleDetail] = useState<ArticleDetail | null>(
     null,
   );
@@ -200,9 +194,18 @@ export default function PraiseDetail() {
       </Header>
 
       <PostContainer>
-        <PostTitle>{articleDetail?.userId}</PostTitle>
+        <PostHeader>
+          <PostTitle>{articleDetail?.userId}</PostTitle>
+          <CommentActions
+            isOpen={postDropdownOpen}
+            setIsOpen={setPostDropdownOpen}
+            type="post" // 타입 구분을 위해 추가
+          />{' '}
+        </PostHeader>
         <PostContent>{articleDetail?.content}</PostContent>
-        <PostDate>{articleDetail?.createdAt}</PostDate>
+        <PostDate>
+          {dayjs(articleDetail?.createdAt).format('YYYY.MM.DD')}
+        </PostDate>
       </PostContainer>
 
       <CommentSection>
@@ -211,7 +214,16 @@ export default function PraiseDetail() {
             <CommentHeader>
               <Nickname>{comment.userId}</Nickname>
               <ActionButton>신고하기</ActionButton>
-              <CommentActions setIsOpen={setIsOpen} isOpen={isOpen} />
+              <PostDate>
+                {dayjs(comment.createdAt).format('YYYY.MM.DD')}
+              </PostDate>
+
+              <CommentActions
+                isOpen={commentDropdowns[comment.id] || false}
+                setIsOpen={() => toggleCommentDropdown(comment.id)}
+                type="comment" // 타입 구분을 위해 추가
+                commentId={comment.id}
+              />
             </CommentHeader>
             <RowFlexBetween>
               <CommentContent>{comment.content}</CommentContent>
@@ -221,7 +233,6 @@ export default function PraiseDetail() {
                   color="#87CEEB"
                   size={12}
                   className="cursor-pointer"
-                  // 클릭 가능함을 표시
                 />
               </LikeButton>
             </RowFlexBetween>

@@ -6,6 +6,7 @@ import Onboarding from './pages/Login/Onboarding.tsx';
 import LoginCallback from './pages/Login/LoginCallback.tsx';
 import SetNickName from './pages/Login/SetNickName.tsx';
 import PraiseDetail from './pages/PraiseDetail.tsx';
+import Profile from './pages/Profile.tsx';
 
 const AppWrap = styled.div`
   width: 100%;
@@ -26,6 +27,7 @@ const App = () => {
           <Route path="/login/callback" element={<LoginCallback />} />
           <Route path="/login/nickname" element={<SetNickName />} />
           <Route path="/post/:postId" element={<PraiseDetail />} />
+          <Route path="/profile" element={<Profile />} />
         </Routes>
       </AppWrap>
     </BrowserRouter>

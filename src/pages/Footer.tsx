@@ -11,6 +11,7 @@ const FooterContainer = styled.footer`
   font-family: 'Arial', sans-serif;
   font-size: 14px;
   color: #666; /* 텍스트 색상 */
+  height: 15vh; // 뷰포트 높이의 15%
 `;
 
 const FooterLinks = styled.div`

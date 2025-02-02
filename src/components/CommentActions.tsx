@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { MoreVertical } from 'lucide-react';
-import { Dispatch, SetStateAction, useState } from 'react';
+import { Dispatch, SetStateAction } from 'react';
 
 // 드롭다운 메뉴 컨테이너
 const DropdownContainer = styled.div`
@@ -47,14 +47,20 @@ const MenuItem = styled.button`
   }
 `;
 
-// 컴포넌트 사용 예시
-function CommentActions({
-  setIsOpen,
-  isOpen,
-}: {
-  setIsOpen: Dispatch<SetStateAction<boolean>>;
+interface CommentActionsProps {
   isOpen: boolean;
-}) {
+  setIsOpen: (isOpen: boolean) => void;
+  type: 'post' | 'comment';
+  commentId?: number;
+}
+
+// 컴포넌트 사용 예시
+const CommentActions: React.FC<CommentActionsProps> = ({
+  isOpen,
+  setIsOpen,
+  type,
+  commentId,
+}) => {
   const handleEdit = () => {
     // 수정 로직
     setIsOpen(false);
@@ -71,11 +77,11 @@ function CommentActions({
         <MoreVertical size={16} />
       </MoreButton>
       <DropdownMenu isOpen={isOpen}>
-        <MenuItem onClick={handleEdit}>수정하기</MenuItem>
+        {!commentId && <MenuItem onClick={handleEdit}>수정하기</MenuItem>}
         <MenuItem onClick={handleDelete}>삭제하기</MenuItem>
       </DropdownMenu>
     </DropdownContainer>
   );
-}
+};
 
 export default CommentActions;

@@ -114,7 +114,7 @@ const FixedHeader = ({ bgColor }: FixedHeaderProps) => {
               회원가입 / 로그인
             </MenuButton>
           ) : (
-            <NicknameWrapper>
+            <NicknameWrapper onClick={() => navigate('/profile')}>
               <div style={{ padding: '0 4px' }}>
                 <img src={FilledHeart} alt={'filled_heart'} />
               </div>

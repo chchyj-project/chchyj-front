@@ -157,12 +157,10 @@ export default function WriteSlidingPanel({
         // 예시: 토스트 메시지 표시
         setToast(true);
         setToastMsg('게시글이 성공적으로 저장되었습니다.');
-
-        // 예시: 목록 페이지로 이동
-        navigate('/home?useSocialId=' + localStorage.getItem('userSocialId'));
-
-        // 예시: 상태 초기화
-        setContent('');
+        setTimeout(() => {
+          handleWriteClick(false);
+          setContent('');
+        }, 2000); // 2초 후 실행
       }
     } catch (error) {
       // 타입 가드를 사용한 에러 처리
@@ -173,7 +171,7 @@ export default function WriteSlidingPanel({
           switch (error.response.status) {
             case 400:
               setToast(true);
-              setToastMsg('입력값이 올바르지 않습니다');
+              setToastMsg(error.response.data.message);
               break;
             case 401:
               setToast(true);

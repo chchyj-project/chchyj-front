@@ -3,14 +3,11 @@ import { Smile } from 'lucide-react';
 import Siren from '../images/siren.png';
 import styleToken from '../style/styleToken.ts';
 import { RowFlexBetween } from '../style/commonStyle.ts';
-import Comment from './Comment.tsx';
 import { useEffect, useState } from 'react';
 import { AddtionalWrapper, Icon, TitleWrapper } from '../style/MainPage.ts';
 import { Article, ContainerProps } from '../types/MainPage.ts';
 import dayjs from 'dayjs';
 import { useNavigate } from 'react-router-dom';
-import { axiosInstance } from '../api/axiosConfig.ts';
-import { ArticleDetail } from '../types/PraiseItem.ts';
 
 const Container = styled.div<ContainerProps>`
   margin-bottom: ${(props) => (props.$islast ? '0px' : '8px')};
