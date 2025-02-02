@@ -49,14 +49,13 @@ const MenuItem = styled.button`
 
 interface CommentActionsProps {
   isopen: string;
-  setIsOpen: (isOpen: boolean) => void;
+  setIsOpen: () => void; // boolean 파라미터 제거
   type: 'post' | 'comment';
   handleDelete: (replyId: number) => Promise<void>;
   commentId?: number;
   handleEdit?: any;
 }
 
-// 컴포넌트 사용 예시
 const CommentActions: React.FC<CommentActionsProps> = ({
   isopen,
   setIsOpen,
@@ -65,11 +64,10 @@ const CommentActions: React.FC<CommentActionsProps> = ({
   handleEdit,
   handleDelete,
 }) => {
-  console.log('isopen>>', isopen);
-
   return (
     <DropdownContainer>
-      <MoreButton onClick={() => setIsOpen(isopen === 'true')}>
+      <MoreButton onClick={setIsOpen}>
+        {/* 단순히 setIsOpen 호출 */}
         <MoreVertical size={16} />
       </MoreButton>
       <DropdownMenu $isopen={isopen}>

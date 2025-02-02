@@ -194,10 +194,6 @@ export default function PraiseDetail() {
   const [isWriteMode, setWriteMode] = useState(false);
   const [bgColor, setBgColor] = useState<string>('white');
   const location = useLocation();
-  const [postDropdownOpen, setPostDropdownOpen] = useState(false);
-  const [commentDropdowns, setCommentDropdowns] = useState<{
-    [key: number]: boolean;
-  }>({});
   const [toastMsg, setToastMsg] = useState<string>('');
   const [toast, setToast] = useState<boolean>(false);
   const [isEditing, setIsEditing] = useState(false);
@@ -207,12 +203,11 @@ export default function PraiseDetail() {
   const handleEdit = () => {
     setIsEditing(true);
     setEditContent(articleDetail?.content || '');
-    setPostDropdownOpen(true);
   };
 
   // 수정 완료 처리
   const handleEditSubmit = async () => {
-    if (postId && postDropdownOpen) {
+    if (postId) {
       try {
         const result = await updateArticle(Number(postId), editContent);
 
@@ -229,20 +224,15 @@ export default function PraiseDetail() {
     }
   };
 
-  useEffect(() => {
-    setPostDropdownOpen(true);
-  }, []);
-
   const { mode } = location.state || '';
   // PraiseDetail 컴포넌트 내부
+  const [openDropdownId, setOpenDropdownId] = useState<number | null>(null);
 
-  // 댓글 드롭다운 토글 함수
-  const toggleCommentDropdown = (commentId: number) => {
-    setCommentDropdowns((prev) => ({
-      ...prev,
-      [commentId]: !prev[commentId],
-    }));
+  // 드롭다운 토글 함수
+  const handleDropdownToggle = (id: number) => {
+    setOpenDropdownId(openDropdownId === id ? null : id);
   };
+
   const [articleDetail, setArticleDetail] = useState<ArticleDetail | null>(
     null,
   );
@@ -280,7 +270,7 @@ export default function PraiseDetail() {
 
   const handleDelete = async (replyId: number) => {
     // 삭제 로직
-    if (postDropdownOpen) {
+    if (openDropdownId) {
       // 칭찬 게시글 삭제
       try {
         const isDeleted = await deleteReply(replyId);
@@ -360,8 +350,8 @@ export default function PraiseDetail() {
             <PostTitle>{articleDetail?.userName}</PostTitle>
             {!isEditing && (
               <CommentActions
-                isopen={postDropdownOpen ? 'false' : 'true'}
-                setIsOpen={setPostDropdownOpen}
+                isopen={openDropdownId === 0 ? 'true' : 'false'}
+                setIsOpen={() => handleDropdownToggle(0)}
                 type="post"
                 handleEdit={handleEdit}
                 handleDelete={handleDelete}
@@ -405,8 +395,8 @@ export default function PraiseDetail() {
                 <ActionButton>신고하기</ActionButton>
 
                 <CommentActions
-                  isopen={commentDropdowns[comment.id] ? 'true' : 'false'}
-                  setIsOpen={() => toggleCommentDropdown(comment.id)}
+                  isopen={openDropdownId === comment.id ? 'true' : 'false'}
+                  setIsOpen={() => handleDropdownToggle(comment.id)}
                   type="comment" // 타입 구분을 위해 추가
                   commentId={comment.id}
                   handleDelete={handleDelete}

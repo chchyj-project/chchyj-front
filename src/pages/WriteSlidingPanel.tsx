@@ -6,7 +6,8 @@ import { X } from 'lucide-react';
 import ToastPopup from '../components/ToastPopup.tsx';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import { CloseButton } from '../style/commonStyle.ts'; // X 아이콘 추가
+import { CloseButton } from '../style/commonStyle.ts';
+import { useApiError } from '../hooks/useApiError.ts'; // X 아이콘 추가
 
 const Button = styled.button`
   background-color: #60c3fb;
@@ -111,12 +112,10 @@ export default function WriteSlidingPanel({
   isWriteMode,
   handleWriteClick,
 }: any) {
-  const [toast, setToast] = useState<boolean>(false);
   const navigate = useNavigate();
-  const [toastMsg, setToastMsg] = useState<string>('');
+  const [toastMessage, setToastMessage] = useState<string>('');
   const [content, setContent] = useState('');
-  // const [isOpen, setIsOpen] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
+  const { toast, toastMsg, setToast, handleApiError } = useApiError();
 
   const save = async () => {
     try {
@@ -125,65 +124,26 @@ export default function WriteSlidingPanel({
       });
 
       if (result.status === 201 || result.status === 200) {
-        // 성공적으로 저장됨
-        console.log('게시글이 성공적으로 저장되었습니다:', result.data);
-
-        // 예시: 토스트 메시지 표시
         setToast(true);
-        setToastMsg('게시글이 성공적으로 저장되었습니다.');
+        setToastMessage('게시글이 성공적으로 저장되었습니다.');
         setTimeout(() => {
           handleWriteClick(false);
           setContent('');
         }, 2000); // 2초 후 실행
       }
     } catch (error) {
-      // 타입 가드를 사용한 에러 처리
-      if (axios.isAxiosError(error)) {
-        // HTTP 에러 처리
-        if (error.response) {
-          // 서버가 응답을 반환한 경우
-          switch (error.response.status) {
-            case 400:
-              setToast(true);
-              setToastMsg(error.response.data.message);
-              break;
-            case 401:
-              setToast(true);
-              setToastMsg('로그인이 필요합니다');
-              // 예시: 로그인 페이지로 리다이렉트
-              navigate('/login');
-              break;
-            case 403:
-              setToast(true);
-              setToastMsg('권한이 없습니다');
-              break;
-            default:
-              setToast(true);
-              setToastMsg('저장 중 오류가 발생했습니다');
-          }
-        } else if (error.request) {
-          // 요청은 보냈지만 응답을 받지 못한 경우
-          setToast(true);
-
-          setToastMsg('서버와 통신할 수 없습니다');
-        }
-      } else {
-        // 기타 예상치 못한 에러
-        setToast(true);
-
-        setToastMsg('알 수 없는 오류가 발생했습니다');
-        console.error('Error saving article:', error);
-      }
-    } finally {
-      // 예시: 로딩 상태 해제
-      setIsLoading(false);
+      handleApiError(error);
     }
   };
   return (
     <>
       {' '}
       {toast && (
-        <ToastPopup setToast={setToast} message={toastMsg} position="bottom" />
+        <ToastPopup
+          setToast={setToast}
+          message={toastMessage || toastMsg}
+          position="bottom"
+        />
       )}
       <AnimatePresence>
         {/* toast가 true일 때만 팝업이 노출됩니다.*/}
