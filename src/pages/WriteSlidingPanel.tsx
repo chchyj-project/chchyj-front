@@ -99,10 +99,6 @@ const Overlay = styled(motion.div)`
 
   z-index: 10; // Panel보다 낮은 z-index
 `;
-// const UnderlinedText = styled(Text)`
-//   text-decoration: underline; /* 밑줄 적용 */
-//   color: #5478f6; /* 밑줄 텍스트 색상 */
-// `;
 
 interface ArticleResponse {
   id: number;
@@ -110,10 +106,6 @@ interface ArticleResponse {
   createdAt: string;
   // 기타 응답에서 받을 수 있는 필드들
 }
-
-const ToastWrapper = styled.div`
-  position: absolute; // fixed 대신 absolute 사용
-`;
 
 export default function WriteSlidingPanel({
   isWriteMode,
@@ -128,7 +120,6 @@ export default function WriteSlidingPanel({
 
   const save = async () => {
     try {
-      console.log('content>>', content);
       const result = await axiosInstance.post<ArticleResponse>('/articles', {
         content,
       });

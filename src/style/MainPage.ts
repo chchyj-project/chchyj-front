@@ -7,7 +7,7 @@ export const AddtionalWrapper = styled.div`
   align-items: center;
   font-size: 12px;
   color: ${styleToken.color.textSub};
-
+  gap: 5px;
   svg {
     margin-right: 4px;
   }

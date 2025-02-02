@@ -54,7 +54,7 @@ const WritingCommentWrapper = styled.div`
   align-items: center;
   font-size: 12px;
   color: ${styleToken.color.secondary};
-
+  cursor: pointer;
   svg {
     margin-right: 4px;
   }
@@ -113,7 +113,16 @@ const PraiseItem = ({
         <CommentInfo onClick={toggleCommentBox}>
           칭찬댓글 {article.commentCount}개
         </CommentInfo>
-        <WritingCommentWrapper>
+        <WritingCommentWrapper
+          onClick={() =>
+            // URL에는 안보이지만 state로 데이터 전달
+            navigate(`/post/${article.id}`, {
+              state: {
+                mode: 'commentOpen',
+              },
+            })
+          }
+        >
           <Smile size={'14px'} />
           칭찬댓글 달기
         </WritingCommentWrapper>

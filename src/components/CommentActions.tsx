@@ -51,7 +51,9 @@ interface CommentActionsProps {
   isopen: string;
   setIsOpen: (isOpen: boolean) => void;
   type: 'post' | 'comment';
+  handleDelete: (replyId: number) => Promise<void>;
   commentId?: number;
+  handleEdit?: any;
 }
 
 // 컴포넌트 사용 예시
@@ -60,25 +62,25 @@ const CommentActions: React.FC<CommentActionsProps> = ({
   setIsOpen,
   type,
   commentId,
+  handleEdit,
+  handleDelete,
 }) => {
-  const handleEdit = () => {
-    // 수정 로직
-    setIsOpen(false);
-  };
-
-  const handleDelete = () => {
-    // 삭제 로직
-    setIsOpen(false);
-  };
+  console.log('isopen>>', isopen);
 
   return (
     <DropdownContainer>
-      <MoreButton onClick={() => setIsOpen(!isopen)}>
+      <MoreButton onClick={() => setIsOpen(isopen === 'true')}>
         <MoreVertical size={16} />
       </MoreButton>
       <DropdownMenu $isopen={isopen}>
-        {!commentId && <MenuItem onClick={handleEdit}>수정하기</MenuItem>}
-        <MenuItem onClick={handleDelete}>삭제하기</MenuItem>
+        {!commentId && (
+          <MenuItem onClick={() => handleEdit && handleEdit(Number(commentId))}>
+            수정하기
+          </MenuItem>
+        )}
+        <MenuItem onClick={() => handleDelete(Number(commentId))}>
+          삭제하기
+        </MenuItem>
       </DropdownMenu>
     </DropdownContainer>
   );
