@@ -24,7 +24,7 @@ const App = () => {
         <ReportModal />
 
         <Routes>
-          <Route path="*" element={<Navigate replace to="/login" />} />
+          <Route path="*" element={<Navigate replace to="/home" />} />
           <Route path="/home" element={<Home />} />
           <Route path="/login" element={<Onboarding />} />
           <Route path="/login/callback" element={<LoginCallback />} />

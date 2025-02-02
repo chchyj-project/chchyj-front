@@ -9,6 +9,7 @@ import {
 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import Footer from './Footer.tsx';
+import AuthService from '../api/AuthService.ts';
 
 const Container = styled.div`
   max-width: 768px;
@@ -143,6 +144,10 @@ const NewCommentBadge = styled.span`
 export default function Profile() {
   const navigate = useNavigate();
 
+  const logout = () => {
+    AuthService.logout();
+    navigate('/home');
+  };
   return (
     <Container>
       <Header>
@@ -197,7 +202,7 @@ export default function Profile() {
               </div>
             </MenuItemContent>
           </MenuItem>
-          <MenuItem>
+          <MenuItem onClick={logout}>
             <MenuIcon>
               <Clock size={20} />
             </MenuIcon>

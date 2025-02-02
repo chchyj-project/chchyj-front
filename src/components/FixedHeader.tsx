@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import Common from '../style/Common.ts';
 import FilledHeart from '../images/filled_heart.svg';
+import { ACCESS_TOKEN_NAME } from '../constant/constant.ts';
 interface ContainerProps {
   $bgColor: string;
 }
@@ -78,7 +79,9 @@ interface FixedHeaderProps {
 const FixedHeader = ({ bgColor }: FixedHeaderProps) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const navigate = useNavigate();
-  const nickname = localStorage.getItem('nickname');
+
+  const token = localStorage.getItem(ACCESS_TOKEN_NAME);
+  const nickname = token ? localStorage.getItem('nickname') : '';
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
