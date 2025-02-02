@@ -100,3 +100,4 @@ src/
 - `pnpm preview`: 빌드된 결과물 미리보기
 - `pnpm lint`: ESLint 검사
 - `pnpm format`: Prettier로 코드 포맷팅
+
