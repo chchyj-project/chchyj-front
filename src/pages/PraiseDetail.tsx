@@ -13,6 +13,7 @@ import dayjs from 'dayjs';
 import WriteCommentSlidingPanel from './WriteCommentSlidingPanel.tsx';
 import Siren from '../images/siren.png';
 import { Icon } from '../style/MainPage.ts';
+import ToastPopup from '../components/ToastPopup.tsx';
 
 interface UpdateArticleResponse {
   content: string;
@@ -206,7 +207,7 @@ export default function PraiseDetail() {
   const handleEdit = () => {
     setIsEditing(true);
     setEditContent(articleDetail?.content || '');
-    setPostDropdownOpen(false);
+    setPostDropdownOpen(true);
   };
 
   // 수정 완료 처리
@@ -344,6 +345,9 @@ export default function PraiseDetail() {
   const like = () => {};
   return (
     <>
+      {toast && (
+        <ToastPopup setToast={setToast} message={toastMsg} position="bottom" />
+      )}
       <Container>
         <Header>
           <BackButton onClick={moveToListPage}>

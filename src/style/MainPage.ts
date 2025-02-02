@@ -11,6 +11,7 @@ export const AddtionalWrapper = styled.div`
   svg {
     margin-right: 4px;
   }
+  cursor: pointer;
 `;
 
 export const Icon = styled.img<IconProps>`
