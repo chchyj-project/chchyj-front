@@ -14,6 +14,7 @@ const Wrap = styled.div`
     margin-top: 300px;
   }
 `;
+
 const InputBox = styled.input`
   background: #ffffff;
   border: 1px solid #acacac;
@@ -24,6 +25,7 @@ const InputBox = styled.input`
   padding: 13px 0;
   margin-top: 40px;
 `;
+
 function SetNickName() {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();

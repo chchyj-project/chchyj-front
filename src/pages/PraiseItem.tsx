@@ -4,7 +4,7 @@ import Siren from '../images/siren.png';
 import styleToken from '../style/styleToken.ts';
 import { RowFlexBetween } from '../style/commonStyle.ts';
 import Comment from './Comment.tsx';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { AddtionalWrapper, Icon, TitleWrapper } from '../style/MainPage.ts';
 import { Article, ContainerProps } from '../types/MainPage.ts';
 import dayjs from 'dayjs';
@@ -82,6 +82,10 @@ const PraiseItem = ({
 }) => {
   const [isCommentOpen, setIsCommentOpen] = useState<boolean>(false);
   const navigate = useNavigate();
+
+  useEffect(() => {}, [article.id]);
+
+  console.log('article>>', article);
 
   const toggleCommentBox = () => {
     setIsCommentOpen(!isCommentOpen);

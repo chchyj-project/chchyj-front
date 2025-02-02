@@ -145,6 +145,7 @@ export default function WriteSlidingPanel({
 
   const save = async () => {
     try {
+      console.log('content>>', content);
       const result = await axiosInstance.post<ArticleResponse>('/articles', {
         content,
       });

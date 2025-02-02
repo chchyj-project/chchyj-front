@@ -51,7 +51,6 @@ const Comment = ({
   commenterId,
   content,
   likeCount,
-  islast,
   isFirst,
 }: {
   commenterId: string;
@@ -61,7 +60,7 @@ const Comment = ({
   isFirst: boolean;
 }) => {
   return (
-    <CommentCard islast={islast} isFirst={isFirst}>
+    <CommentCard isFirst={isFirst}>
       <CommentHeader>
         <TitleWrapper>
           <NickName>{commenterId}</NickName>
