@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { MoreVertical } from 'lucide-react';
-import { Dispatch, SetStateAction } from 'react';
+import React, { Dispatch, SetStateAction } from 'react';
 
 // 드롭다운 메뉴 컨테이너
 const DropdownContainer = styled.div`
@@ -18,7 +18,7 @@ const MoreButton = styled.button`
 `;
 
 // 드롭다운 메뉴
-const DropdownMenu = styled.div<{ isOpen: boolean }>`
+const DropdownMenu = styled.div<{ $isopen: string }>`
   position: absolute;
   top: 100%;
   right: 0;
@@ -27,7 +27,7 @@ const DropdownMenu = styled.div<{ isOpen: boolean }>`
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
   padding: 8px 0;
   min-width: 120px;
-  display: ${(props) => (props.isOpen ? 'block' : 'none')};
+  display: ${(props) => (props.$isopen == 'true' ? 'block' : 'none')};
   z-index: 1000;
 `;
 
@@ -48,7 +48,7 @@ const MenuItem = styled.button`
 `;
 
 interface CommentActionsProps {
-  isOpen: boolean;
+  isopen: string;
   setIsOpen: (isOpen: boolean) => void;
   type: 'post' | 'comment';
   commentId?: number;
@@ -56,7 +56,7 @@ interface CommentActionsProps {
 
 // 컴포넌트 사용 예시
 const CommentActions: React.FC<CommentActionsProps> = ({
-  isOpen,
+  isopen,
   setIsOpen,
   type,
   commentId,
@@ -73,10 +73,10 @@ const CommentActions: React.FC<CommentActionsProps> = ({
 
   return (
     <DropdownContainer>
-      <MoreButton onClick={() => setIsOpen(!isOpen)}>
+      <MoreButton onClick={() => setIsOpen(!isopen)}>
         <MoreVertical size={16} />
       </MoreButton>
-      <DropdownMenu isOpen={isOpen}>
+      <DropdownMenu $isopen={isopen}>
         {!commentId && <MenuItem onClick={handleEdit}>수정하기</MenuItem>}
         <MenuItem onClick={handleDelete}>삭제하기</MenuItem>
       </DropdownMenu>

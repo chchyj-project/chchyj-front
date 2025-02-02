@@ -2,10 +2,11 @@ import styled from 'styled-components';
 import { motion, AnimatePresence } from 'framer-motion';
 import { axiosInstance } from '../api/axiosConfig.ts';
 import { useState } from 'react';
-import { X, Heart, LockIcon, AlertTriangle } from 'lucide-react';
+import { Heart, LockIcon, AlertTriangle, X } from 'lucide-react';
 import ToastPopup from '../components/ToastPopup.tsx';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom'; // X 아이콘 추가
+import { useNavigate, useParams } from 'react-router-dom';
+import { CloseButton } from '../style/commonStyle.ts'; // X 아이콘 추가
 
 const Panel = styled(motion.div)`
   position: fixed;
@@ -13,9 +14,10 @@ const Panel = styled(motion.div)`
   transform: translateX(-50%);
   width: 100%;
   max-width: 768px;
-  height: 70vh;
+  height: 50vh;
   background-color: white;
-  border-radius: 24px;
+  border-radius: 24px 24px 0 0;
+
   box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
   overflow-y: auto;
   z-index: 11;
@@ -46,8 +48,8 @@ const StyledTextarea = styled.textarea`
   border-radius: 12px;
   resize: none;
   font-size: 16px;
-  background-color: #f8f9fa;
-  min-height: 200px;
+  background-color: #eef9ff;
+  min-height: 100px;
 
   &::placeholder {
     color: #999;
@@ -99,39 +101,11 @@ const Overlay = styled(motion.div)`
 
   z-index: 10; // Panel보다 낮은 z-index
 `;
-// const UnderlinedText = styled(Text)`
-//   text-decoration: underline; /* 밑줄 적용 */
-//   color: #5478f6; /* 밑줄 텍스트 색상 */
-// `;
-const CloseButton = styled.button`
-  position: absolute;
-  top: 20px;
-  right: 20px;
-  background: none;
-  border: none;
-  cursor: pointer;
-  padding: 8px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #404040;
 
-  &:hover {
-    background-color: rgba(0, 0, 0, 0.05);
-    border-radius: 50%;
-  }
-`;
-
-interface ArticleResponse {
+interface CommentResponse {
   id: number;
-  content: string;
-  createdAt: string;
   // 기타 응답에서 받을 수 있는 필드들
 }
-
-const ToastWrapper = styled.div`
-  position: absolute; // fixed 대신 absolute 사용
-`;
 
 export default function WriteCommentSlidingPanel({
   isWriteMode,
@@ -144,20 +118,25 @@ export default function WriteCommentSlidingPanel({
   // const [isOpen, setIsOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
+  const { postId } = useParams();
+
   const save = async () => {
     try {
       console.log('content>>', content);
-      const result = await axiosInstance.post<ArticleResponse>('/articles', {
+      const result = await axiosInstance.post<CommentResponse>('/replies', {
         content,
+        articleId: Number(postId),
       });
+
+      console.log('result-=-->', result);
 
       if (result.status === 201 || result.status === 200) {
         // 성공적으로 저장됨
-        console.log('게시글이 성공적으로 저장되었습니다:', result.data);
+        console.log('댓글이 성공적으로 저장되었습니다:', result.data);
 
         // 예시: 토스트 메시지 표시
         setToast(true);
-        setToastMsg('게시글이 성공적으로 저장되었습니다.');
+        setToastMsg('댓글이 성공적으로 저장되었습니다.');
         setTimeout(() => {
           handleWriteClick(false);
           setContent('');
@@ -206,10 +185,11 @@ export default function WriteCommentSlidingPanel({
       setIsLoading(false);
     }
   };
+
   return (
     <>
       {toast && (
-        <ToastPopup setToast={setToast} message={toastMsg} position="bottom" />
+        <ToastPopup setToast={setToast} message={toastMsg} position="middle" />
       )}
       <AnimatePresence>
         {isWriteMode && (
@@ -226,6 +206,9 @@ export default function WriteCommentSlidingPanel({
               transition={{ type: 'spring', damping: 30, stiffness: 300 }}
             >
               <PanelContent>
+                <CloseButton onClick={() => handleWriteClick(false)}>
+                  <X size={24} />
+                </CloseButton>
                 <Title>꽃내랑님의 칭찬요정이 되어주세요! 🥰</Title>
                 <StyledTextarea
                   placeholder="칭찬 댓글을 입력해주세요..."
@@ -247,7 +230,7 @@ export default function WriteCommentSlidingPanel({
                     욕설/비방 등은 동의없이 삭제될 수 있습니다.
                   </Item>
                 </Wrapper>
-                <Button>칭찬 댓글 저장</Button>
+                <Button onClick={save}>칭찬 댓글 저장</Button>
               </PanelContent>
             </Panel>
           </>

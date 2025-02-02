@@ -2,7 +2,7 @@ import styled, { keyframes } from 'styled-components';
 import { useEffect } from 'react';
 
 interface ToastWrapperProps {
-  $position: string;
+  $position?: string;
 }
 
 const slideInFromTop = keyframes`

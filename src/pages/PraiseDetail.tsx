@@ -36,11 +36,6 @@ const BackButton = styled.button`
   align-items: center;
 `;
 
-const Title = styled.h1`
-  font-size: 18px;
-  margin-left: 8px;
-`;
-
 const PostContainer = styled.article`
   padding: 20px;
   border-bottom: 1px solid #eee;
@@ -182,7 +177,7 @@ export default function PraiseDetail() {
     };
 
     fetchArticleDetail();
-  }, [postId]);
+  }, [postId, isWriteMode]);
   const handleWriteClick = async (isWriteMode: boolean) => {
     if (isWriteMode) {
       setBgColor('#4D4D4D');
@@ -195,6 +190,7 @@ export default function PraiseDetail() {
   const moveToListPage = () => {
     navigate('/home?userSocialId=' + nickname);
   };
+  console.log('articleDetail', articleDetail);
 
   const like = () => {};
   return (
@@ -208,9 +204,9 @@ export default function PraiseDetail() {
 
         <PostContainer>
           <PostHeader>
-            <PostTitle>{articleDetail?.userId}</PostTitle>
+            <PostTitle>{articleDetail?.userName}</PostTitle>
             <CommentActions
-              isOpen={postDropdownOpen}
+              isopen={postDropdownOpen ? 'true' : 'false'}
               setIsOpen={setPostDropdownOpen}
               type="post" // 타입 구분을 위해 추가
             />{' '}
@@ -225,14 +221,14 @@ export default function PraiseDetail() {
           {articleDetail?.replyList.map((comment) => (
             <CommentItem key={comment.id}>
               <CommentHeader>
-                <Nickname>{comment.userId}</Nickname>
+                <Nickname>{comment.userName}</Nickname>
                 <ActionButton>신고하기</ActionButton>
                 <PostDate>
                   {dayjs(comment.createdAt).format('YYYY.MM.DD')}
                 </PostDate>
 
                 <CommentActions
-                  isOpen={commentDropdowns[comment.id] || false}
+                  isopen={commentDropdowns[comment.id] ? 'true' : 'false'}
                   setIsOpen={() => toggleCommentDropdown(comment.id)}
                   type="comment" // 타입 구분을 위해 추가
                   commentId={comment.id}

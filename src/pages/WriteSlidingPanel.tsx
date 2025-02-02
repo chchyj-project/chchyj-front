@@ -5,7 +5,8 @@ import { useState } from 'react';
 import { X } from 'lucide-react';
 import ToastPopup from '../components/ToastPopup.tsx';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom'; // X 아이콘 추가
+import { useNavigate } from 'react-router-dom';
+import { CloseButton } from '../style/commonStyle.ts'; // X 아이콘 추가
 
 const Button = styled.button`
   background-color: #60c3fb;
@@ -102,24 +103,6 @@ const Overlay = styled(motion.div)`
 //   text-decoration: underline; /* 밑줄 적용 */
 //   color: #5478f6; /* 밑줄 텍스트 색상 */
 // `;
-const CloseButton = styled.button`
-  position: absolute;
-  top: 20px;
-  right: 20px;
-  background: none;
-  border: none;
-  cursor: pointer;
-  padding: 8px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #404040;
-
-  &:hover {
-    background-color: rgba(0, 0, 0, 0.05);
-    border-radius: 50%;
-  }
-`;
 
 interface ArticleResponse {
   id: number;

@@ -51,23 +51,6 @@ const Title = styled.h1`
   font-weight: bold;
 `;
 
-const NotificationBadge = styled.div`
-  position: relative;
-  display: flex;
-  align-items: center;
-`;
-
-const Badge = styled.span`
-  position: absolute;
-  top: -8px;
-  right: -8px;
-  background: #87ceeb;
-  color: white;
-  border-radius: 50%;
-  padding: 2px 6px;
-  font-size: 12px;
-`;
-
 const Subtitle = styled.p`
   color: #666;
   font-size: 14px;
@@ -174,10 +157,6 @@ export default function Profile() {
             <Title>꽃내랑</Title>
             <EditButton>편집하기</EditButton>
           </TitleWrapper>
-          <NotificationBadge>
-            <Bell size={24} />
-            <Badge>12</Badge>
-          </NotificationBadge>
         </ProfileHeader>
         <Subtitle>창천요정이 되신지 333일이 되었어요~</Subtitle>
 

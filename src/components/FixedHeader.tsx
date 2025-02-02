@@ -28,7 +28,6 @@ const HeaderContainer = styled.header<ContainerProps>`
   max-width: 768px;
   height: 60px;
   margin: 0 auto;
-
   color: #111111;
   display: flex;
   align-items: center;
@@ -72,20 +71,6 @@ const Nickname = styled.button`
   cursor: pointer;
 `;
 
-const Alarm = styled.div`
-  background: #60c3fb;
-  border-radius: 16px;
-  width: 18px;
-  font-size: 12px;
-  line-height: 14px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #ffffff;
-  font-weight: 600;
-  margin-left: 8px;
-`;
-
 interface FixedHeaderProps {
   bgColor: string;
 }
@@ -119,9 +104,6 @@ const FixedHeader = ({ bgColor }: FixedHeaderProps) => {
                 <img src={FilledHeart} alt={'filled_heart'} />
               </div>
               <Nickname>{nickname}</Nickname>
-              <Alarm>
-                <span style={{ display: 'block' }}>17</span>
-              </Alarm>
             </NicknameWrapper>
           )}
         </HeaderContainer>
