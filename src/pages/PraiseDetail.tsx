@@ -210,6 +210,8 @@ export default function PraiseDetail() {
   };
   // 수정 모드 진입 시 현재 내용을 state에 설정
   const handleEdit = () => {
+    setOpenDropdownId(-1);
+
     setIsEditing(true);
     setEditContent(articleDetail?.content || '');
   };
@@ -278,6 +280,7 @@ export default function PraiseDetail() {
   console.log('articleDetail', articleDetail);
 
   const handleDelete = async (replyId: number) => {
+    setOpenDropdownId(-1);
     // 삭제 로직
     if (openDropdownId) {
       // 칭찬 게시글 삭제
