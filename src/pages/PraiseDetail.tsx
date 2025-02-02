@@ -14,6 +14,7 @@ import WriteCommentSlidingPanel from './WriteCommentSlidingPanel.tsx';
 import Siren from '../images/siren.png';
 import { Icon } from '../style/MainPage.ts';
 import ToastPopup from '../components/ToastPopup.tsx';
+import { useReportModalStore } from '../store/reportModalStore.ts';
 
 interface UpdateArticleResponse {
   content: string;
@@ -198,7 +199,15 @@ export default function PraiseDetail() {
   const [toast, setToast] = useState<boolean>(false);
   const [isEditing, setIsEditing] = useState(false);
   const [editContent, setEditContent] = useState('');
+  const { openReportModal } = useReportModalStore();
 
+  const handleReportClick = (
+    content: string,
+    id: number,
+    type: 'post' | 'comment',
+  ) => {
+    openReportModal(content, id, type);
+  };
   // 수정 모드 진입 시 현재 내용을 state에 설정
   const handleEdit = () => {
     setIsEditing(true);
@@ -392,7 +401,13 @@ export default function PraiseDetail() {
               <CommentHeader>
                 <Nickname>{comment.userName}</Nickname>
                 <Icon src={Siren} size={'12px'} />
-                <ActionButton>신고하기</ActionButton>
+                <ActionButton
+                  onClick={() =>
+                    handleReportClick(comment.content, comment.id, 'comment')
+                  }
+                >
+                  신고하기
+                </ActionButton>
 
                 <CommentActions
                   isopen={openDropdownId === comment.id ? 'true' : 'false'}

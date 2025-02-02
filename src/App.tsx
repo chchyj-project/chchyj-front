@@ -7,6 +7,7 @@ import LoginCallback from './pages/Login/LoginCallback.tsx';
 import SetNickName from './pages/Login/SetNickName.tsx';
 import PraiseDetail from './pages/PraiseDetail.tsx';
 import Profile from './pages/Profile.tsx';
+import ReportModal from './components/ReportModal.tsx';
 
 const AppWrap = styled.div`
   width: 100%;
@@ -20,6 +21,8 @@ const App = () => {
     <BrowserRouter>
       <AppWrap>
         <GlobalStyle />
+        <ReportModal />
+
         <Routes>
           <Route path="*" element={<Navigate replace to="/login" />} />
           <Route path="/home" element={<Home />} />

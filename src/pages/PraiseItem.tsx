@@ -12,6 +12,7 @@ import { axiosInstance } from '../api/axiosConfig.ts';
 import axios from 'axios';
 import { useApiError } from '../hooks/useApiError.ts';
 import ToastPopup from '../components/ToastPopup.tsx';
+import { useReportModalStore } from '../store/reportModalStore.ts';
 
 const Container = styled.div<ContainerProps>`
   margin-bottom: ${(props) => (props.$islast ? '0px' : '8px')};
@@ -58,6 +59,7 @@ const WritingCommentWrapper = styled.div`
   font-size: 12px;
   color: ${styleToken.color.secondary};
   cursor: pointer;
+
   svg {
     margin-right: 4px;
   }
@@ -86,19 +88,25 @@ const PraiseItem = ({
   const navigate = useNavigate();
   const [toastMessage, setToastMessage] = useState<string>('');
 
-  console.log('article>>', article);
   const toggleCommentBox = () => {
     setIsCommentOpen(!isCommentOpen);
   };
   const { toast, toastMsg, setToast, handleApiError } = useApiError();
 
   const createdAt = dayjs(article.createdAt);
+  const { openReportModal } = useReportModalStore();
 
+  const handleReportClick = (
+    content: string,
+    id: number,
+    type: 'post' | 'comment',
+  ) => {
+    openReportModal(content, id, type);
+  };
   const moveToDetail = () => {
     navigate(`/post/${article.id}`);
   };
 
-  console.log('article>>', article);
   const abuse = async () => {
     try {
       const result = await axiosInstance.post<any>('/abuse', {
@@ -106,8 +114,6 @@ const PraiseItem = ({
         id: Number(article.id),
         type: '',
       });
-
-      console.log('result-=-->', result);
 
       if (result.status === 201 || result.status === 200) {
         // 성공적으로 저장됨
@@ -122,8 +128,6 @@ const PraiseItem = ({
     }
   };
 
-  const openAbuseModal = () => {};
-
   return (
     <>
       {toast && (
@@ -137,7 +141,11 @@ const PraiseItem = ({
         <Header>
           <TitleWrapper>
             <Title>{article.userName}</Title>
-            <AddtionalWrapper onClick={openAbuseModal}>
+            <AddtionalWrapper
+              onClick={() =>
+                handleReportClick(article.content, article.id, 'comment')
+              }
+            >
               <Icon src={Siren} size={'12px'} />
               신고하기
             </AddtionalWrapper>
