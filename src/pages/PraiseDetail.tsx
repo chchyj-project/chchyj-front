@@ -1,9 +1,15 @@
 import styled from 'styled-components';
-import { ChevronLeft, MoreVertical } from 'lucide-react';
+import { ChevronLeft, MoreVertical, Heart } from 'lucide-react';
 import Common from '../style/Common.ts';
 import styleToken from '../style/styleToken.ts';
 import { useNavigate } from 'react-router-dom';
 import { mockPost } from '../data/mockData/praiseDetail.ts';
+import { useEffect, useState } from 'react';
+import { ArticleDetail } from '../types/PraiseItem.ts';
+import { axiosInstance } from '../api/axiosConfig.ts';
+import { useParams } from 'react-router-dom';
+import { RowFlexBetween } from '../style/commonStyle.ts';
+import CommentActions from '../components/CommentActions.tsx';
 
 const Container = styled.div`
   max-width: 768px;
@@ -67,16 +73,18 @@ const CommentItem = styled.div`
 `;
 
 const CommentHeader = styled.div`
-  //display: flex;
-  //align-items: center;
+  display: flex;
+  align-items: center; // 세로 중앙 정렬
+  gap: 8px; // 요소들 사이의 간격
   margin-bottom: 8px;
 `;
 
-const Nickname = styled.span`
+const Nickname = styled.div`
   font-size: 14px;
   color: #333;
-  margin-right: auto;
   font-weight: bolder;
+  display: flex;
+  align-items: center;
 `;
 
 const ActionButton = styled.button`
@@ -86,6 +94,7 @@ const ActionButton = styled.button`
   cursor: pointer;
   font-size: 12px;
   color: #999;
+  margin-right: auto; // 이 버튼 이후의 공간을 자동으로 채움
 `;
 
 const CommentContent = styled.p`
@@ -95,22 +104,17 @@ const CommentContent = styled.p`
   margin-bottom: 8px;
 `;
 
-const CommentActions = styled.div`
-  display: flex;
-  gap: 16px;
-`;
-
-const LikeButton = styled.button`
-  background: none;
-  border: none;
-  padding: 0;
-  font-size: 12px;
-  color: #999;
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  cursor: pointer;
-`;
+// const LikeButton = styled.button`
+//   background: none;
+//   border: none;
+//   padding: 0;
+//   font-size: 12px;
+//   color: #999;
+//   display: flex;
+//   align-items: center;
+//   gap: 4px;
+//   cursor: pointer;
+// `;
 
 const BottomButtonWrapper = styled.div`
   position: fixed;
@@ -145,48 +149,82 @@ const MenuButton = styled.button`
   right: 0;
   background: none;
   border: none;
-  padding: 4px;
+  padding: 4px 0;
   cursor: pointer;
   color: #999;
+`;
+
+const LikeButton = styled.button`
+  padding-right: 2px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `;
 
 export default function PraiseDetail() {
   const navigate = useNavigate();
   const nickname = localStorage.getItem('nickname');
+  const { postId } = useParams();
+  const [isOpen, setIsOpen] = useState(false);
+
+  const [articleDetail, setArticleDetail] = useState<ArticleDetail | null>(
+    null,
+  );
+  useEffect(() => {
+    const fetchArticleDetail = async () => {
+      try {
+        const { data } = await axiosInstance.get(`/articles/${postId}`);
+        setArticleDetail(data);
+      } catch (error) {
+        console.error('상세 조회 중 에러 발생:', error);
+      }
+    };
+
+    fetchArticleDetail();
+  }, [postId]);
+
   const moveToListPage = () => {
     navigate('/home?userSocialId=' + nickname);
   };
 
+  const like = () => {};
   return (
     <Container>
       <Header>
         <BackButton onClick={moveToListPage}>
           <ChevronLeft size={24} />
         </BackButton>
-        <Title>꽃네랑</Title>
       </Header>
 
       <PostContainer>
-        <PostTitle>{mockPost.title}</PostTitle>
-        <PostContent>{mockPost.content}</PostContent>
-        <PostDate>{mockPost.createdAt}</PostDate>
+        <PostTitle>{articleDetail?.userId}</PostTitle>
+        <PostContent>{articleDetail?.content}</PostContent>
+        <PostDate>{articleDetail?.createdAt}</PostDate>
       </PostContainer>
 
       <CommentSection>
-        {mockPost.comments.map((comment) => (
+        {articleDetail?.replyList.map((comment) => (
           <CommentItem key={comment.id}>
-            <MenuButton>
-              <MoreVertical size={16} />
-            </MenuButton>
             <CommentHeader>
-              <Nickname>{comment.nickname}</Nickname>
+              <Nickname>{comment.userId}</Nickname>
               <ActionButton>신고하기</ActionButton>
+              <CommentActions setIsOpen={setIsOpen} isOpen={isOpen} />
             </CommentHeader>
-            <CommentContent>{comment.content}</CommentContent>
-            <LikeButton>
-              <span>♡</span>
-              {comment.likes > 0 && <span>{comment.likes}</span>}
-            </LikeButton>
+            <RowFlexBetween>
+              <CommentContent>{comment.content}</CommentContent>
+              <LikeButton onClick={like}>
+                <Heart
+                  fill={comment.isLike ? '#87CEEB' : 'none'}
+                  color="#87CEEB"
+                  size={12}
+                  className="cursor-pointer"
+                  // 클릭 가능함을 표시
+                />
+              </LikeButton>
+            </RowFlexBetween>
           </CommentItem>
         ))}
       </CommentSection>

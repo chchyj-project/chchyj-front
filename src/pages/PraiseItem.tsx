@@ -9,6 +9,8 @@ import { AddtionalWrapper, Icon, TitleWrapper } from '../style/MainPage.ts';
 import { Article, ContainerProps } from '../types/MainPage.ts';
 import dayjs from 'dayjs';
 import { useNavigate } from 'react-router-dom';
+import { axiosInstance } from '../api/axiosConfig.ts';
+import { ArticleDetail } from '../types/PraiseItem.ts';
 
 const Container = styled.div<ContainerProps>`
   margin-bottom: ${(props) => (props.$islast ? '0px' : '8px')};
@@ -83,36 +85,12 @@ const PraiseItem = ({
   const [isCommentOpen, setIsCommentOpen] = useState<boolean>(false);
   const navigate = useNavigate();
 
-  useEffect(() => {}, [article.id]);
-
   console.log('article>>', article);
 
   const toggleCommentBox = () => {
     setIsCommentOpen(!isCommentOpen);
   };
 
-  const commentMockData = [
-    {
-      commenterId: 'nickname',
-      content: '†jdtlfgl xc',
-      date: '2023.06.20',
-      likeCount: 2,
-    },
-    {
-      commenterId: 'nickname',
-      content:
-        'you are so sincere!! i respect you and cheer you you are so sincere!! i respect you and cheer you',
-      date: '2023.06.20',
-      likeCount: 2,
-    },
-    {
-      commenterId: 'nickname',
-      content:
-        'you are so sincere!! i respect you and you are so sincere!! i respect you and cheer you',
-      date: '2023.06.20',
-      likeCount: 2,
-    },
-  ];
   const createdAt = dayjs(article.createdAt);
 
   const moveToDetail = () => {
@@ -141,20 +119,6 @@ const PraiseItem = ({
           칭찬댓글 달기
         </WritingCommentWrapper>
       </RowFlexBetween>
-      {isCommentOpen && (
-        <CommentContainer>
-          <StartGreyLine />
-          {commentMockData.slice(0, 2).map((item, index) => (
-            <Comment
-              commenterId={item.commenterId}
-              content={item.content}
-              likeCount={item.likeCount}
-              isFirst={index === 0}
-              islast={index === commentMockData.length - 1}
-            />
-          ))}
-        </CommentContainer>
-      )}
     </Container>
   );
 };
