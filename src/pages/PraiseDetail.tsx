@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { ChevronLeft, MoreVertical, Heart } from 'lucide-react';
+import { ChevronLeft, Heart } from 'lucide-react';
 import Common from '../style/Common.ts';
 import styleToken from '../style/styleToken.ts';
 import { useNavigate } from 'react-router-dom';
@@ -10,6 +10,7 @@ import { useParams } from 'react-router-dom';
 import { RowFlexBetween } from '../style/commonStyle.ts';
 import CommentActions from '../components/CommentActions.tsx';
 import dayjs from 'dayjs';
+import WriteCommentSlidingPanel from './WriteCommentSlidingPanel.tsx';
 
 const Container = styled.div`
   max-width: 768px;
@@ -151,6 +152,9 @@ export default function PraiseDetail() {
   const navigate = useNavigate();
   const nickname = localStorage.getItem('nickname');
   const { postId } = useParams();
+  const [isWriteMode, setWriteMode] = useState(false);
+  const [bgColor, setBgColor] = useState<string>('white');
+
   // PraiseDetail 컴포넌트 내부
   const [postDropdownOpen, setPostDropdownOpen] = useState(false);
   const [commentDropdowns, setCommentDropdowns] = useState<{
@@ -179,6 +183,14 @@ export default function PraiseDetail() {
 
     fetchArticleDetail();
   }, [postId]);
+  const handleWriteClick = async (isWriteMode: boolean) => {
+    if (isWriteMode) {
+      setBgColor('#4D4D4D');
+    } else {
+      setBgColor('white');
+    }
+    setWriteMode(isWriteMode);
+  };
 
   const moveToListPage = () => {
     navigate('/home?userSocialId=' + nickname);
@@ -186,63 +198,75 @@ export default function PraiseDetail() {
 
   const like = () => {};
   return (
-    <Container>
-      <Header>
-        <BackButton onClick={moveToListPage}>
-          <ChevronLeft size={24} />
-        </BackButton>
-      </Header>
+    <>
+      <Container>
+        <Header>
+          <BackButton onClick={moveToListPage}>
+            <ChevronLeft size={24} />
+          </BackButton>
+        </Header>
 
-      <PostContainer>
-        <PostHeader>
-          <PostTitle>{articleDetail?.userId}</PostTitle>
-          <CommentActions
-            isOpen={postDropdownOpen}
-            setIsOpen={setPostDropdownOpen}
-            type="post" // 타입 구분을 위해 추가
-          />{' '}
-        </PostHeader>
-        <PostContent>{articleDetail?.content}</PostContent>
-        <PostDate>
-          {dayjs(articleDetail?.createdAt).format('YYYY.MM.DD')}
-        </PostDate>
-      </PostContainer>
+        <PostContainer>
+          <PostHeader>
+            <PostTitle>{articleDetail?.userId}</PostTitle>
+            <CommentActions
+              isOpen={postDropdownOpen}
+              setIsOpen={setPostDropdownOpen}
+              type="post" // 타입 구분을 위해 추가
+            />{' '}
+          </PostHeader>
+          <PostContent>{articleDetail?.content}</PostContent>
+          <PostDate>
+            {dayjs(articleDetail?.createdAt).format('YYYY.MM.DD')}
+          </PostDate>
+        </PostContainer>
 
-      <CommentSection>
-        {articleDetail?.replyList.map((comment) => (
-          <CommentItem key={comment.id}>
-            <CommentHeader>
-              <Nickname>{comment.userId}</Nickname>
-              <ActionButton>신고하기</ActionButton>
-              <PostDate>
-                {dayjs(comment.createdAt).format('YYYY.MM.DD')}
-              </PostDate>
+        <CommentSection>
+          {articleDetail?.replyList.map((comment) => (
+            <CommentItem key={comment.id}>
+              <CommentHeader>
+                <Nickname>{comment.userId}</Nickname>
+                <ActionButton>신고하기</ActionButton>
+                <PostDate>
+                  {dayjs(comment.createdAt).format('YYYY.MM.DD')}
+                </PostDate>
 
-              <CommentActions
-                isOpen={commentDropdowns[comment.id] || false}
-                setIsOpen={() => toggleCommentDropdown(comment.id)}
-                type="comment" // 타입 구분을 위해 추가
-                commentId={comment.id}
-              />
-            </CommentHeader>
-            <RowFlexBetween>
-              <CommentContent>{comment.content}</CommentContent>
-              <LikeButton onClick={like}>
-                <Heart
-                  fill={comment.isLike ? '#87CEEB' : 'none'}
-                  color="#87CEEB"
-                  size={12}
-                  className="cursor-pointer"
+                <CommentActions
+                  isOpen={commentDropdowns[comment.id] || false}
+                  setIsOpen={() => toggleCommentDropdown(comment.id)}
+                  type="comment" // 타입 구분을 위해 추가
+                  commentId={comment.id}
                 />
-              </LikeButton>
-            </RowFlexBetween>
-          </CommentItem>
-        ))}
-      </CommentSection>
+              </CommentHeader>
+              <RowFlexBetween>
+                <CommentContent>{comment.content}</CommentContent>
+                <LikeButton onClick={like}>
+                  <Heart
+                    fill={comment.isLike ? '#87CEEB' : 'none'}
+                    color="#87CEEB"
+                    size={12}
+                    className="cursor-pointer"
+                  />
+                </LikeButton>
+              </RowFlexBetween>
+            </CommentItem>
+          ))}
+        </CommentSection>
 
-      <BottomButtonWrapper>
-        <BottomButton>칭찬 댓글 달기</BottomButton>
-      </BottomButtonWrapper>
-    </Container>
+        {!isWriteMode && (
+          <BottomButtonWrapper>
+            <BottomButton onClick={() => handleWriteClick(true)}>
+              칭찬 댓글 달기
+            </BottomButton>
+          </BottomButtonWrapper>
+        )}
+      </Container>
+      {isWriteMode && (
+        <WriteCommentSlidingPanel
+          isWriteMode={isWriteMode}
+          handleWriteClick={handleWriteClick}
+        />
+      )}
+    </>
   );
 }

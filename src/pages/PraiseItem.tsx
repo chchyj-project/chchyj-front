@@ -94,11 +94,13 @@ const PraiseItem = ({
     navigate(`/post/${article.id}`);
   };
 
+  console.log('article>>', article);
+
   return (
     <Container $islast={islast && !isCommentOpen}>
       <Header>
         <TitleWrapper>
-          <Title>{article.userId}</Title>
+          <Title>{article.userName}</Title>
           <AddtionalWrapper>
             <Icon src={Siren} size={'12px'} />
             신고하기

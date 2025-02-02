@@ -1,6 +1,10 @@
 import styled, { keyframes } from 'styled-components';
 import { useEffect } from 'react';
 
+interface ToastWrapperProps {
+  $position: string;
+}
+
 const slideInFromTop = keyframes`
   from {
     transform: translateY(-100%);
@@ -34,7 +38,7 @@ const ToastContainer = styled.div`
   z-index: 20;
 `;
 
-const ToastWrapper = styled.div`
+const ToastWrapper = styled.div<ToastWrapperProps>`
   position: relative; // fixed에서 relative로 변경
   display: flex;
   height: 4rem;

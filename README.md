@@ -1,51 +1,126 @@
-# React + TypeScript + Vite
+프론트엔드 프로젝트의 README.md를 작성해드리겠습니다:
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+```markdown
+# 칭찬요정 프론트엔드
 
-Currently, two official plugins are available:
+칭찬요정은 서로의 장점을 발견하고 칭찬하며, 긍정적인 소통을 만들어가는 커뮤니티 서비스입니다.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 기술 스택
 
-## Expanding the ESLint configuration
+- React 18
+- TypeScript
+- Vite
+- Styled Components
+- Framer Motion
+- Axios
+- React Router DOM
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+## 시작하기
 
-- Configure the top-level `parserOptions` property like this:
+### 실행 조건
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
+- Node.js 16.0.0 이상
+- pnpm 8.0.0 이상
+
+### 환경 설정
+
+1. 프로젝트를 클론합니다.
+```bash
+git clone [repository-url]
+cd [project-name]
+```
+
+2. 환경 변수 파일을 생성합니다.
+```bash
+cp .env.example .env
+```
+
+3. .env 파일을 수정하여 필요한 환경변수를 설정합니다.
+```env
+VITE_API_URL=http://localhost:3000
+```
+
+### 설치 및 실행
+
+1. 의존성을 설치합니다.
+```bash
+pnpm install
+```
+
+2. 개발 서버를 실행합니다.
+```bash
+pnpm dev
+```
+
+3. 브라우저에서 `http://localhost:3000`으로 접속합니다.
+
+## 빌드
+
+프로덕션 빌드를 생성하려면:
+```bash
+pnpm build
+```
+
+빌드된 결과물을 미리보려면:
+```bash
+pnpm preview
+```
+
+## 개발 서버 설정
+
+`vite.config.ts`에서 다음과 같이 설정되어 있습니다:
+```typescript
+export default defineConfig({
+  plugins: [react()],
+  server: {
+    host: true, // 로컬 IP로 접근 가능
+    port: 3000,
   },
 })
 ```
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+## 프로젝트 구조
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
-
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
 ```
-# chchyj-front
+src/
+├── api/          # API 관련 설정 및 호출
+├── components/   # 재사용 가능한 컴포넌트
+├── pages/        # 페이지 컴포넌트
+├── hooks/        # 커스텀 훅
+├── store/        # 상태 관리
+├── styles/       # 전역 스타일 및 테마
+├── types/        # TypeScript 타입 정의
+└── utils/        # 유틸리티 함수
+```
+
+## 스크립트
+
+- `pnpm dev`: 개발 서버 실행
+- `pnpm build`: 프로덕션 빌드
+- `pnpm preview`: 빌드된 결과물 미리보기
+- `pnpm lint`: ESLint 검사
+- `pnpm format`: Prettier로 코드 포맷팅
+
+## 기여하기
+
+1. 이슈를 생성합니다
+2. 새로운 브랜치를 생성합니다 (`git checkout -b feature/amazing-feature`)
+3. 변경사항을 커밋합니다 (`git commit -m 'feat: Add amazing feature'`)
+4. 브랜치에 푸시합니다 (`git push origin feature/amazing-feature`)
+5. Pull Request를 생성합니다
+
+## 라이선스
+
+이 프로젝트는 [LICENSE] 라이선스 하에 배포됩니다.
+```
+
+이 README는:
+1. 프로젝트 개요
+2. 기술 스택
+3. 설치 및 실행 방법
+4. 프로젝트 구조
+5. 개발 스크립트
+6. 기여 방법
+등을 포함하고 있습니다.
+
+필요에 따라 내용을 추가하거나 수정하실 수 있습니다.

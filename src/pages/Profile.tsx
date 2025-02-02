@@ -124,6 +124,39 @@ const MenuIcon = styled.span`
   align-items: center;
 `;
 
+const TitleWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 8px;
+`;
+
+const EditButton = styled.button`
+  display: flex;
+  align-items: center;
+  background: none;
+  border: none;
+  color: #666;
+  font-size: 14px;
+  cursor: pointer;
+  padding: 4px 8px;
+`;
+
+const MenuItemContent = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+`;
+
+const NewCommentBadge = styled.span`
+  background-color: #e8f4f9;
+  color: #87ceeb;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  white-space: nowrap;
+`;
+
 export default function Profile() {
   const navigate = useNavigate();
 
@@ -137,7 +170,10 @@ export default function Profile() {
 
       <ProfileSection>
         <ProfileHeader>
-          <Title>꽃내랑</Title>
+          <TitleWrapper>
+            <Title>꽃내랑</Title>
+            <EditButton>편집하기</EditButton>
+          </TitleWrapper>
           <NotificationBadge>
             <Bell size={24} />
             <Badge>12</Badge>
@@ -162,16 +198,25 @@ export default function Profile() {
 
         <MenuList>
           <MenuItem>
-            <MenuIcon>
-              <Folder size={20} />
-            </MenuIcon>
-            내 칭찬글 모아보기
+            <MenuItemContent>
+              <div style={{ display: 'flex', alignItems: 'center' }}>
+                <MenuIcon>
+                  <Folder size={20} />
+                </MenuIcon>
+                내 칭찬글 모아보기
+              </div>
+              <NewCommentBadge>새로운 칭찬댓글 1개</NewCommentBadge>
+            </MenuItemContent>
           </MenuItem>
           <MenuItem>
-            <MenuIcon>
-              <SmileIcon size={20} />
-            </MenuIcon>
-            내가 쓴 칭찬댓글 모아보기
+            <MenuItemContent>
+              <div style={{ display: 'flex', alignItems: 'center' }}>
+                <MenuIcon>
+                  <SmileIcon size={20} />
+                </MenuIcon>
+                내가 쓴 칭찬댓글 모아보기
+              </div>
+            </MenuItemContent>
           </MenuItem>
           <MenuItem>
             <MenuIcon>

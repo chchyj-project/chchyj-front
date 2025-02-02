@@ -105,8 +105,6 @@ const ListGap = styled.div`
 `;
 
 const Home = () => {
-  console.log('homePage');
-  const array = ['2', '3', '4', '5', '6'];
   const [articles, setArticles] = useState<Article[]>([]);
   const [isWriteMode, setWriteMode] = useState(false);
   const [bgColor, setBgColor] = useState<string>('white');
@@ -115,7 +113,6 @@ const Home = () => {
   useEffect(() => {
     const storedNickname = localStorage.getItem('nickname'); // Renamed for clarity
     setNickname(storedNickname); // Updated to use React state setter
-    console.log('nickname', storedNickname);
   }, []);
 
   useEffect(() => {
@@ -126,15 +123,12 @@ const Home = () => {
         params: { limit: 10, offset: 0 },
       });
       setArticles(response.data.list);
-      console.log('response', response);
       // }
     };
     fetchArticles();
   }, []);
 
   const handleWriteClick = async (isWriteMode: boolean) => {
-    console.log('write click');
-    //
     if (isWriteMode) {
       setBgColor('#4D4D4D');
     } else {
@@ -169,10 +163,10 @@ const Home = () => {
                     <PraiseItem
                       key={idx}
                       index={idx}
-                      islast={idx === array.length - 1}
+                      islast={idx === articles.length - 1}
                       article={item}
                     />
-                    {idx !== array.length - 1 && <ListGap />}
+                    {idx !== articles.length - 1 && <ListGap />}
                   </>
                 );
               })}

@@ -2,7 +2,11 @@ import { AxiosResponse } from 'axios';
 import { axiosInstance } from './axiosConfig';
 import { ACCESS_TOKEN_NAME, USER_NAME } from '../constant/constant.ts';
 // eslint-disable-next-line no-debugger
-
+// 먼저 응답 타입을 정의합니다
+interface UserInfoResponse {
+  nickname: string;
+  // 다른 사용자 정보 필드들도 필요하다면 여기에 추가
+}
 export type KakaoLoginReturnType = {
   isNewUser: boolean;
   userSocialId?: number;
@@ -29,28 +33,15 @@ class AuthService {
   }
 
   async kakaoLogin(code: string, redirectUri: string) {
-    console.log(
-      'kakaoLogin called with code:',
-      code,
-      'redirectUri:',
-      redirectUri,
-    );
     try {
       const response = await this.executeKakao<KakaoLoginReturnType>({
         code,
         redirectUri,
       });
 
-      console.log('response>>', response);
-
       const { isNewUser, accessToken } = response.data;
-      console.log('Parsed response>>', {
-        isNewUser,
-        accessToken,
-      });
 
       if (typeof accessToken === 'string') {
-        console.log('accessToken>>>', accessToken);
         localStorage.setItem(ACCESS_TOKEN_NAME, accessToken);
       }
 
@@ -60,13 +51,11 @@ class AuthService {
         try {
           const nickNmRes = await this.getUserInfo();
           const { nickname: nicknameVal } = nickNmRes;
-          console.log('getUserInfo response:', nicknameVal); // 응답 전체 구조 확인
 
           if (nickNmRes && nicknameVal) {
             const nickname = nicknameVal;
-            console.log('Received nickname:', nickname);
 
-            if (typeof nickname === 'string' && nickname.length > 0) {
+            if (nickname.length > 0) {
               localStorage.setItem('nickname', nickname);
               window.location.href = `/home?userSocialId=${encodeURIComponent(nickname)}`;
             } else {
@@ -113,7 +102,7 @@ class AuthService {
     }
   }
 
-  private async getUserInfo(): Promise<AxiosResponse<any, any>> {
+  private async getUserInfo(): Promise<UserInfoResponse> {
     try {
       // Axios 요청을 await하여 결과를 기다립니다.
       const result = await axiosInstance.get('/users/me');
