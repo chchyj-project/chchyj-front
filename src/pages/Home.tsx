@@ -12,6 +12,7 @@ import { Article, ArticleResponse } from '../types/MainPage.ts';
 import { PageContainer, Subtitle, TitleStyle } from '../style/MainPage.ts';
 import Footer from './Footer.tsx';
 import WriteSlidingPanel from './WriteSlidingPanel.tsx';
+import RecentComments from '../components/RecentComments.tsx';
 
 const PraiseCard = styled.div`
   background-color: ${styleToken.color.primary};
@@ -155,7 +156,7 @@ const Home = () => {
                 <Icon src={Logo} alt="logo" />
               </ContentWrapper>
             </PraiseCard>
-
+            <RecentComments />
             <PraiseList>
               {articles.map((item, idx) => {
                 return (

@@ -33,6 +33,7 @@ export const PageContainer = styled.div`
   background-color: white;
   //width: 100vw;
   overflow-x: hidden;
+
   box-sizing: border-box;
 `;
 

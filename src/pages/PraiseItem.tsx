@@ -103,6 +103,7 @@ const PraiseItem = ({
   ) => {
     openReportModal(content, id, type);
   };
+
   const moveToDetail = () => {
     navigate(`/post/${article.id}`);
   };
@@ -140,7 +141,7 @@ const PraiseItem = ({
       <Container $islast={islast && !isCommentOpen}>
         <Header>
           <TitleWrapper>
-            <Title>{article.userName}</Title>
+            <Title>{article.nickname}</Title>
             <AddtionalWrapper
               onClick={() =>
                 handleReportClick(article.content, article.id, 'comment')

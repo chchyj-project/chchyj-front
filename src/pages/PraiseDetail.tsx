@@ -208,6 +208,8 @@ export default function PraiseDetail() {
   ) => {
     openReportModal(content, id, type);
   };
+
+  const loggedInNickname = localStorage.getItem('nickname');
   // 수정 모드 진입 시 현재 내용을 state에 설정
   const handleEdit = () => {
     setOpenDropdownId(-1);
@@ -250,6 +252,7 @@ export default function PraiseDetail() {
   const fetchArticleDetail = async () => {
     try {
       const { data } = await axiosInstance.get(`/articles/${postId}`);
+      console.log('상세글>>', data);
       setArticleDetail(data);
     } catch (error) {
       console.error('상세 조회 중 에러 발생:', error);
@@ -344,7 +347,12 @@ export default function PraiseDetail() {
     }
   };
 
-  const like = () => {};
+  const like = async (commentId: number) => {
+    const result = await axiosInstance.post<any>(`/replies/${commentId}/like`);
+    console.log('좋아요 결과>>', result);
+    if (result.status === 201 || result.status === 200) {
+    }
+  };
   return (
     <>
       {toast && (
@@ -359,8 +367,8 @@ export default function PraiseDetail() {
 
         <PostContainer>
           <PostHeader>
-            <PostTitle>{articleDetail?.userName}</PostTitle>
-            {!isEditing && (
+            <PostTitle>{articleDetail?.nickname}</PostTitle>
+            {articleDetail?.nickname == loggedInNickname && !isEditing && (
               <CommentActions
                 isopen={openDropdownId === 0 ? 'true' : 'false'}
                 setIsOpen={() => handleDropdownToggle(0)}
@@ -402,7 +410,7 @@ export default function PraiseDetail() {
           {articleDetail?.replyList.map((comment) => (
             <CommentItem key={comment.id}>
               <CommentHeader>
-                <Nickname>{comment.userName}</Nickname>
+                <Nickname>{comment.nickname}</Nickname>
                 <Icon src={Siren} size={'12px'} />
                 <ActionButton
                   onClick={() =>
@@ -412,17 +420,19 @@ export default function PraiseDetail() {
                   신고하기
                 </ActionButton>
 
-                <CommentActions
-                  isopen={openDropdownId === comment.id ? 'true' : 'false'}
-                  setIsOpen={() => handleDropdownToggle(comment.id)}
-                  type="comment" // 타입 구분을 위해 추가
-                  commentId={comment.id}
-                  handleDelete={handleDelete}
-                />
+                {comment.canDelete && (
+                  <CommentActions
+                    isopen={openDropdownId === comment.id ? 'true' : 'false'}
+                    setIsOpen={() => handleDropdownToggle(comment.id)}
+                    type="comment" // 타입 구분을 위해 추가
+                    commentId={comment.id}
+                    handleDelete={handleDelete}
+                  />
+                )}
               </CommentHeader>
               <RowFlexBetween>
                 <CommentContent>{comment.content}</CommentContent>
-                <LikeButton onClick={like}>
+                <LikeButton onClick={() => like(comment.id)}>
                   <Heart
                     fill={comment.isLike ? '#87CEEB' : 'none'}
                     color="#87CEEB"

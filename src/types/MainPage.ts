@@ -14,7 +14,7 @@ export type Article = {
   createdAt: string;
   id: number;
   userId: number;
-  userName: string;
+  nickname: string;
 };
 
 export type PageInfo = {

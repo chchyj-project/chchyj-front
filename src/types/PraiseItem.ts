@@ -2,16 +2,17 @@ export type Reply = {
   id: number;
   createdAt: string;
   userId: number;
-  userName: string;
+  nickname: string;
   content: string;
   isLike: boolean;
+  canDelete: boolean;
 };
 
 export type ArticleDetail = {
   id: number;
   createdAt: string;
   userId: number;
-  userName: string;
+  nickname: string;
   content: string;
   replyList: Reply[];
 };
