@@ -22,6 +22,7 @@ class AuthService {
 
   logout() {
     localStorage.removeItem(ACCESS_TOKEN_NAME);
+    localStorage.removeItem('nickname');
   }
 
   isUserLogin() {
@@ -57,6 +58,7 @@ class AuthService {
 
             if (nickname.length > 0) {
               localStorage.setItem('nickname', nickname);
+              localStorage.setItem('userId', '');
               window.location.href = `/home?userSocialId=${encodeURIComponent(nickname)}`;
             } else {
               console.error('Invalid nickname format:', nickname);

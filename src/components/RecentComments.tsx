@@ -23,10 +23,19 @@ const StyledSlider = styled(Slider)`
   .slick-slide {
     padding: 0 18px;
     box-sizing: border-box;
+
+    &[aria-hidden='true'] {
+      pointer-events: none;
+      * {
+        visibility: visible !important;
+        pointer-events: none !important;
+      }
+    }
   }
 `;
 
-const CommentCard = styled.div`
+// CommentCard 컴포넌트 수정
+const CommentCard = styled.div<{ $isActive?: boolean }>`
   width: 100%;
   padding: 15px;
   background: #fff;
@@ -34,6 +43,14 @@ const CommentCard = styled.div`
   border: 1px solid #eee;
   box-sizing: border-box;
   touch-action: pan-y pinch-zoom;
+
+  /* 비활성 슬라이드일 때 포커스 방지 */
+  ${(props) =>
+    !props.$isActive &&
+    `
+    pointer-events: none;
+    user-select: none;
+  `}
 `;
 
 const UserInfo = styled.div`
@@ -72,11 +89,12 @@ const ProgressBarContainer = styled.div`
   display: flex;
 `;
 
-const ProgressSegment = styled.div<{ isActive: boolean }>`
+const ProgressSegment = styled.div<{ $isActive: string }>`
   flex: 1;
   height: 3px;
 
-  background-color: ${(props) => (props.isActive ? '#000' : '#E5E5E5')};
+  background-color: ${(props) =>
+    props.$isActive === 'true' ? '#000' : '#E5E5E5'};
   transition: background-color 0.3s ease;
 `;
 
@@ -121,6 +139,8 @@ const RecentComments = () => {
     adaptiveHeight: true,
     swipeToSlide: true,
     touchThreshold: 10,
+    accessibility: true, // 추가
+    focusOnSelect: false, // 추가
     beforeChange: (oldIndex: number, newIndex: number) => {
       setCurrentSlide(newIndex);
     },
@@ -133,8 +153,13 @@ const RecentComments = () => {
         {recentComments &&
           recentComments.length > 0 &&
           recentComments.map((comment, index) => (
-            <div key={index}>
-              <CommentCard>
+            // 슬라이드 컨테이너에 key와 inert 속성 추가
+            <div
+              key={comment.id || index}
+              inert={index !== currentSlide ? '' : undefined}
+              tabIndex={-1}
+            >
+              <CommentCard $isActive={index === currentSlide}>
                 <UserInfo>
                   <div>
                     <UserName>{comment.nickname}</UserName>
@@ -150,7 +175,10 @@ const RecentComments = () => {
         {recentComments &&
           recentComments.length > 0 &&
           recentComments.map((_, index) => (
-            <ProgressSegment key={index} isActive={index === currentSlide} />
+            <ProgressSegment
+              key={index}
+              $isActive={index === currentSlide ? 'true' : 'false'}
+            />
           ))}
       </ProgressBarContainer>
     </CommentSection>

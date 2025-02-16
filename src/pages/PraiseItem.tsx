@@ -13,6 +13,8 @@ import axios from 'axios';
 import { useApiError } from '../hooks/useApiError.ts';
 import ToastPopup from '../components/ToastPopup.tsx';
 import { useReportModalStore } from '../store/reportModalStore.ts';
+import CommentActions from '../components/CommentActions.tsx';
+import { useArticleStore } from '../store/useArticleStore.ts';
 
 const Container = styled.div<ContainerProps>`
   margin-bottom: ${(props) => (props.$islast ? '0px' : '8px')};
@@ -65,17 +67,12 @@ const WritingCommentWrapper = styled.div`
   }
 `;
 
-const CommentContainer = styled.div`
-  width: 100%;
+// 새로 추가할 스타일드 엘리먼트
+const RightGroup = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 8px; // Date와 CommentActions 사이의 간격
 `;
-
-const StartGreyLine = styled.div`
-  width: 100%;
-  background-color: #e9e9e9;
-  height: 0.5px;
-  margin: 25px 0 12.5px 0;
-`;
-
 const PraiseItem = ({
   islast,
   article,
@@ -87,15 +84,28 @@ const PraiseItem = ({
   const [isCommentOpen, setIsCommentOpen] = useState<boolean>(false);
   const navigate = useNavigate();
   const [toastMessage, setToastMessage] = useState<string>('');
-
+  const [openDropdownId, setOpenDropdownId] = useState<number | null>(null);
+  // const loggedInUserId = localStorage.getItem('userId');
   const toggleCommentBox = () => {
     setIsCommentOpen(!isCommentOpen);
   };
+
+  // console.log('loggedInUserId>.', loggedInUserId);
   const { toast, toastMsg, setToast, handleApiError } = useApiError();
 
   const createdAt = dayjs(article.createdAt);
   const { openReportModal } = useReportModalStore();
-
+  const {
+    articles,
+    isWriteMode,
+    bgColor,
+    nickname,
+    fetchArticles,
+    setArticles,
+    setWriteMode,
+    setNickname,
+    setBgColor,
+  } = useArticleStore();
   const handleReportClick = (
     content: string,
     id: number,
@@ -129,6 +139,52 @@ const PraiseItem = ({
     }
   };
 
+  const handleDropdownToggle = (id: number) => {
+    setOpenDropdownId(openDropdownId === id ? null : id);
+  };
+
+  const deletePost = async (articleId: number) => {
+    try {
+      const response = await axiosInstance.delete(`/articles/${articleId}`);
+
+      if (response.status === 200 || response.status === 204) {
+        return true; // 삭제 성공
+      }
+      return false;
+    } catch (error) {
+      console.error('게시글 삭제 중 에러 발생:', error);
+      throw error;
+    }
+  };
+
+  const handleDelete = async (articleId: number) => {
+    setOpenDropdownId(-1);
+    // 삭제 로직
+    if (openDropdownId) {
+      // 칭찬 게시글 삭제
+      try {
+        const isDeleted = await deletePost(articleId);
+        if (isDeleted) {
+          // 성공 처리 (예: 토스트 메시지 표시)
+          setToast(true);
+
+          setToastMessage('댓글이 삭제되었습니다.');
+          // 목록 다시 불러오기 등
+          await fetchArticles();
+        }
+      } catch (error) {
+        // 에러 처리
+        setToast(true);
+
+        setToastMessage('댓글 삭제에 실패했습니다.');
+      }
+      console.log('칭찬 게시글 삭제');
+    } else {
+      //댓글 삭제
+    }
+    // setIsOpen(false);
+  };
+
   return (
     <>
       {toast && (
@@ -151,7 +207,18 @@ const PraiseItem = ({
               신고하기
             </AddtionalWrapper>
           </TitleWrapper>
-          <Date>{createdAt.format('YYYY.MM.DD')}</Date>
+          <RightGroup>
+            <Date>{createdAt.format('YYYY.MM.DD')}</Date>
+            {/*{article.userId === userId && (*/}
+            <CommentActions
+              isopen={openDropdownId === article.id ? 'true' : 'false'}
+              setIsOpen={() => handleDropdownToggle(article.id)}
+              type="comment" // 타입 구분을 위해 추가
+              commentId={article.id}
+              handleDelete={() => handleDelete(article.id)}
+            />
+            {/*)}*/}
+          </RightGroup>
         </Header>
         <Content onClick={moveToDetail}>{article.content}</Content>
         <RowFlexBetween>

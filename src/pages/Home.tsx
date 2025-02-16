@@ -13,6 +13,8 @@ import { PageContainer, Subtitle, TitleStyle } from '../style/MainPage.ts';
 import Footer from './Footer.tsx';
 import WriteSlidingPanel from './WriteSlidingPanel.tsx';
 import RecentComments from '../components/RecentComments.tsx';
+import { useArticleStore } from '../store/useArticleStore.ts';
+import React from 'react';
 
 const PraiseCard = styled.div`
   background-color: ${styleToken.color.primary};
@@ -106,10 +108,17 @@ const ListGap = styled.div`
 `;
 
 const Home = () => {
-  const [articles, setArticles] = useState<Article[]>([]);
-  const [isWriteMode, setWriteMode] = useState(false);
-  const [bgColor, setBgColor] = useState<string>('white');
-  const [nickname, setNickname] = useState<string | null>(null); //
+  const {
+    articles,
+    isWriteMode,
+    bgColor,
+    nickname,
+    fetchArticles,
+    setArticles,
+    setWriteMode,
+    setNickname,
+    setBgColor,
+  } = useArticleStore();
 
   useEffect(() => {
     const storedNickname = localStorage.getItem('nickname'); // Renamed for clarity
@@ -160,15 +169,14 @@ const Home = () => {
             <PraiseList>
               {articles.map((item, idx) => {
                 return (
-                  <>
+                  <React.Fragment key={item.id || idx}>
                     <PraiseItem
-                      key={idx}
                       index={idx}
                       islast={idx === articles.length - 1}
                       article={item}
                     />
                     {idx !== articles.length - 1 && <ListGap />}
-                  </>
+                  </React.Fragment>
                 );
               })}
             </PraiseList>
