@@ -113,11 +113,10 @@ export default function WriteSlidingPanel({
   isWriteMode,
   handleWriteClick,
 }: any) {
-  const navigate = useNavigate();
   const [toastMessage, setToastMessage] = useState<string>('');
   const [content, setContent] = useState('');
   const { toast, toastMsg, setToast, handleApiError } = useApiError();
-  const { fetchArticles } = useArticleStore();
+  const { fetchArticles, setSelectedArticleId } = useArticleStore();
 
   const save = async () => {
     try {
@@ -132,6 +131,7 @@ export default function WriteSlidingPanel({
           handleWriteClick(false);
           setContent('');
         }, 2000); // 2초 후 실행
+        setSelectedArticleId(result.data.id);
         await fetchArticles();
       }
     } catch (error) {

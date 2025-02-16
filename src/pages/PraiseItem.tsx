@@ -90,7 +90,6 @@ const PraiseItem = ({
     setIsCommentOpen(!isCommentOpen);
   };
 
-  console.log('loggedInUserId>.', loggedInUserId);
   const { toast, toastMsg, setToast, handleApiError } = useApiError();
 
   const createdAt = dayjs(article.createdAt);

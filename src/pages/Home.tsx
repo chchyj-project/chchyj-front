@@ -4,7 +4,7 @@ import Logo from '../images/character.png';
 import PraiseItem from './PraiseItem.tsx'; // 이미지 경로에 맞게 수정하세요
 import PlusImageIcon from '../images/plus.png';
 import FixedHeader from '../components/FixedHeader.tsx';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import '../pages/Login/slick.css';
 import Common from '../style/Common.ts';
 import { axiosInstance } from '../api/axiosConfig.ts';
@@ -115,19 +115,61 @@ const Home = () => {
     nickname,
     fetchArticles,
     setArticles,
+    selectedArticleId,
     setWriteMode,
     setNickname,
     setBgColor,
   } = useArticleStore();
+  const articleRefs = useRef<{ [key: number]: HTMLDivElement | null }>({});
 
   useEffect(() => {
     const storedNickname = localStorage.getItem('nickname'); // Renamed for clarity
     setNickname(storedNickname); // Updated to use React state setter
   }, []);
 
+  // selectedArticleId가 변경될 때 해당 게시물로 스크롤
+
+  const [isInitialLoad, setIsInitialLoad] = useState(true);
+
+  // 초기 데이터 로딩
   useEffect(() => {
-    fetchArticles();
+    const storedNickname = localStorage.getItem('nickname');
+    setNickname(storedNickname);
+
+    if (isInitialLoad) {
+      fetchArticles();
+      setIsInitialLoad(false);
+    }
   }, []);
+
+  useEffect(() => {
+    const timeoutId = setTimeout(() => {
+      if (selectedArticleId && articleRefs.current[selectedArticleId]) {
+        console.log('Scrolling to:', selectedArticleId);
+        console.log('Refs available:', Object.keys(articleRefs.current));
+
+        articleRefs.current[selectedArticleId]?.scrollIntoView({
+          behavior: 'smooth',
+          block: 'center',
+        });
+      }
+    }, 100); // ref가 설정될 시간을 주기 위해 약간의 지연 추가
+
+    return () => clearTimeout(timeoutId);
+  }, [selectedArticleId, articles]); // articles 의존성 추가
+
+  const setArticleRef = (el: HTMLDivElement | null, id: number) => {
+    if (el && id) {
+      articleRefs.current[id] = el;
+      // 새로운 ref가 설정되었을 때 selectedArticleId와 일치하면 스크롤
+      if (id === selectedArticleId) {
+        el.scrollIntoView({
+          behavior: 'smooth',
+          block: 'center',
+        });
+      }
+    }
+  };
 
   const handleWriteClick = async (isWriteMode: boolean) => {
     if (isWriteMode) {
@@ -137,7 +179,6 @@ const Home = () => {
     }
     setWriteMode(isWriteMode);
   };
-
   return (
     <>
       <FixedHeader bgColor={bgColor} />
@@ -161,18 +202,20 @@ const Home = () => {
               {articles.map((item, idx) => {
                 return (
                   <React.Fragment key={item.id || idx}>
-                    <PraiseItem
-                      index={idx}
-                      islast={idx === articles.length - 1}
-                      article={item}
-                    />
+                    <div ref={(el) => setArticleRef(el, item.id)}>
+                      <PraiseItem
+                        index={idx}
+                        islast={idx === articles.length - 1}
+                        article={item}
+                      />
+                    </div>
                     {idx !== articles.length - 1 && <ListGap />}
                   </React.Fragment>
                 );
               })}
             </PraiseList>
           </PageContainer>
-          <Footer />
+          <Footer />;
         </>
       )}
       {!isWriteMode && (

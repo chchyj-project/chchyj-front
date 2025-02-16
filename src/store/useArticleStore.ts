@@ -8,12 +8,14 @@ interface ArticleState {
   isWriteMode: boolean;
   bgColor: string;
   nickname: string | null;
+  selectedArticleId: number | null; // 추가된 부분
   fetchArticles: () => Promise<void>;
   setArticles: (articles: Article[]) => void; // 추가
   addArticle: (article: Article) => void; // 새 글 추가용
   setWriteMode: (isWrite: boolean) => void;
   setNickname: (nickname: string | null) => void;
   setBgColor: (color: string) => void; // 추가
+  setSelectedArticleId: (id: number | null) => void; // 추가된 부분
 }
 
 export const useArticleStore = create<ArticleState>((set) => ({
@@ -21,6 +23,7 @@ export const useArticleStore = create<ArticleState>((set) => ({
   isWriteMode: false,
   bgColor: 'white',
   nickname: null,
+  selectedArticleId: null, // 추가된 부분
 
   fetchArticles: async () => {
     try {
@@ -57,5 +60,10 @@ export const useArticleStore = create<ArticleState>((set) => ({
 
   setBgColor: (color: string) => {
     set({ bgColor: color });
+  },
+
+  setSelectedArticleId: (id: number | null) => {
+    // 추가된 부분
+    set({ selectedArticleId: id });
   },
 }));
