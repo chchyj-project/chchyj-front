@@ -24,12 +24,6 @@ const StyledSlider = styled(Slider)`
     padding: 0 18px;
     box-sizing: border-box;
   }
-
-  .slick-prev,
-  .slick-next,
-  .slick-dots {
-    display: none !important;
-  }
 `;
 
 const CommentCard = styled.div`
