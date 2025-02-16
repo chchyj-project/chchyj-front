@@ -54,7 +54,6 @@ interface CommentActionsProps {
   handleDelete: (replyId: number) => Promise<void>;
   commentId?: number;
   handleEdit?: any;
-  className: string;
 }
 
 const CommentActions: React.FC<CommentActionsProps> = ({
@@ -64,10 +63,9 @@ const CommentActions: React.FC<CommentActionsProps> = ({
   commentId,
   handleEdit,
   handleDelete,
-  className,
 }) => {
   return (
-    <DropdownContainer className={className}>
+    <DropdownContainer>
       <MoreButton onClick={setIsOpen}>
         {/* 단순히 setIsOpen 호출 */}
         <MoreVertical size={16} />

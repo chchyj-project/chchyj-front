@@ -122,11 +122,6 @@ const Home = () => {
   } = useArticleStore();
   const articleRefs = useRef<{ [key: number]: HTMLDivElement | null }>({});
 
-  useEffect(() => {
-    const storedNickname = localStorage.getItem('nickname'); // Renamed for clarity
-    setNickname(storedNickname); // Updated to use React state setter
-  }, []);
-
   // selectedArticleId가 변경될 때 해당 게시물로 스크롤
 
   const [isInitialLoad, setIsInitialLoad] = useState(true);
