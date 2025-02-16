@@ -42,24 +42,6 @@ const CommentCard = styled.div`
   touch-action: pan-y pinch-zoom;
 `;
 
-const ProgressBar = styled.div`
-  width: calc(100% - 36px);
-  height: 2px;
-  background-color: #e5e5e5;
-  margin: 20px auto 0;
-  position: relative;
-`;
-
-const Progress = styled.div<{ width: number }>`
-  position: absolute;
-  left: 0;
-  top: 0;
-  height: 100%;
-  width: ${(props) => props.width}%;
-  background-color: #000;
-  transition: width 0.3s ease;
-`;
-
 const UserInfo = styled.div`
   display: flex;
   align-items: center;
@@ -90,34 +72,6 @@ const CommentText = styled.p`
   margin: 0;
 `;
 
-const PlayButton = styled.div`
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  background-color: rgba(0, 0, 0, 0.6);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: 10px auto;
-  cursor: pointer;
-
-  &::after {
-    content: '';
-    width: 0;
-    height: 0;
-    border-style: solid;
-    border-width: 10px 0 10px 15px;
-    border-color: transparent transparent transparent #ffffff;
-  }
-`;
-
-interface CommentProps {
-  userName: string;
-  avatarUrl: string;
-  timestamp: string;
-  content: string;
-}
-
 const ProgressBarContainer = styled.div`
   width: 30%;
   margin: 20px auto 0;
@@ -132,61 +86,36 @@ const ProgressSegment = styled.div<{ isActive: boolean }>`
   transition: background-color 0.3s ease;
 `;
 
+type Comment = {
+  id: number;
+  createdAt: string; // ISO 8601 형식의 날짜 문자열
+  userId: number;
+  nickname: string;
+  content: string;
+  articleId: number;
+  replyStatus: string;
+};
+
 const RecentComments = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
-  const [recentComments, setRecentComments] = useState([]);
+  const [recentComments, setRecentComments] = useState<Comment[]>([]);
 
   useEffect(() => {
     const fetchRecentComment = async () => {
-      const response = await axiosInstance.get('/replies/me');
-      setRecentComments(response.data);
+      const response = await axiosInstance.get('/replies/latest');
+      console.log(response);
+      return response;
     };
-    fetchRecentComment();
-  });
-  const sampleComments: CommentProps[] = [
-    {
-      userName: '제니 ☆',
-      avatarUrl: '/api/placeholder/40/40',
-      timestamp: '01. 12. 10:32',
-      content: '밥 잘 챙겨먹고!!!',
-    },
-    {
-      userName: '리사 ♡',
-      avatarUrl: '/api/placeholder/40/40',
-      timestamp: '01. 12. 10:35',
-      content: '오늘도 화이팅!',
-    },
-    {
-      userName: '지수 ★',
-      avatarUrl: '/api/placeholder/40/40',
-      timestamp: '01. 12. 10:40',
-      content: '잘하고 있어요~',
-    },
-    {
-      userName: '로제 ✧',
-      avatarUrl: '/api/placeholder/40/40',
-      timestamp: '01. 12. 10:45',
-      content: '좋은 하루 보내세요!',
-    },
-    {
-      userName: '로제 ✧',
-      avatarUrl: '/api/placeholder/40/40',
-      timestamp: '01. 12. 10:45',
-      content: '좋은 하루 보내세요!',
-    },
-    {
-      userName: '로제 ✧',
-      avatarUrl: '/api/placeholder/40/40',
-      timestamp: '01. 12. 10:45',
-      content: '좋은 하루 보내세요!',
-    },
-    {
-      userName: '로제 ✧',
-      avatarUrl: '/api/placeholder/40/40',
-      timestamp: '01. 12. 10:45',
-      content: '좋은 하루 보내세요!',
-    },
-  ];
+    fetchRecentComment()
+      .then((response) => {
+        console.log('Success:', response.data);
+        setRecentComments(response.data.list);
+      })
+      .catch((error) => {
+        console.log('Error details:', error.response.data);
+        // 더 자세한 에러 정보 확인
+      });
+  }, []);
 
   const settings = {
     dots: false,
@@ -207,24 +136,28 @@ const RecentComments = () => {
     <CommentSection>
       <CommentTitle>최신 댓글 목록</CommentTitle>
       <StyledSlider {...settings}>
-        {sampleComments.map((comment, index) => (
-          <div key={index}>
-            <CommentCard>
-              <UserInfo>
-                <div>
-                  <UserName>{comment.userName}</UserName>
-                  <CommentTime>{comment.timestamp}</CommentTime>
-                </div>
-              </UserInfo>
-              <CommentText>{comment.content}</CommentText>
-            </CommentCard>
-          </div>
-        ))}
+        {recentComments &&
+          recentComments.length > 0 &&
+          recentComments.map((comment, index) => (
+            <div key={index}>
+              <CommentCard>
+                <UserInfo>
+                  <div>
+                    <UserName>{comment.nickname}</UserName>
+                    <CommentTime>{comment.createdAt}</CommentTime>
+                  </div>
+                </UserInfo>
+                <CommentText>{comment.content}</CommentText>
+              </CommentCard>
+            </div>
+          ))}
       </StyledSlider>
       <ProgressBarContainer>
-        {sampleComments.map((_, index) => (
-          <ProgressSegment key={index} isActive={index === currentSlide} />
-        ))}
+        {recentComments &&
+          recentComments.length > 0 &&
+          recentComments.map((_, index) => (
+            <ProgressSegment key={index} isActive={index === currentSlide} />
+          ))}
       </ProgressBarContainer>
     </CommentSection>
   );
