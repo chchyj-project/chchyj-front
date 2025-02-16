@@ -82,7 +82,7 @@ const FixedHeader = ({ bgColor }: FixedHeaderProps) => {
 
   const token = localStorage.getItem(ACCESS_TOKEN_NAME);
   const nickname = token ? localStorage.getItem('nickname') : '';
-
+  console.log('fixedHEader nickname>>', nickname);
   const toggleMenu = () => {
     console.log('nickname>>', nickname);
     setIsMenuOpen(!isMenuOpen);

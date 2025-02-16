@@ -7,7 +7,8 @@ import ToastPopup from '../components/ToastPopup.tsx';
 import axios from 'axios';
 import { useNavigate, useParams } from 'react-router-dom';
 import { CloseButton } from '../style/commonStyle.ts';
-import { useApiError } from '../hooks/useApiError.ts'; // X 아이콘 추가
+import { useApiError } from '../hooks/useApiError.ts';
+import { useArticleStore } from '../store/useArticleStore.ts'; // X 아이콘 추가
 
 const Panel = styled(motion.div)`
   position: fixed;
@@ -120,7 +121,7 @@ export default function WriteCommentSlidingPanel({
   const { toast, toastMsg, setToast, handleApiError } = useApiError();
 
   const { postId } = useParams();
-
+  const { fetchArticles } = useArticleStore();
   const save = async () => {
     try {
       console.log('content>>', content);

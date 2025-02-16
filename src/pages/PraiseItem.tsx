@@ -3,7 +3,7 @@ import { Smile } from 'lucide-react';
 import Siren from '../images/siren.png';
 import styleToken from '../style/styleToken.ts';
 import { RowFlexBetween } from '../style/commonStyle.ts';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { AddtionalWrapper, Icon, TitleWrapper } from '../style/MainPage.ts';
 import { Article, ContainerProps } from '../types/MainPage.ts';
 import dayjs from 'dayjs';
@@ -41,7 +41,7 @@ const Date = styled.span`
   color: #999;
 `;
 
-const Content = styled.p`
+const Content = styled.span`
   font-size: 14px;
   line-height: 1.5;
   color: #333;
@@ -85,12 +85,12 @@ const PraiseItem = ({
   const navigate = useNavigate();
   const [toastMessage, setToastMessage] = useState<string>('');
   const [openDropdownId, setOpenDropdownId] = useState<number | null>(null);
-  // const loggedInUserId = localStorage.getItem('userId');
+  const loggedInUserId = localStorage.getItem('userId');
   const toggleCommentBox = () => {
     setIsCommentOpen(!isCommentOpen);
   };
 
-  // console.log('loggedInUserId>.', loggedInUserId);
+  console.log('loggedInUserId>.', loggedInUserId);
   const { toast, toastMsg, setToast, handleApiError } = useApiError();
 
   const createdAt = dayjs(article.createdAt);
@@ -113,6 +113,28 @@ const PraiseItem = ({
   ) => {
     openReportModal(content, id, type);
   };
+
+  // document 레벨에서 클릭 이벤트를 감지하는 useEffect 추가
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      // 모달이 열려있을 때만 동작
+      if (openDropdownId !== null) {
+        // 클릭된 요소가 모달 내부 요소가 아닌 경우에만 모달 닫기
+        const target = e.target as HTMLElement;
+        if (!target.closest('.comment-actions')) {
+          setOpenDropdownId(null);
+        }
+      }
+    };
+
+    // 이벤트 리스너 등록
+    document.addEventListener('click', handleClickOutside);
+
+    // 컴포넌트 언마운트 시 이벤트 리스너 제거
+    return () => {
+      document.removeEventListener('click', handleClickOutside);
+    };
+  }, [openDropdownId]);
 
   const moveToDetail = () => {
     navigate(`/post/${article.id}`);
@@ -139,7 +161,8 @@ const PraiseItem = ({
     }
   };
 
-  const handleDropdownToggle = (id: number) => {
+  const handleDropdownToggle = (id: number, e?: React.MouseEvent) => {
+    // e.stopPropagation(); // 이벤트 전파 중단
     setOpenDropdownId(openDropdownId === id ? null : id);
   };
 
@@ -168,7 +191,7 @@ const PraiseItem = ({
           // 성공 처리 (예: 토스트 메시지 표시)
           setToast(true);
 
-          setToastMessage('댓글이 삭제되었습니다.');
+          setToastMessage('게시글이 삭제되었습니다.');
           // 목록 다시 불러오기 등
           await fetchArticles();
         }
@@ -176,11 +199,9 @@ const PraiseItem = ({
         // 에러 처리
         setToast(true);
 
-        setToastMessage('댓글 삭제에 실패했습니다.');
+        setToastMessage('게시글 삭제에 실패했습니다.');
       }
       console.log('칭찬 게시글 삭제');
-    } else {
-      //댓글 삭제
     }
     // setIsOpen(false);
   };
@@ -209,15 +230,16 @@ const PraiseItem = ({
           </TitleWrapper>
           <RightGroup>
             <Date>{createdAt.format('YYYY.MM.DD')}</Date>
-            {/*{article.userId === userId && (*/}
-            <CommentActions
-              isopen={openDropdownId === article.id ? 'true' : 'false'}
-              setIsOpen={() => handleDropdownToggle(article.id)}
-              type="comment" // 타입 구분을 위해 추가
-              commentId={article.id}
-              handleDelete={() => handleDelete(article.id)}
-            />
-            {/*)}*/}
+            {String(article.userId) === loggedInUserId && (
+              <CommentActions
+                className="comment-actions" // 클래스 이름 추가
+                isopen={openDropdownId === article.id ? 'true' : 'false'}
+                setIsOpen={(e: any) => handleDropdownToggle(article.id, e)}
+                type="comment"
+                commentId={article.id}
+                handleDelete={() => handleDelete(article.id)}
+              />
+            )}
           </RightGroup>
         </Header>
         <Content onClick={moveToDetail}>{article.content}</Content>

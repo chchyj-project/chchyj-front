@@ -59,13 +59,6 @@ const UserInfo = styled.div`
   margin-bottom: 10px;
 `;
 
-const UserAvatar = styled.img`
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  margin-right: 10px;
-`;
-
 const UserName = styled.span`
   font-weight: bold;
   font-size: 14px;

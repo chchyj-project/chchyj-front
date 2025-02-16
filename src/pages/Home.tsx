@@ -126,15 +126,6 @@ const Home = () => {
   }, []);
 
   useEffect(() => {
-    const fetchArticles = async () => {
-      //TODO: 임시로 로그인이 안되므로 nickname 존재유무 관계없이 포스트 가져오기
-      // if (nickname) {
-      const response: ArticleResponse = await axiosInstance.get('/articles', {
-        params: { limit: 20, offset: 0 },
-      });
-      setArticles(response.data.list);
-      // }
-    };
     fetchArticles();
   }, []);
 

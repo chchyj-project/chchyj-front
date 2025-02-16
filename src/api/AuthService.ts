@@ -5,6 +5,7 @@ import { ACCESS_TOKEN_NAME, USER_NAME } from '../constant/constant.ts';
 // 먼저 응답 타입을 정의합니다
 interface UserInfoResponse {
   nickname: string;
+  userId: string;
   // 다른 사용자 정보 필드들도 필요하다면 여기에 추가
 }
 export type KakaoLoginReturnType = {
@@ -50,22 +51,20 @@ class AuthService {
         window.location.href = `/login/nickname`;
       } else {
         try {
-          const nickNmRes = await this.getUserInfo();
-          const { nickname: nicknameVal } = nickNmRes;
+          const result = await this.getUserInfo();
+          const { nickname: nicknameVal, userId } = result;
 
-          if (nickNmRes && nicknameVal) {
-            const nickname = nicknameVal;
-
-            if (nickname.length > 0) {
-              localStorage.setItem('nickname', nickname);
-              localStorage.setItem('userId', '');
-              window.location.href = `/home?userSocialId=${encodeURIComponent(nickname)}`;
+          if (result && nicknameVal && userId) {
+            if (nicknameVal.length > 0) {
+              localStorage.setItem('nickname', nicknameVal);
+              localStorage.setItem('userId', userId);
+              window.location.href = `/home?userSocialId=${encodeURIComponent(nicknameVal)}`;
             } else {
-              console.error('Invalid nickname format:', nickname);
+              console.error('Invalid nickname format:', nicknameVal);
               throw new Error('Invalid nickname received');
             }
           } else {
-            console.error('Invalid getUserInfo response:', nickNmRes);
+            console.error('Invalid getUserInfo response:', result);
             throw new Error('Failed to get user info');
           }
         } catch (userInfoError) {
@@ -108,7 +107,6 @@ class AuthService {
     try {
       // Axios 요청을 await하여 결과를 기다립니다.
       const result = await axiosInstance.get('/users/me');
-
       // 결과를 콘솔에 출력하여 디버깅을 용이하게 합니다.
       console.log('executeKakao result:', result);
 

@@ -48,7 +48,7 @@ const ToastWrapper = styled.div<ToastWrapperProps>`
   align-items: center;
   justify-content: center;
   border-radius: 1rem;
-  background-color: #22c55e;
+  background-color: #caf5ff;
   opacity: 97%;
   box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.25);
   top: 50vh; // 세로 중앙 정렬
@@ -60,7 +60,7 @@ const ToastWrapper = styled.div<ToastWrapperProps>`
 
 const ToastMessage = styled.p`
   font-size: 16px; // text-Body에 해당하는 크기
-  color: white;
+  color: black;
 `;
 
 export default function ToastPopup({ message, setToast, position }: any) {

@@ -7,7 +7,8 @@ import ToastPopup from '../components/ToastPopup.tsx';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { CloseButton } from '../style/commonStyle.ts';
-import { useApiError } from '../hooks/useApiError.ts'; // X 아이콘 추가
+import { useApiError } from '../hooks/useApiError.ts';
+import { useArticleStore } from '../store/useArticleStore.ts'; // X 아이콘 추가
 
 const Button = styled.button`
   background-color: #60c3fb;
@@ -116,6 +117,7 @@ export default function WriteSlidingPanel({
   const [toastMessage, setToastMessage] = useState<string>('');
   const [content, setContent] = useState('');
   const { toast, toastMsg, setToast, handleApiError } = useApiError();
+  const { fetchArticles } = useArticleStore();
 
   const save = async () => {
     try {
@@ -130,6 +132,7 @@ export default function WriteSlidingPanel({
           handleWriteClick(false);
           setContent('');
         }, 2000); // 2초 후 실행
+        await fetchArticles();
       }
     } catch (error) {
       handleApiError(error);
