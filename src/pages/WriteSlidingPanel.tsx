@@ -3,12 +3,10 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { axiosInstance } from '../api/axiosConfig.ts';
 import { useState } from 'react';
 import { X } from 'lucide-react';
-import ToastPopup from '../components/ToastPopup.tsx';
-import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
 import { CloseButton } from '../style/commonStyle.ts';
 import { useApiError } from '../hooks/useApiError.ts';
 import { useArticleStore } from '../store/useArticleStore.ts'; // X 아이콘 추가
+import { toast } from 'react-toastify';
 
 const Button = styled.button`
   background-color: #60c3fb;
@@ -115,7 +113,7 @@ export default function WriteSlidingPanel({
 }: any) {
   const [toastMessage, setToastMessage] = useState<string>('');
   const [content, setContent] = useState('');
-  const { toast, toastMsg, setToast, handleApiError } = useApiError();
+  const { handleApiError } = useApiError();
   const { fetchArticles, setSelectedArticleId } = useArticleStore();
 
   const save = async () => {
@@ -125,8 +123,7 @@ export default function WriteSlidingPanel({
       });
 
       if (result.status === 201 || result.status === 200) {
-        setToast(true);
-        setToastMessage('게시글이 성공적으로 저장되었습니다.');
+        toast('게시글이 성공적으로 저장되었습니다.');
         setTimeout(() => {
           handleWriteClick(false);
           setContent('');
@@ -140,14 +137,6 @@ export default function WriteSlidingPanel({
   };
   return (
     <>
-      {' '}
-      {toast && (
-        <ToastPopup
-          setToast={setToast}
-          message={toastMessage || toastMsg}
-          position="bottom"
-        />
-      )}
       <AnimatePresence>
         {/* toast가 true일 때만 팝업이 노출됩니다.*/}
 

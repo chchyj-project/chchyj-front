@@ -3,12 +3,11 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { axiosInstance } from '../api/axiosConfig.ts';
 import { useState } from 'react';
 import { Heart, LockIcon, AlertTriangle, X } from 'lucide-react';
-import ToastPopup from '../components/ToastPopup.tsx';
-import axios from 'axios';
 import { useNavigate, useParams } from 'react-router-dom';
 import { CloseButton } from '../style/commonStyle.ts';
 import { useApiError } from '../hooks/useApiError.ts';
 import { useArticleStore } from '../store/useArticleStore.ts'; // X 아이콘 추가
+import { toast } from 'react-toastify';
 
 const Panel = styled(motion.div)`
   position: fixed;
@@ -84,13 +83,7 @@ const Button = styled.button`
   border-radius: 12px;
   cursor: pointer;
 `;
-const Icon = styled.span`
-  font-size: 18px; /* 아이콘 크기 */
-`;
 
-const Text = styled.span`
-  display: inline-block;
-`;
 const Overlay = styled(motion.div)`
   position: fixed;
   top: 0;
@@ -100,7 +93,6 @@ const Overlay = styled(motion.div)`
   width: 768px;
   background-color: #4d4d4d; // 반투명 검정색 배경
   transform: translateX(-50%);
-
   z-index: 10; // Panel보다 낮은 z-index
 `;
 
@@ -113,15 +105,11 @@ export default function WriteCommentSlidingPanel({
   isWriteMode,
   handleWriteClick,
 }: any) {
-  const navigate = useNavigate();
-  const [toastMessage, setToastMessage] = useState<string>('');
   const [content, setContent] = useState('');
   // const [isOpen, setIsOpen] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
-  const { toast, toastMsg, setToast, handleApiError } = useApiError();
+  const { handleApiError } = useApiError();
 
   const { postId } = useParams();
-  const { fetchArticles } = useArticleStore();
   const save = async () => {
     try {
       console.log('content>>', content);
@@ -135,10 +123,7 @@ export default function WriteCommentSlidingPanel({
       if (result.status === 201 || result.status === 200) {
         // 성공적으로 저장됨
         console.log('댓글이 성공적으로 저장되었습니다:', result.data);
-
-        // 예시: 토스트 메시지 표시
-        setToast(true);
-        setToastMessage('댓글이 성공적으로 저장되었습니다.');
+        toast('댓글이 성공적으로 저장되었습니다.');
         setTimeout(() => {
           handleWriteClick(false);
           setContent('');
@@ -151,13 +136,6 @@ export default function WriteCommentSlidingPanel({
 
   return (
     <>
-      {toast && (
-        <ToastPopup
-          setToast={setToast}
-          message={toastMessage || toastMsg}
-          position="middle"
-        />
-      )}
       <AnimatePresence>
         {isWriteMode && (
           <>

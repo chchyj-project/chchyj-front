@@ -8,6 +8,7 @@ import SetNickName from './pages/Login/SetNickName.tsx';
 import PraiseDetail from './pages/PraiseDetail.tsx';
 import Profile from './pages/Profile.tsx';
 import ReportModal from './components/ReportModal.tsx';
+import { ToastContainer, toast } from 'react-toastify';
 
 const AppWrap = styled.div`
   width: 100%;
@@ -22,6 +23,17 @@ const App = () => {
       <AppWrap>
         <GlobalStyle />
         <ReportModal />
+        <ToastContainer
+          position="top-center"
+          autoClose={1000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+        />
 
         <Routes>
           <Route path="*" element={<Navigate replace to="/home" />} />

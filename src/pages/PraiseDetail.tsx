@@ -3,7 +3,7 @@ import { ChevronLeft, Heart } from 'lucide-react';
 import Common from '../style/Common.ts';
 import styleToken from '../style/styleToken.ts';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { ArticleDetail } from '../types/PraiseItem.ts';
 import { axiosInstance } from '../api/axiosConfig.ts';
 import { useParams } from 'react-router-dom';
@@ -13,8 +13,8 @@ import dayjs from 'dayjs';
 import WriteCommentSlidingPanel from './WriteCommentSlidingPanel.tsx';
 import Siren from '../images/siren.png';
 import { Icon } from '../style/MainPage.ts';
-import ToastPopup from '../components/ToastPopup.tsx';
 import { useReportModalStore } from '../store/reportModalStore.ts';
+import { toast } from 'react-toastify';
 
 interface UpdateArticleResponse {
   content: string;
@@ -31,7 +31,7 @@ const Container = styled.div`
 const Header = styled.header`
   display: flex;
   align-items: center;
-  padding: 80px 16px 16px 16px;
+  padding: 10px 16px 16px 16px;
   border-bottom: 1px solid #eee;
 `;
 
@@ -195,12 +195,16 @@ export default function PraiseDetail() {
   const [isWriteMode, setWriteMode] = useState(false);
   const [bgColor, setBgColor] = useState<string>('white');
   const location = useLocation();
-  const [toastMsg, setToastMsg] = useState<string>('');
-  const [toast, setToast] = useState<boolean>(false);
   const [isEditing, setIsEditing] = useState(false);
   const [editContent, setEditContent] = useState('');
   const { openReportModal } = useReportModalStore();
-
+  const latestCommentRef = useRef<HTMLDivElement | null>(null);
+  const previousCommentCountRef = useRef<number>(0);
+  const initialLoadRef = useRef<boolean>(true);
+  const [openDropdownId, setOpenDropdownId] = useState<number | null>(null);
+  const [articleDetail, setArticleDetail] = useState<ArticleDetail | null>(
+    null,
+  );
   const handleReportClick = (
     content: string,
     id: number,
@@ -225,40 +229,60 @@ export default function PraiseDetail() {
         const result = await updateArticle(Number(postId), editContent);
 
         if (result.success) {
-          setToastMsg('게시글이 성공적으로 수정되었습니다.');
-          setToast(true);
+          toast('게시글이 성공적으로 수정되었습니다.');
           setIsEditing(false);
           await fetchArticleDetail(); // 수정된 내용 다시 불러오기
         }
       } catch (error: any) {
-        setToastMsg('게시글 수정에 실패했습니다.');
-        setToast(true);
+        toast('게시글 수정에 실패했습니다.');
       }
     }
   };
 
   const { mode } = location.state || '';
   // PraiseDetail 컴포넌트 내부
-  const [openDropdownId, setOpenDropdownId] = useState<number | null>(null);
 
   // 드롭다운 토글 함수
   const handleDropdownToggle = (id: number) => {
     setOpenDropdownId(openDropdownId === id ? null : id);
   };
 
-  const [articleDetail, setArticleDetail] = useState<ArticleDetail | null>(
-    null,
-  );
+  useEffect(() => {
+    // Skip if no article details yet
+    if (!articleDetail?.replyList) return;
+
+    const currentCommentCount = articleDetail.replyList.length;
+
+    // If this is the initial load, just store the count without scrolling
+    if (initialLoadRef.current) {
+      initialLoadRef.current = false;
+      previousCommentCountRef.current = currentCommentCount;
+      return;
+    }
+
+    // Only scroll if:
+    // 1. We're not in write mode (the panel just closed)
+    // 2. The comment count increased (new comment was added)
+    if (!isWriteMode && currentCommentCount > previousCommentCountRef.current) {
+      // New comment was added, scroll to it
+      setTimeout(() => {
+        latestCommentRef.current?.scrollIntoView({ behavior: 'smooth' });
+      }, 100);
+    }
+
+    // Update the previous count reference
+    previousCommentCountRef.current = currentCommentCount;
+  }, [articleDetail, isWriteMode]);
   const fetchArticleDetail = async () => {
     try {
       const { data } = await axiosInstance.get(`/articles/${postId}`);
-      console.log('상세글>>', data);
       setArticleDetail(data);
     } catch (error) {
       console.error('상세 조회 중 에러 발생:', error);
     }
   };
   useEffect(() => {
+    console.log('여기여기___---->>');
     fetchArticleDetail();
   }, [postId, isWriteMode]);
 
@@ -291,17 +315,14 @@ export default function PraiseDetail() {
         const isDeleted = await deleteReply(replyId);
         if (isDeleted) {
           // 성공 처리 (예: 토스트 메시지 표시)
-          setToast(true);
 
-          setToastMsg('댓글이 삭제되었습니다.');
+          toast('댓글이 삭제되었습니다.');
           // 목록 다시 불러오기 등
           await fetchArticleDetail();
         }
       } catch (error) {
         // 에러 처리
-        setToast(true);
-
-        setToastMsg('댓글 삭제에 실패했습니다.');
+        toast('댓글 삭제에 실패했습니다.');
       }
       console.log('칭찬 게시글 삭제');
     } else {
@@ -353,11 +374,9 @@ export default function PraiseDetail() {
     if (result.status === 201 || result.status === 200) {
     }
   };
+
   return (
     <>
-      {toast && (
-        <ToastPopup setToast={setToast} message={toastMsg} position="bottom" />
-      )}
       <Container>
         <Header>
           <BackButton onClick={moveToListPage}>
@@ -407,8 +426,17 @@ export default function PraiseDetail() {
         </PostContainer>
 
         <CommentSection>
-          {articleDetail?.replyList.map((comment) => (
-            <CommentItem key={comment.id}>
+          {articleDetail?.replyList.map((comment, index) => (
+            <CommentItem
+              key={comment.id}
+              ref={
+                index === articleDetail.replyList.length - 1
+                  ? (node) => {
+                      latestCommentRef.current = node;
+                    }
+                  : undefined
+              }
+            >
               <CommentHeader>
                 <Nickname>{comment.nickname}</Nickname>
                 <Icon src={Siren} size={'12px'} />

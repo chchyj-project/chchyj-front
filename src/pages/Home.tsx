@@ -210,7 +210,7 @@ const Home = () => {
               })}
             </PraiseList>
           </PageContainer>
-          <Footer />;
+          <Footer />
         </>
       )}
       {!isWriteMode && (

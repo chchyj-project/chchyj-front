@@ -9,12 +9,12 @@ import { Article, ContainerProps } from '../types/MainPage.ts';
 import dayjs from 'dayjs';
 import { useNavigate } from 'react-router-dom';
 import { axiosInstance } from '../api/axiosConfig.ts';
-import axios from 'axios';
 import { useApiError } from '../hooks/useApiError.ts';
 import ToastPopup from '../components/ToastPopup.tsx';
 import { useReportModalStore } from '../store/reportModalStore.ts';
 import CommentActions from '../components/CommentActions.tsx';
 import { useArticleStore } from '../store/useArticleStore.ts';
+import { toast } from 'react-toastify';
 
 const Container = styled.div<ContainerProps>`
   margin-bottom: ${(props) => (props.$islast ? '0px' : '8px')};
@@ -83,28 +83,18 @@ const PraiseItem = ({
 }) => {
   const [isCommentOpen, setIsCommentOpen] = useState<boolean>(false);
   const navigate = useNavigate();
-  const [toastMessage, setToastMessage] = useState<string>('');
+  const [toastMessage, toast] = useState<string>('');
   const [openDropdownId, setOpenDropdownId] = useState<number | null>(null);
   const loggedInUserId = localStorage.getItem('userId');
   const toggleCommentBox = () => {
     setIsCommentOpen(!isCommentOpen);
   };
 
-  const { toast, toastMsg, setToast, handleApiError } = useApiError();
+  const { handleApiError } = useApiError();
 
   const createdAt = dayjs(article.createdAt);
   const { openReportModal } = useReportModalStore();
-  const {
-    articles,
-    isWriteMode,
-    bgColor,
-    nickname,
-    fetchArticles,
-    setArticles,
-    setWriteMode,
-    setNickname,
-    setBgColor,
-  } = useArticleStore();
+  const { fetchArticles } = useArticleStore();
   const handleReportClick = (
     content: string,
     id: number,
@@ -152,8 +142,7 @@ const PraiseItem = ({
         console.log('댓글이 성공적으로 저장되었습니다:', result.data);
 
         // 예시: 토스트 메시지 표시
-        setToast(true);
-        setToastMessage('댓글이 성공적으로 저장되었습니다.');
+        toast('댓글이 성공적으로 저장되었습니다.');
       }
     } catch (error) {
       handleApiError(error);
@@ -188,17 +177,12 @@ const PraiseItem = ({
         const isDeleted = await deletePost(articleId);
         if (isDeleted) {
           // 성공 처리 (예: 토스트 메시지 표시)
-          setToast(true);
-
-          setToastMessage('게시글이 삭제되었습니다.');
+          toast('게시글이 삭제되었습니다.');
           // 목록 다시 불러오기 등
           await fetchArticles();
         }
       } catch (error) {
-        // 에러 처리
-        setToast(true);
-
-        setToastMessage('게시글 삭제에 실패했습니다.');
+        toast('게시글 삭제에 실패했습니다.');
       }
       console.log('칭찬 게시글 삭제');
     }
@@ -207,13 +191,6 @@ const PraiseItem = ({
 
   return (
     <>
-      {toast && (
-        <ToastPopup
-          setToast={setToast}
-          message={toastMessage || toastMsg}
-          position="middle"
-        />
-      )}
       <Container $islast={islast && !isCommentOpen}>
         <Header>
           <TitleWrapper>
@@ -231,7 +208,6 @@ const PraiseItem = ({
             <Date>{createdAt.format('YYYY.MM.DD')}</Date>
             {String(article.userId) === loggedInUserId && (
               <CommentActions
-                className="comment-actions" // 클래스 이름 추가
                 isopen={openDropdownId === article.id ? 'true' : 'false'}
                 setIsOpen={(e: any) => handleDropdownToggle(article.id, e)}
                 type="comment"
