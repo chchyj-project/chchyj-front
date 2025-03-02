@@ -20,11 +20,13 @@ const Button = styled.button`
   margin: 4px 2px;
   cursor: pointer;
   border-radius: 8px;
+  margin-bottom: 12px; /* 모바일에서 하단 여백 */
 `;
 
 const Panel = styled(motion.div)`
   position: fixed;
   bottom: 0;
+  //left: 50%;
   transform: translateX(-50%);
   width: 100%;
   max-width: 768px;
@@ -34,15 +36,28 @@ const Panel = styled(motion.div)`
   box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
   overflow-y: auto;
   z-index: 11; // Overlay보다 높은 z-index
+
+  // 모바일에서 높이 조정
+  @media (max-width: 480px) {
+    height: 80vh; // 모바일에서 더 적은 높이로 조정
+    max-height: calc(100vh - 50px); // 최대 높이 제한 (상단 여백 확보)
+  }
 `;
 
 const PanelContent = styled.div`
-  //max-width: 500px;
   margin: 0 auto;
   padding: 20px;
+  padding-bottom: 36px; /* 하단 버튼 여백 */
+  padding-top: 32px; /* 상단 여백 증가 */
   height: 100%;
   display: flex;
   flex-direction: column;
+  position: relative;
+
+  /* 모바일에서 상단 여백 더 확보 */
+  @media (max-width: 480px) {
+    padding-top: 40px;
+  }
 `;
 
 const StyledTextarea = styled.textarea`
@@ -79,12 +94,21 @@ const Icon = styled.span`
 const Text = styled.span`
   display: inline-block;
 `;
+
 const Title = styled(Text)`
   font-style: normal;
   font-weight: 700;
   font-size: 20px;
   line-height: 24px;
   color: #404040;
+  margin-top: 10px; /* 상단 여백 추가 */
+  padding-right: 40px; /* X 버튼과 겹치지 않도록 우측 여백 */
+
+  @media (max-width: 480px) {
+    font-size: 18px;
+    padding-right: 30px;
+    margin-top: 12px; /* 모바일에서 상단 여백 증가 */
+  }
 `;
 
 const Overlay = styled(motion.div)`
@@ -96,8 +120,28 @@ const Overlay = styled(motion.div)`
   width: 768px;
   background-color: #4d4d4d; // 반투명 검정색 배경
   transform: translateX(-50%);
-
   z-index: 10; // Panel보다 낮은 z-index
+`;
+
+// 닫기 버튼 스타일링 개선
+const PanelCloseButton = styled(CloseButton)`
+  position: absolute;
+  top: 24px;
+  right: 24px;
+  z-index: 2;
+  background: white;
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+
+  @media (max-width: 480px) {
+    top: 16px;
+    right: 16px;
+  }
 `;
 
 interface ArticleResponse {
@@ -138,25 +182,28 @@ export default function WriteSlidingPanel({
   return (
     <>
       <AnimatePresence>
-        {/* toast가 true일 때만 팝업이 노출됩니다.*/}
-
         {isWriteMode && (
           <>
             <Overlay
               initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
+              animate={{ opacity: 0.5 }}
               exit={{ opacity: 0 }}
             />
             <Panel
               initial={{ y: '100%' }}
               animate={{ y: 0 }}
               exit={{ y: '100%' }}
-              transition={{ type: 'spring', damping: 30, stiffness: 300 }}
+              transition={{
+                type: 'spring',
+                damping: 30,
+                stiffness: 300,
+                duration: 0.4,
+              }}
             >
               <PanelContent>
-                <CloseButton onClick={() => handleWriteClick(false)}>
-                  <X size={24} />
-                </CloseButton>
+                <PanelCloseButton onClick={() => handleWriteClick(false)}>
+                  <X size={20} />
+                </PanelCloseButton>
                 <Title>
                   청찬받고 싶은 내용을 입력하세요 😉
                   <br />
@@ -180,9 +227,7 @@ export default function WriteSlidingPanel({
                   </Item>
                   <Item>
                     <Icon>💟</Icon>
-                    {/*<UnderlinedText>*/}
                     칭찬글 삭제 15분 이후에는 하트는 반환되지 않습니다.
-                    {/*</UnderlinedText>*/}
                   </Item>
                   <Item>
                     <Icon>🚨</Icon>

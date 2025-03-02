@@ -33,6 +33,17 @@ const App = () => {
           pauseOnFocusLoss
           draggable
           pauseOnHover
+          style={{
+            width: '90%',
+            maxWidth: '400px',
+            left: '50%',
+            transform: 'translateX(-50%)',
+          }}
+          toastStyle={{
+            borderRadius: '8px',
+            padding: '10px 16px',
+            fontSize: '14px',
+          }}
         />
 
         <Routes>

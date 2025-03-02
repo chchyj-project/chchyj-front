@@ -3,41 +3,62 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { axiosInstance } from '../api/axiosConfig.ts';
 import { useState } from 'react';
 import { Heart, LockIcon, AlertTriangle, X } from 'lucide-react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { CloseButton } from '../style/commonStyle.ts';
 import { useApiError } from '../hooks/useApiError.ts';
-import { useArticleStore } from '../store/useArticleStore.ts'; // X 아이콘 추가
 import { toast } from 'react-toastify';
 
 const Panel = styled(motion.div)`
   position: fixed;
   bottom: 0;
+  //left: 50%;
   transform: translateX(-50%);
   width: 100%;
   max-width: 768px;
   height: 50vh;
   background-color: white;
   border-radius: 24px 24px 0 0;
-
   box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
   overflow-y: auto;
   z-index: 11;
   border: 1px solid #e0e0e0;
+
+  // 모바일에서는 더 높은 높이를 확보
+  @media (max-width: 480px) {
+    height: 60vh; // 모바일에서 더 높은 높이로 조정
+    max-height: calc(100vh - 50px); // 최대 높이 제한 (상단 여백 확보)
+  }
 `;
 
 const PanelContent = styled.div`
   padding: 24px;
+  padding-bottom: 36px; /* 하단 버튼 여백 */
+  padding-top: 32px; /* 상단 여백 증가 */
   height: 100%;
   display: flex;
   flex-direction: column;
+  position: relative;
+
+  /* 모바일에서 상단 여백 더 확보 */
+  @media (max-width: 480px) {
+    padding-top: 40px;
+  }
 `;
 
 const Title = styled.h1`
   font-size: 24px;
   font-weight: 600;
   color: #000;
+  margin-top: 10px; /* 상단 여백 추가 */
   margin-bottom: 24px;
   line-height: 1.4;
+  padding-right: 40px;
+
+  @media (max-width: 480px) {
+    font-size: 20px;
+    padding-right: 30px;
+    margin-top: 12px; /* 모바일에서 상단 여백 증가 */
+  }
 `;
 
 const StyledTextarea = styled.textarea`
@@ -82,6 +103,7 @@ const Button = styled.button`
   font-weight: 600;
   border-radius: 12px;
   cursor: pointer;
+  margin-bottom: 12px; /* 모바일에서 하단 여백 */
 `;
 
 const Overlay = styled(motion.div)`
@@ -96,6 +118,27 @@ const Overlay = styled(motion.div)`
   z-index: 10; // Panel보다 낮은 z-index
 `;
 
+// 닫기 버튼 스타일링 개선
+const PanelCloseButton = styled(CloseButton)`
+  position: absolute;
+  top: 24px;
+  right: 24px;
+  z-index: 2;
+  background: white;
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+
+  @media (max-width: 480px) {
+    top: 16px;
+    right: 16px;
+  }
+`;
+
 interface CommentResponse {
   id: number;
   // 기타 응답에서 받을 수 있는 필드들
@@ -106,7 +149,6 @@ export default function WriteCommentSlidingPanel({
   handleWriteClick,
 }: any) {
   const [content, setContent] = useState('');
-  // const [isOpen, setIsOpen] = useState(false);
   const { handleApiError } = useApiError();
 
   const { postId } = useParams();
@@ -148,12 +190,17 @@ export default function WriteCommentSlidingPanel({
               initial={{ y: '100%' }}
               animate={{ y: 0 }}
               exit={{ y: '100%' }}
-              transition={{ type: 'spring', damping: 30, stiffness: 300 }}
+              transition={{
+                type: 'spring',
+                damping: 30,
+                stiffness: 300,
+                duration: 0.4,
+              }}
             >
               <PanelContent>
-                <CloseButton onClick={() => handleWriteClick(false)}>
-                  <X size={24} />
-                </CloseButton>
+                <PanelCloseButton onClick={() => handleWriteClick(false)}>
+                  <X size={20} />
+                </PanelCloseButton>
                 <Title>꽃내랑님의 칭찬요정이 되어주세요! 🥰</Title>
                 <StyledTextarea
                   placeholder="칭찬 댓글을 입력해주세요..."
