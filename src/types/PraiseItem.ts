@@ -16,3 +16,7 @@ export type ArticleDetail = {
   content: string;
   replyList: Reply[];
 };
+
+export type ScrollAwareBottomButtonProps = {
+  visible: boolean;
+};

@@ -7,7 +7,10 @@ import { useEffect, useRef, useState } from 'react';
 import { ArticleDetail } from '../types/PraiseItem.ts';
 import { axiosInstance } from '../api/axiosConfig.ts';
 import { useParams } from 'react-router-dom';
-import { RowFlexBetween } from '../style/commonStyle.ts';
+import {
+  RowFlexBetween,
+  ScrollAwareBottomButtonWrapper,
+} from '../style/commonStyle.ts';
 import CommentActions from '../components/CommentActions.tsx';
 import dayjs from 'dayjs';
 import WriteCommentSlidingPanel from './WriteCommentSlidingPanel.tsx';
@@ -15,6 +18,7 @@ import Siren from '../images/siren.png';
 import { Icon } from '../style/MainPage.ts';
 import { useReportModalStore } from '../store/reportModalStore.ts';
 import { toast } from 'react-toastify';
+import { useScrollDirection } from '../hooks/useScrollDirection.ts';
 
 interface UpdateArticleResponse {
   content: string;
@@ -205,6 +209,8 @@ export default function PraiseDetail() {
   const [articleDetail, setArticleDetail] = useState<ArticleDetail | null>(
     null,
   );
+  const { buttonVisible } = useScrollDirection();
+
   const handleReportClick = (
     content: string,
     id: number,
@@ -477,11 +483,11 @@ export default function PraiseDetail() {
         </CommentSection>
 
         {!isWriteMode && (
-          <BottomButtonWrapper>
+          <ScrollAwareBottomButtonWrapper visible={buttonVisible}>
             <BottomButton onClick={() => handleWriteClick(true)}>
               칭찬 댓글 달기
             </BottomButton>
-          </BottomButtonWrapper>
+          </ScrollAwareBottomButtonWrapper>
         )}
       </Container>
       {isWriteMode && (

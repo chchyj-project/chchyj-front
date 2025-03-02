@@ -83,19 +83,23 @@ const StatLabel = styled.div`
 `;
 
 const MenuList = styled.div`
-  padding: 20px;
+  padding: 0; /* 여백 제거 */
 `;
 
 const MenuItem = styled.button`
   display: flex;
   align-items: center;
   width: 100%;
-  padding: 16px;
+  padding: 16px 10px; /* 좌우 패딩 감소 */
   border: none;
   background: none;
   font-size: 16px;
   color: #333;
   cursor: pointer;
+
+  @media (max-width: 480px) {
+    padding: 14px 8px; /* 모바일에서 패딩 더 줄임 */
+  }
 
   &:hover {
     background: #f8f9fa;
@@ -130,6 +134,17 @@ const MenuItemContent = styled.div`
   align-items: center;
   justify-content: space-between;
   width: 100%;
+  flex-wrap: wrap; /* 필요시 줄바꿈 허용 */
+
+  @media (max-width: 480px) {
+    gap: 8px; /* 모바일에서 요소 간 간격 추가 */
+  }
+`;
+
+const MenuText = styled.div`
+  display: flex;
+  align-items: center;
+  flex-shrink: 0; /* 줄어들지 않도록 설정 */
 `;
 
 const NewCommentBadge = styled.span`
@@ -139,6 +154,11 @@ const NewCommentBadge = styled.span`
   border-radius: 4px;
   font-size: 12px;
   white-space: nowrap;
+  margin-left: auto; /* 오른쪽 정렬 */
+
+  @media (max-width: 480px) {
+    margin-left: 32px; /* 모바일에서 아이콘 아래 정렬 */
+  }
 `;
 
 export default function Profile() {
@@ -183,23 +203,23 @@ export default function Profile() {
         <MenuList>
           <MenuItem>
             <MenuItemContent>
-              <div style={{ display: 'flex', alignItems: 'center' }}>
+              <MenuText>
                 <MenuIcon>
                   <Folder size={20} />
                 </MenuIcon>
                 내 칭찬글 모아보기
-              </div>
+              </MenuText>
               <NewCommentBadge>새로운 칭찬댓글 1개</NewCommentBadge>
             </MenuItemContent>
           </MenuItem>
           <MenuItem>
             <MenuItemContent>
-              <div style={{ display: 'flex', alignItems: 'center' }}>
+              <MenuText>
                 <MenuIcon>
                   <SmileIcon size={20} />
                 </MenuIcon>
                 내가 쓴 칭찬댓글 모아보기
-              </div>
+              </MenuText>
             </MenuItemContent>
           </MenuItem>
           <MenuItem onClick={logout}>

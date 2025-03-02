@@ -7,14 +7,18 @@ import FixedHeader from '../components/FixedHeader.tsx';
 import { useEffect, useRef, useState } from 'react';
 import '../pages/Login/slick.css';
 import Common from '../style/Common.ts';
-import { axiosInstance } from '../api/axiosConfig.ts';
-import { Article, ArticleResponse } from '../types/MainPage.ts';
 import { PageContainer, Subtitle, TitleStyle } from '../style/MainPage.ts';
 import Footer from './Footer.tsx';
 import WriteSlidingPanel from './WriteSlidingPanel.tsx';
 import RecentComments from '../components/RecentComments.tsx';
 import { useArticleStore } from '../store/useArticleStore.ts';
 import React from 'react';
+import { useScrollDirection } from '../hooks/useScrollDirection.ts';
+import { ScrollAwareBottomButtonProps } from '../types/PraiseItem.ts';
+import {
+  BottomButton,
+  ScrollAwareBottomButtonWrapper,
+} from '../style/commonStyle.ts';
 
 const PraiseCard = styled.div`
   background-color: ${styleToken.color.primary};
@@ -73,24 +77,6 @@ const ButtonWrapper = styled.div`
   transform: translateX(-50%);
 `;
 
-const FloatingButton = styled.button`
-  padding: 12px 20px;
-  background-color: ${Common.colors.white};
-  color: ${styleToken.color.secondary};
-  font-size: 14px;
-  font-weight: 700;
-  line-height: 19px;
-  margin-right: 4vw;
-  border: 1px solid ${styleToken.color.secondary};
-  border-radius: 8px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-
-  &:hover {
-    background-color: #add8e6;
-  }
-`;
-
 const PraiseList = styled.div`
   position: relative;
   top: 0;
@@ -121,6 +107,7 @@ const Home = () => {
     setBgColor,
   } = useArticleStore();
   const articleRefs = useRef<{ [key: number]: HTMLDivElement | null }>({});
+  const { buttonVisible } = useScrollDirection();
 
   // selectedArticleId가 변경될 때 해당 게시물로 스크롤
 
@@ -214,12 +201,12 @@ const Home = () => {
         </>
       )}
       {!isWriteMode && (
-        <ButtonWrapper>
-          <FloatingButton onClick={() => handleWriteClick(true)}>
+        <ScrollAwareBottomButtonWrapper visible={buttonVisible}>
+          <BottomButton onClick={() => handleWriteClick(true)}>
             <PlusIcon src={PlusImageIcon} alt="plus" />
             칭찬글 쓰기
-          </FloatingButton>
-        </ButtonWrapper>
+          </BottomButton>
+        </ScrollAwareBottomButtonWrapper>
       )}
       {isWriteMode && (
         <WriteSlidingPanel

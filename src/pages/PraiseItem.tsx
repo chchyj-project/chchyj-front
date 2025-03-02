@@ -18,7 +18,7 @@ import { toast } from 'react-toastify';
 
 const Container = styled.div<ContainerProps>`
   margin-bottom: ${(props) => (props.$islast ? '0px' : '8px')};
-  padding: 20px 15px;
+  padding: 15px 15px 5px 15px;
   background-color: #fff;
 `;
 
@@ -73,6 +73,7 @@ const RightGroup = styled.div`
   align-items: center;
   gap: 8px; // Date와 CommentActions 사이의 간격
 `;
+
 const PraiseItem = ({
   islast,
   article,

@@ -4,6 +4,7 @@ import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import { axiosInstance } from '../api/axiosConfig.ts';
+import { useNavigate } from 'react-router-dom';
 
 const CommentSection = styled.div`
   padding: 20px 0;
@@ -104,6 +105,7 @@ type Comment = {
 const RecentComments = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [recentComments, setRecentComments] = useState<Comment[]>([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchRecentComment = async () => {
@@ -139,6 +141,10 @@ const RecentComments = () => {
     },
   };
 
+  const moveToDetail = (id: string) => {
+    navigate(`/post/${id}`);
+  };
+
   return (
     <CommentSection>
       <CommentTitle>최신 댓글 목록</CommentTitle>
@@ -149,8 +155,8 @@ const RecentComments = () => {
             // 슬라이드 컨테이너에 key와 inert 속성 추가
             <div
               key={comment.id || index}
-              inert={index !== currentSlide ? '' : undefined}
               tabIndex={-1}
+              onClick={() => moveToDetail(comment.articleId.toString())}
             >
               <CommentCard $isActive={index === currentSlide}>
                 <UserInfo>
