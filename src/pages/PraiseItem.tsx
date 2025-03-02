@@ -97,7 +97,7 @@ const PraiseItem = ({
   const handleReportClick = (
     content: string,
     id: number,
-    type: 'post' | 'comment',
+    type: 'article' | 'comment',
   ) => {
     openReportModal(content, id, type);
   };
@@ -196,7 +196,7 @@ const PraiseItem = ({
             <Title>{article.nickname}</Title>
             <AddtionalWrapper
               onClick={() =>
-                handleReportClick(article.content, article.id, 'comment')
+                handleReportClick(article.content, article.id, 'article')
               }
             >
               <Icon src={Siren} size={'12px'} />

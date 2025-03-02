@@ -214,7 +214,7 @@ export default function PraiseDetail() {
   const handleReportClick = (
     content: string,
     id: number,
-    type: 'post' | 'comment',
+    type: 'post' | 'reply',
   ) => {
     openReportModal(content, id, type);
   };
@@ -448,7 +448,7 @@ export default function PraiseDetail() {
                 <Icon src={Siren} size={'12px'} />
                 <ActionButton
                   onClick={() =>
-                    handleReportClick(comment.content, comment.id, 'comment')
+                    handleReportClick(comment.content, comment.id, 'reply')
                   }
                 >
                   신고하기

@@ -6,11 +6,11 @@ interface ReportModalStore {
   isOpen: boolean;
   targetContent: string;
   targetId?: number;
-  targetType?: 'post' | 'comment'; // 신고 대상 타입
+  targetType?: 'article' | 'reply'; // 신고 대상 타입
   openReportModal: (
     content: string,
     id: number,
-    type: 'post' | 'comment',
+    type: 'article' | 'reply',
   ) => void;
   closeReportModal: () => void;
   submitReport: (reportType: string, description: string) => Promise<void>;
@@ -40,11 +40,19 @@ export const useReportModalStore = create<ReportModalStore>((set, get) => ({
 
   submitReport: async (reportType, description) => {
     const { targetId, targetType } = get();
+    console.log('targetType>>', targetType, targetId);
+    console.log(
+      'submitReport>>',
+      reportType,
+      description,
+      targetId,
+      targetType,
+    );
     try {
       // API 호출
       const response = await axiosInstance.post('/abuse', {
         reason: description,
-        type: 'article',
+        type: targetType,
         id: targetId,
         category: reportType,
       });
