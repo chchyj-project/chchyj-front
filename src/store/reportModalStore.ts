@@ -44,10 +44,12 @@ export const useReportModalStore = create<ReportModalStore>((set, get) => ({
       // API 호출
       const response = await axiosInstance.post('/abuse', {
         reason: description,
-        type: reportType,
+        type: 'article',
         id: targetId,
-        targetType: targetType,
+        category: reportType,
       });
+
+      console.log('abuse response>>', response.data);
 
       // 성공 시 모달 닫기
       get().closeReportModal();

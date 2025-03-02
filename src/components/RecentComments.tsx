@@ -5,6 +5,7 @@ import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import { axiosInstance } from '../api/axiosConfig.ts';
 import { useNavigate } from 'react-router-dom';
+import dayjs from 'dayjs';
 
 const CommentSection = styled.div`
   padding: 20px 0;
@@ -162,7 +163,9 @@ const RecentComments = () => {
                 <UserInfo>
                   <div>
                     <UserName>{comment.nickname}</UserName>
-                    <CommentTime>{comment.createdAt}</CommentTime>
+                    <CommentTime>
+                      {dayjs(comment.createdAt).format('YYYY.MM.DD')}
+                    </CommentTime>
                   </div>
                 </UserInfo>
                 <CommentText>{comment.content}</CommentText>

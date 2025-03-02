@@ -10,11 +10,9 @@ import dayjs from 'dayjs';
 import { useNavigate } from 'react-router-dom';
 import { axiosInstance } from '../api/axiosConfig.ts';
 import { useApiError } from '../hooks/useApiError.ts';
-import ToastPopup from '../components/ToastPopup.tsx';
 import { useReportModalStore } from '../store/reportModalStore.ts';
 import CommentActions from '../components/CommentActions.tsx';
 import { useArticleStore } from '../store/useArticleStore.ts';
-import { toast } from 'react-toastify';
 
 const Container = styled.div<ContainerProps>`
   margin-bottom: ${(props) => (props.$islast ? '0px' : '8px')};
