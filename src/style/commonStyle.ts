@@ -78,3 +78,11 @@ export const BottomButton = styled.button`
     transform: scale(0.98);
   }
 `;
+
+export const Content = styled.span`
+  font-size: 14px;
+  line-height: 1.5;
+  color: #333;
+  margin: 10px 0;
+  cursor: pointer;
+`;

@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import { Smile } from 'lucide-react';
 import Siren from '../images/siren.png';
 import styleToken from '../style/styleToken.ts';
-import { RowFlexBetween } from '../style/commonStyle.ts';
+import { Content, RowFlexBetween } from '../style/commonStyle.ts';
 import React, { useEffect, useState } from 'react';
 import { AddtionalWrapper, Icon, TitleWrapper } from '../style/MainPage.ts';
 import { Article, ContainerProps } from '../types/MainPage.ts';
@@ -13,6 +13,8 @@ import { useApiError } from '../hooks/useApiError.ts';
 import { useReportModalStore } from '../store/reportModalStore.ts';
 import CommentActions from '../components/CommentActions.tsx';
 import { useArticleStore } from '../store/useArticleStore.ts';
+import { usePopup } from '../components/popup/PopupContext.tsx';
+import { toast } from 'react-toastify';
 
 const Container = styled.div<ContainerProps>`
   margin-bottom: ${(props) => (props.$islast ? '0px' : '8px')};
@@ -37,14 +39,6 @@ const Title = styled.h2`
 const Date = styled.span`
   font-size: 14px;
   color: #999;
-`;
-
-const Content = styled.span`
-  font-size: 14px;
-  line-height: 1.5;
-  color: #333;
-  margin: 10px 0;
-  cursor: pointer;
 `;
 
 const CommentInfo = styled.div`
@@ -82,14 +76,13 @@ const PraiseItem = ({
 }) => {
   const [isCommentOpen, setIsCommentOpen] = useState<boolean>(false);
   const navigate = useNavigate();
-  const [toastMessage, toast] = useState<string>('');
   const [openDropdownId, setOpenDropdownId] = useState<number | null>(null);
   const loggedInUserId = localStorage.getItem('userId');
   const toggleCommentBox = () => {
     setIsCommentOpen(!isCommentOpen);
   };
-
-  const { handleApiError } = useApiError();
+  console.log('article___>', article);
+  const { showConfirm } = usePopup();
 
   const createdAt = dayjs(article.createdAt);
   const { openReportModal } = useReportModalStore();
@@ -97,7 +90,7 @@ const PraiseItem = ({
   const handleReportClick = (
     content: string,
     id: number,
-    type: 'article' | 'comment',
+    type: 'article' | 'reply',
   ) => {
     openReportModal(content, id, type);
   };
@@ -128,28 +121,8 @@ const PraiseItem = ({
     navigate(`/post/${article.id}`);
   };
 
-  const abuse = async () => {
-    try {
-      const result = await axiosInstance.post<any>('/abuse', {
-        reason: '',
-        id: Number(article.id),
-        type: '',
-      });
-
-      if (result.status === 201 || result.status === 200) {
-        // 성공적으로 저장됨
-        console.log('댓글이 성공적으로 저장되었습니다:', result.data);
-
-        // 예시: 토스트 메시지 표시
-        toast('댓글이 성공적으로 저장되었습니다.');
-      }
-    } catch (error) {
-      handleApiError(error);
-    }
-  };
-
-  const handleDropdownToggle = (id: number, e?: React.MouseEvent) => {
-    // e.stopPropagation(); // 이벤트 전파 중단
+  const handleDropdownToggle = (id: number) => {
+    console.log('id>>>', id);
     setOpenDropdownId(openDropdownId === id ? null : id);
   };
 
@@ -169,22 +142,29 @@ const PraiseItem = ({
 
   const handleDelete = async (articleId: number) => {
     setOpenDropdownId(-1);
-    // 삭제 로직
-    if (openDropdownId) {
-      // 칭찬 게시글 삭제
-      try {
-        const isDeleted = await deletePost(articleId);
-        if (isDeleted) {
-          // 성공 처리 (예: 토스트 메시지 표시)
-          toast('게시글이 삭제되었습니다.');
-          // 목록 다시 불러오기 등
-          await fetchArticles();
+
+    showConfirm(
+      '게시글 삭제',
+      '정말로 이 게시글을 삭제하시겠습니까?',
+      async () => {
+        // 삭제 로직
+        if (openDropdownId) {
+          // 칭찬 게시글 삭제
+          try {
+            const isDeleted = await deletePost(articleId);
+            if (isDeleted) {
+              // 성공 처리 (예: 토스트 메시지 표시)
+              toast('게시글이 삭제되었습니다.');
+              // 목록 다시 불러오기 등
+              await fetchArticles();
+            }
+          } catch (error) {
+            toast('게시글 삭제에 실패했습니다.');
+          }
+          console.log('칭찬 게시글 삭제');
         }
-      } catch (error) {
-        toast('게시글 삭제에 실패했습니다.');
-      }
-      console.log('칭찬 게시글 삭제');
-    }
+      },
+    );
     // setIsOpen(false);
   };
 
@@ -208,7 +188,10 @@ const PraiseItem = ({
             {String(article.userId) === loggedInUserId && (
               <CommentActions
                 isopen={openDropdownId === article.id ? 'true' : 'false'}
-                setIsOpen={(e: any) => handleDropdownToggle(article.id, e)}
+                setIsOpen={(e) => {
+                  e.stopPropagation();
+                  handleDropdownToggle(article.id);
+                }}
                 type="comment"
                 commentId={article.id}
                 handleDelete={() => handleDelete(article.id)}
@@ -217,6 +200,7 @@ const PraiseItem = ({
           </RightGroup>
         </Header>
         <Content onClick={moveToDetail}>{article.content}</Content>
+
         <RowFlexBetween>
           <CommentInfo onClick={toggleCommentBox}>
             칭찬댓글 {article.commentCount}개

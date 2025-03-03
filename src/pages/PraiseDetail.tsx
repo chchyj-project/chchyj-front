@@ -3,11 +3,12 @@ import { ChevronLeft, Heart } from 'lucide-react';
 import Common from '../style/Common.ts';
 import styleToken from '../style/styleToken.ts';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { ArticleDetail } from '../types/PraiseItem.ts';
 import { axiosInstance } from '../api/axiosConfig.ts';
 import { useParams } from 'react-router-dom';
 import {
+  Content,
   RowFlexBetween,
   ScrollAwareBottomButtonWrapper,
 } from '../style/commonStyle.ts';
@@ -19,6 +20,7 @@ import { Icon } from '../style/MainPage.ts';
 import { useReportModalStore } from '../store/reportModalStore.ts';
 import { toast } from 'react-toastify';
 import { useScrollDirection } from '../hooks/useScrollDirection.ts';
+import { usePopup } from '../components/popup/PopupContext.tsx';
 
 interface UpdateArticleResponse {
   content: string;
@@ -180,16 +182,6 @@ const EditButton = styled.button`
   border-radius: 4px;
   cursor: pointer;
   font-size: 14px;
-
-  &.cancel {
-    background-color: #f5f5f5;
-    color: #666;
-  }
-
-  &.save {
-    background-color: ${Common.colors.skyblue};
-    color: white;
-  }
 `;
 
 export default function PraiseDetail() {
@@ -210,6 +202,7 @@ export default function PraiseDetail() {
     null,
   );
   const { buttonVisible } = useScrollDirection();
+  const { showConfirm } = usePopup();
 
   const handleReportClick = (
     content: string,
@@ -226,23 +219,6 @@ export default function PraiseDetail() {
 
     setIsEditing(true);
     setEditContent(articleDetail?.content || '');
-  };
-
-  // 수정 완료 처리
-  const handleEditSubmit = async () => {
-    if (postId) {
-      try {
-        const result = await updateArticle(Number(postId), editContent);
-
-        if (result.success) {
-          toast('게시글이 성공적으로 수정되었습니다.');
-          setIsEditing(false);
-          await fetchArticleDetail(); // 수정된 내용 다시 불러오기
-        }
-      } catch (error: any) {
-        toast('게시글 수정에 실패했습니다.');
-      }
-    }
   };
 
   const { mode } = location.state || '';
@@ -314,26 +290,33 @@ export default function PraiseDetail() {
 
   const handleDelete = async (replyId: number) => {
     setOpenDropdownId(-1);
-    // 삭제 로직
-    if (openDropdownId) {
-      // 칭찬 게시글 삭제
-      try {
-        const isDeleted = await deleteReply(replyId);
-        if (isDeleted) {
-          // 성공 처리 (예: 토스트 메시지 표시)
 
-          toast('댓글이 삭제되었습니다.');
-          // 목록 다시 불러오기 등
-          await fetchArticleDetail();
+    showConfirm(
+      '게시글 삭제',
+      '정말로 이 게시글을 삭제하시겠습니까?',
+      async () => {
+        // 삭제 로직
+        if (openDropdownId) {
+          // 칭찬 게시글 삭제
+          try {
+            const isDeleted = await deleteReply(replyId);
+            if (isDeleted) {
+              // 성공 처리 (예: 토스트 메시지 표시)
+
+              toast('댓글이 삭제되었습니다.');
+              // 목록 다시 불러오기 등
+              await fetchArticleDetail();
+            }
+          } catch (error) {
+            // 에러 처리
+            toast('댓글 삭제에 실패했습니다.');
+          }
+          console.log('칭찬 게시글 삭제');
+        } else {
+          //댓글 삭제
         }
-      } catch (error) {
-        // 에러 처리
-        toast('댓글 삭제에 실패했습니다.');
-      }
-      console.log('칭찬 게시글 삭제');
-    } else {
-      //댓글 삭제
-    }
+      },
+    );
     // setIsOpen(false);
   };
 
@@ -347,29 +330,6 @@ export default function PraiseDetail() {
       return false;
     } catch (error) {
       console.error('댓글 삭제 중 에러 발생:', error);
-      throw error;
-    }
-  };
-
-  const updateArticle = async (articleId: number, content: string) => {
-    try {
-      const response = await axiosInstance.put<UpdateArticleResponse>(
-        `/articles/${articleId}`,
-        { content },
-      );
-
-      if (response.status === 200) {
-        return {
-          success: true,
-          data: response.data,
-        };
-      }
-      return {
-        success: false,
-        error: '게시글 수정에 실패했습니다.',
-      };
-    } catch (error) {
-      console.error('게시글 수정 중 에러 발생:', error);
       throw error;
     }
   };
@@ -403,32 +363,7 @@ export default function PraiseDetail() {
               />
             )}
           </PostHeader>
-          {isEditing ? (
-            <>
-              <EditableTextArea
-                value={editContent}
-                onChange={(e) => setEditContent(e.target.value)}
-              />
-              <EditButtons>
-                <EditButton
-                  className="cancel"
-                  onClick={() => setIsEditing(false)}
-                >
-                  취소
-                </EditButton>
-                <EditButton className="save" onClick={handleEditSubmit}>
-                  수정완료
-                </EditButton>
-              </EditButtons>
-            </>
-          ) : (
-            <>
-              <PostContent>{articleDetail?.content}</PostContent>
-              <PostDate>
-                {dayjs(articleDetail?.createdAt).format('YYYY.MM.DD')}
-              </PostDate>
-            </>
-          )}
+          <Content>{articleDetail?.content}</Content>
         </PostContainer>
 
         <CommentSection>
@@ -460,7 +395,7 @@ export default function PraiseDetail() {
                     setIsOpen={() => handleDropdownToggle(comment.id)}
                     type="comment" // 타입 구분을 위해 추가
                     commentId={comment.id}
-                    handleDelete={handleDelete}
+                    handleDelete={() => handleDelete(comment.id)}
                   />
                 )}
               </CommentHeader>

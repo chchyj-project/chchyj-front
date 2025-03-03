@@ -6,6 +6,7 @@ import 'slick-carousel/slick/slick-theme.css';
 import { axiosInstance } from '../api/axiosConfig.ts';
 import { useNavigate } from 'react-router-dom';
 import dayjs from 'dayjs';
+import { usePopup } from './popup/PopupContext.tsx';
 
 const CommentSection = styled.div`
   padding: 20px 0;
@@ -110,17 +111,13 @@ const RecentComments = () => {
 
   useEffect(() => {
     const fetchRecentComment = async () => {
-      const response = await axiosInstance.get('/replies/latest');
-      console.log(response);
-      return response;
+      return await axiosInstance.get('/replies/latest');
     };
     fetchRecentComment()
       .then((response) => {
-        console.log('Success:', response.data);
         setRecentComments(response.data.list);
       })
       .catch((error) => {
-        console.log('Error details:', error.response.data);
         // 더 자세한 에러 정보 확인
       });
   }, []);
