@@ -2,7 +2,8 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { ChevronLeft, MessageCircle, Edit3 } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
+import PraiseFairy from '../components/PraiseFairy.tsx';
+import { useNavigate, useLocation, useSearchParams } from 'react-router-dom';
 
 // 타입 정의
 interface PraiseItem {
@@ -81,6 +82,7 @@ const BannerDescription = styled.p`
 const BannerImage = styled.div`
   width: 80px;
   height: 80px;
+
   img {
     width: 100%;
     height: 100%;
@@ -231,11 +233,23 @@ const ActionButton = styled.button`
 // 메인 컴포넌트
 const MyPraiseCollectionPage: React.FC = () => {
   const navigate = useNavigate();
-  const [activeTab, setActiveTab] = useState<'posts' | 'comments'>('posts');
   const [currentPage, setCurrentPage] = useState(1);
   const [praiseItems, setPraiseItems] = useState<PraiseItem[]>([]);
   const [loading, setLoading] = useState(true);
+  const [searchParams, setSearchParams] = useSearchParams();
+  const tabFromUrl = searchParams.get('tab') || 'posts';
+  const [activeTab, setActiveTab] = useState<'posts' | 'comments'>(
+    tabFromUrl === 'comments' ? 'comments' : 'posts',
+  );
 
+  useEffect(() => {
+    const newTab = searchParams.get('tab');
+    if (newTab === 'comments' && activeTab !== 'comments') {
+      setActiveTab('comments');
+    } else if ((newTab === 'posts' || !newTab) && activeTab !== 'posts') {
+      setActiveTab('posts');
+    }
+  }, [searchParams, activeTab]);
   // 데이터 로딩 예시 (실제 구현 시 API 호출로 대체)
   useEffect(() => {
     // 예시 데이터
@@ -300,7 +314,7 @@ const MyPraiseCollectionPage: React.FC = () => {
   const renderEmptyState = () => (
     <EmptyState>
       <EmptyImage>
-        <img src="/path/to/empty-illustration.png" alt="텅 비어있어요" />
+        <PraiseFairy />
       </EmptyImage>
       <EmptyTitle>
         {activeTab === 'posts'
@@ -320,6 +334,11 @@ const MyPraiseCollectionPage: React.FC = () => {
     </EmptyState>
   );
 
+  const updateTab = (tab: 'posts' | 'comments') => {
+    setActiveTab(tab);
+    setSearchParams({ tab });
+  };
+
   return (
     <Container>
       <Header>
@@ -337,20 +356,17 @@ const MyPraiseCollectionPage: React.FC = () => {
           </BannerDescription>
         </BannerText>
         <BannerImage>
-          <img src="/path/to/fairy-image.png" alt="칭찬요정" />
+          <PraiseFairy />
         </BannerImage>
       </BannerSection>
 
       <TabMenu>
-        <Tab
-          active={activeTab === 'posts'}
-          onClick={() => setActiveTab('posts')}
-        >
+        <Tab active={activeTab === 'posts'} onClick={() => updateTab('posts')}>
           <Edit3 size={18} />내 칭찬글
         </Tab>
         <Tab
           active={activeTab === 'comments'}
-          onClick={() => setActiveTab('comments')}
+          onClick={() => updateTab('comments')}
         >
           <MessageCircle size={18} />내 댓글
         </Tab>

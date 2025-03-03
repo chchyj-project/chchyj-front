@@ -202,7 +202,9 @@ export default function Profile() {
 
         <MenuList>
           <MenuItem>
-            <MenuItemContent onClick={() => navigate('/my-collection')}>
+            <MenuItemContent
+              onClick={() => navigate('/my-collection?tab=posts')}
+            >
               <MenuText>
                 <MenuIcon>
                   <Folder size={20} />
@@ -213,7 +215,9 @@ export default function Profile() {
             </MenuItemContent>
           </MenuItem>
           <MenuItem>
-            <MenuItemContent>
+            <MenuItemContent
+              onClick={() => navigate('/my-collection?tab=comments')}
+            >
               <MenuText>
                 <MenuIcon>
                   <SmileIcon size={20} />
