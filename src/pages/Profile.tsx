@@ -10,6 +10,8 @@ import {
 import { useNavigate } from 'react-router-dom';
 import Footer from './Footer.tsx';
 import AuthService from '../api/AuthService.ts';
+import { useEffect, useState } from 'react';
+import { axiosInstance } from '../api/axiosConfig.ts';
 
 const Container = styled.div`
   max-width: 768px;
@@ -163,6 +165,20 @@ const NewCommentBadge = styled.span`
 
 export default function Profile() {
   const navigate = useNavigate();
+  const [heartCountInfo, setHeartCountInfo] = useState({
+    tot: 0,
+    spent: 0,
+    left: 0,
+  });
+
+  useEffect(() => {
+    const fetchMyHeartCount = async () => {
+      const { data } = await axiosInstance.get(`/heart/points`);
+      console.log('data>>', data);
+      setHeartCountInfo({ ...heartCountInfo, left: data.point });
+    };
+    fetchMyHeartCount();
+  }, []);
 
   const logout = () => {
     AuthService.logout();
@@ -183,19 +199,19 @@ export default function Profile() {
             <EditButton>편집하기</EditButton>
           </TitleWrapper>
         </ProfileHeader>
-        <Subtitle>창천요정이 되신지 333일이 되었어요~</Subtitle>
+        <Subtitle>창천요정이 되신지 일이 되었어요~</Subtitle>
 
         <StatsContainer>
           <StatItem>
-            <StatNumber>10</StatNumber>
+            <StatNumber>{heartCountInfo.tot ?? 0}</StatNumber>
             <StatLabel>총 하트 개수</StatLabel>
           </StatItem>
           <StatItem>
-            <StatNumber>4</StatNumber>
+            <StatNumber>{heartCountInfo.spent ?? 0}</StatNumber>
             <StatLabel>사용한 하트</StatLabel>
           </StatItem>
           <StatItem>
-            <StatNumber>6</StatNumber>
+            <StatNumber>{heartCountInfo.left ?? 0}</StatNumber>
             <StatLabel>남은 하트💙</StatLabel>
           </StatItem>
         </StatsContainer>
@@ -211,7 +227,7 @@ export default function Profile() {
                 </MenuIcon>
                 내 칭찬글 모아보기
               </MenuText>
-              <NewCommentBadge>새로운 칭찬댓글 1개</NewCommentBadge>
+              <NewCommentBadge>새로운 칭찬댓글 개</NewCommentBadge>
             </MenuItemContent>
           </MenuItem>
           <MenuItem>

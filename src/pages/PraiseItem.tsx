@@ -86,7 +86,7 @@ const PraiseItem = ({
 
   const createdAt = dayjs(article.createdAt);
   const { openReportModal } = useReportModalStore();
-  const { fetchArticles } = useArticleStore();
+  const { fetchArticles, deleteArticle } = useArticleStore();
   const handleReportClick = (
     content: string,
     id: number,
@@ -126,20 +126,6 @@ const PraiseItem = ({
     setOpenDropdownId(openDropdownId === id ? null : id);
   };
 
-  const deletePost = async (articleId: number) => {
-    try {
-      const response = await axiosInstance.delete(`/articles/${articleId}`);
-
-      if (response.status === 200 || response.status === 204) {
-        return true; // 삭제 성공
-      }
-      return false;
-    } catch (error) {
-      console.error('게시글 삭제 중 에러 발생:', error);
-      throw error;
-    }
-  };
-
   const handleDelete = async (articleId: number) => {
     setOpenDropdownId(-1);
 
@@ -151,7 +137,7 @@ const PraiseItem = ({
         if (openDropdownId) {
           // 칭찬 게시글 삭제
           try {
-            const isDeleted = await deletePost(articleId);
+            const isDeleted = await deleteArticle(articleId);
             if (isDeleted) {
               // 성공 처리 (예: 토스트 메시지 표시)
               toast('게시글이 삭제되었습니다.');
@@ -193,7 +179,7 @@ const PraiseItem = ({
                   handleDropdownToggle(article.id);
                 }}
                 type="comment"
-                commentId={article.id}
+                itemId={article.id}
                 handleDelete={() => handleDelete(article.id)}
               />
             )}

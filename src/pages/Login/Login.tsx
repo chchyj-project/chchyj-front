@@ -8,6 +8,7 @@ const LoginPage = styled.div`
   position: relative;
   height: 100vh;
   width: 100%;
+  background: white;
 `;
 const Image = styled.div`
   width: 90%;

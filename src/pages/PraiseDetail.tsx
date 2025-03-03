@@ -21,6 +21,7 @@ import { useReportModalStore } from '../store/reportModalStore.ts';
 import { toast } from 'react-toastify';
 import { useScrollDirection } from '../hooks/useScrollDirection.ts';
 import { usePopup } from '../components/popup/PopupContext.tsx';
+import { useArticleStore } from '../store/useArticleStore.ts';
 
 interface UpdateArticleResponse {
   content: string;
@@ -120,19 +121,6 @@ const CommentContent = styled.p`
   margin-bottom: 8px;
 `;
 
-const BottomButtonWrapper = styled.div`
-  position: fixed;
-  bottom: 25px;
-  z-index: 100;
-  display: flex;
-  justify-content: center;
-  max-width: 784px;
-  width: 100%;
-  margin: 0 auto;
-  left: 50%;
-  transform: translateX(-50%);
-`;
-
 const BottomButton = styled.button`
   //padding: 15px 100px;
   height: 56px;
@@ -157,33 +145,6 @@ const LikeButton = styled.button`
   justify-content: center;
 `;
 
-// 수정할 수 있는 TextArea 컴포넌트 추가
-const EditableTextArea = styled.textarea`
-  width: 100%;
-  min-height: 100px;
-  padding: 12px;
-  border: 1px solid #e0e0e0;
-  border-radius: 8px;
-  font-size: 14px;
-  line-height: 1.5;
-  resize: none;
-  margin-bottom: 12px;
-`;
-
-const EditButtons = styled.div`
-  display: flex;
-  gap: 8px;
-  justify-content: flex-end;
-`;
-
-const EditButton = styled.button`
-  padding: 8px 16px;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 14px;
-`;
-
 export default function PraiseDetail() {
   const navigate = useNavigate();
   const nickname = localStorage.getItem('nickname');
@@ -203,6 +164,7 @@ export default function PraiseDetail() {
   );
   const { buttonVisible } = useScrollDirection();
   const { showConfirm } = usePopup();
+  const { deleteArticle } = useArticleStore();
 
   const handleReportClick = (
     content: string,
@@ -286,34 +248,44 @@ export default function PraiseDetail() {
   const moveToListPage = () => {
     navigate('/home?userSocialId=' + nickname);
   };
-  console.log('articleDetail', articleDetail);
 
-  const handleDelete = async (replyId: number) => {
+  const handleDelete = async (type: '게시글' | '댓글', itemId: number) => {
     setOpenDropdownId(-1);
 
+    console.log('handleDelete', type, itemId);
+
     showConfirm(
-      '게시글 삭제',
-      '정말로 이 게시글을 삭제하시겠습니까?',
+      `${type} 삭제`,
+      `정말로 이 ${type}을 삭제하시겠습니까?`,
       async () => {
         // 삭제 로직
-        if (openDropdownId) {
-          // 칭찬 게시글 삭제
-          try {
-            const isDeleted = await deleteReply(replyId);
-            if (isDeleted) {
-              // 성공 처리 (예: 토스트 메시지 표시)
+        // 칭찬 게시글 삭제
+        try {
+          let isDeleted;
 
-              toast('댓글이 삭제되었습니다.');
-              // 목록 다시 불러오기 등
+          if (type === '게시글') {
+            // 게시글 삭제 함수 호출
+            isDeleted = await deleteArticle(itemId);
+            console.log('게시글 isDeleted>>', isDeleted);
+          } else {
+            // 댓글 삭제 함수 호출
+            isDeleted = await deleteReply(itemId);
+          }
+          if (isDeleted) {
+            // 성공 처리 (예: 토스트 메시지 표시)
+
+            toast(`${type}이 삭제되었습니다.`);
+
+            if (type === '게시글') {
+              navigate('/home?userSocialId=' + nickname);
+            } else {
               await fetchArticleDetail();
             }
-          } catch (error) {
-            // 에러 처리
-            toast('댓글 삭제에 실패했습니다.');
+            // 목록 다시 불러오기 등
           }
-          console.log('칭찬 게시글 삭제');
-        } else {
-          //댓글 삭제
+        } catch (error) {
+          // 에러 처리
+          toast(`${type} 삭제에 실패했습니다.`);
         }
       },
     );
@@ -358,8 +330,11 @@ export default function PraiseDetail() {
                 isopen={openDropdownId === 0 ? 'true' : 'false'}
                 setIsOpen={() => handleDropdownToggle(0)}
                 type="post"
+                itemId={articleDetail?.id}
                 handleEdit={handleEdit}
-                handleDelete={handleDelete}
+                handleDelete={() =>
+                  handleDelete('게시글', Number(articleDetail?.id))
+                }
               />
             )}
           </PostHeader>
@@ -394,8 +369,8 @@ export default function PraiseDetail() {
                     isopen={openDropdownId === comment.id ? 'true' : 'false'}
                     setIsOpen={() => handleDropdownToggle(comment.id)}
                     type="comment" // 타입 구분을 위해 추가
-                    commentId={comment.id}
-                    handleDelete={() => handleDelete(comment.id)}
+                    itemId={comment.id}
+                    handleDelete={() => handleDelete('댓글', comment.id)}
                   />
                 )}
               </CommentHeader>
