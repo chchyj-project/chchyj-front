@@ -202,7 +202,7 @@ export default function Profile() {
 
         <MenuList>
           <MenuItem>
-            <MenuItemContent>
+            <MenuItemContent onClick={() => navigate('/my-collection')}>
               <MenuText>
                 <MenuIcon>
                   <Folder size={20} />

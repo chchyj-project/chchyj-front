@@ -9,6 +9,7 @@ import PraiseDetail from './pages/PraiseDetail.tsx';
 import Profile from './pages/Profile.tsx';
 import ReportModal from './components/ReportModal.tsx';
 import { ToastContainer, toast } from 'react-toastify';
+import MyPraiseCollectionPage from './pages/MyPraiseCollectionPage.tsx';
 
 const AppWrap = styled.div`
   width: 100%;
@@ -54,6 +55,7 @@ const App = () => {
           <Route path="/login/nickname" element={<SetNickName />} />
           <Route path="/post/:postId" element={<PraiseDetail />} />
           <Route path="/profile" element={<Profile />} />
+          <Route path="/my-collection" element={<MyPraiseCollectionPage />} />
         </Routes>
       </AppWrap>
     </BrowserRouter>

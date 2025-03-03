@@ -214,7 +214,7 @@ export default function PraiseDetail() {
   const handleReportClick = (
     content: string,
     id: number,
-    type: 'post' | 'reply',
+    type: 'article' | 'reply',
   ) => {
     openReportModal(content, id, type);
   };

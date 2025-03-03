@@ -56,6 +56,7 @@ class AuthService {
 
           if (result && nicknameVal && userId) {
             if (nicknameVal.length > 0) {
+              console.log('nicknameVal>>', nicknameVal);
               localStorage.setItem('nickname', nicknameVal);
               localStorage.setItem('userId', userId);
               window.location.href = `/home?userSocialId=${encodeURIComponent(nicknameVal)}`;

@@ -154,11 +154,7 @@ const RecentComments = () => {
           recentComments.length > 0 &&
           recentComments.map((comment, index) => (
             // 슬라이드 컨테이너에 key와 inert 속성 추가
-            <div
-              key={comment.id || index}
-              tabIndex={-1}
-              onClick={() => moveToDetail(comment.articleId.toString())}
-            >
+            <div key={comment.id || index} tabIndex={-1}>
               <CommentCard $isActive={index === currentSlide}>
                 <UserInfo>
                   <div>
@@ -168,7 +164,11 @@ const RecentComments = () => {
                     </CommentTime>
                   </div>
                 </UserInfo>
-                <CommentText>{comment.content}</CommentText>
+                <CommentText
+                  onClick={() => moveToDetail(comment.articleId.toString())}
+                >
+                  {comment.content}
+                </CommentText>
               </CommentCard>
             </div>
           ))}

@@ -13,7 +13,7 @@ const LoginCallback = () => {
     console.log('code-->', code);
     if (code) {
       console.log('code:', code);
-      AuthService.kakaoLogin(code, axiosPath.REDIRECT_URI)
+      AuthService.kakaoLogin(code, window.location.origin + '/login/callback')
         .then(() => {
           console.log('성공');
         })
