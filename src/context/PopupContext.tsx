@@ -1,7 +1,7 @@
 // PopupContext.tsx
 import React, { createContext, useState, useContext, ReactNode } from 'react';
 import styled from 'styled-components';
-import Common from '../../style/Common.ts';
+import Common from '../style/Common.ts';
 
 // 팝업 타입 정의
 type PopupType = 'alert' | 'confirm' | 'custom';

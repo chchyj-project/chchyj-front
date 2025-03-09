@@ -163,19 +163,29 @@ const NewCommentBadge = styled.span`
   }
 `;
 
+type ProfileProps = {
+  heartConsumeCount: number;
+  heartRemainCount: number;
+  heartTotalCount: number;
+  nickname: string;
+  userId: number;
+};
+
 export default function Profile() {
   const navigate = useNavigate();
-  const [heartCountInfo, setHeartCountInfo] = useState({
-    tot: 0,
-    spent: 0,
-    left: 0,
+  const [myProfileInfo, setMyProfileInfo] = useState<ProfileProps>({
+    heartConsumeCount: 0,
+    heartRemainCount: 0,
+    heartTotalCount: 0,
+    nickname: '',
+    userId: 0,
   });
 
   useEffect(() => {
     const fetchMyHeartCount = async () => {
-      const { data } = await axiosInstance.get(`/heart/points`);
+      const { data } = await axiosInstance.get(`/profiles`);
       console.log('data>>', data);
-      setHeartCountInfo({ ...heartCountInfo, left: data.point });
+      setMyProfileInfo({ ...data });
     };
     fetchMyHeartCount();
   }, []);
@@ -187,7 +197,11 @@ export default function Profile() {
   return (
     <Container>
       <Header>
-        <BackButton onClick={() => navigate(-1)}>
+        <BackButton
+          onClick={() =>
+            navigate(`/home?userSocialId=${localStorage.getItem('nickname')}`)
+          }
+        >
           <ChevronLeft size={24} />
         </BackButton>
       </Header>
@@ -195,7 +209,7 @@ export default function Profile() {
       <ProfileSection>
         <ProfileHeader>
           <TitleWrapper>
-            <Title>꽃내랑</Title>
+            <Title>{myProfileInfo.nickname}</Title>
             <EditButton>편집하기</EditButton>
           </TitleWrapper>
         </ProfileHeader>
@@ -203,15 +217,15 @@ export default function Profile() {
 
         <StatsContainer>
           <StatItem>
-            <StatNumber>{heartCountInfo.tot ?? 0}</StatNumber>
+            <StatNumber>{myProfileInfo.heartTotalCount ?? 0}</StatNumber>
             <StatLabel>총 하트 개수</StatLabel>
           </StatItem>
           <StatItem>
-            <StatNumber>{heartCountInfo.spent ?? 0}</StatNumber>
+            <StatNumber>{myProfileInfo.heartConsumeCount ?? 0}</StatNumber>
             <StatLabel>사용한 하트</StatLabel>
           </StatItem>
           <StatItem>
-            <StatNumber>{heartCountInfo.left ?? 0}</StatNumber>
+            <StatNumber>{myProfileInfo.heartRemainCount ?? 0}</StatNumber>
             <StatLabel>남은 하트💙</StatLabel>
           </StatItem>
         </StatsContainer>

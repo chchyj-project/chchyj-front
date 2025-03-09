@@ -22,8 +22,9 @@ class AuthService {
   }
 
   logout() {
-    localStorage.removeItem(ACCESS_TOKEN_NAME);
-    localStorage.removeItem('nickname');
+    // localStorage.removeItem(ACCESS_TOKEN_NAME);
+    // localStorage.removeItem('nickname');
+    localStorage.clear();
   }
 
   isUserLogin() {

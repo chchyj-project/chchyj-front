@@ -10,7 +10,7 @@ import Profile from './pages/Profile.tsx';
 import ReportModal from './components/ReportModal.tsx';
 import { ToastContainer, toast } from 'react-toastify';
 import MyPraiseCollectionPage from './pages/MyPraiseCollectionPage.tsx';
-import { PopupProvider } from './components/popup/PopupContext';
+import { PopupProvider } from './context/PopupContext.tsx';
 
 const AppWrap = styled.div`
   width: 100%;

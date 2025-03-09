@@ -20,8 +20,9 @@ import { Icon } from '../style/MainPage.ts';
 import { useReportModalStore } from '../store/reportModalStore.ts';
 import { toast } from 'react-toastify';
 import { useScrollDirection } from '../hooks/useScrollDirection.ts';
-import { usePopup } from '../components/popup/PopupContext.tsx';
+import { usePopup } from '../context/PopupContext.tsx';
 import { useArticleStore } from '../store/useArticleStore.ts';
+import axios from 'axios';
 
 interface UpdateArticleResponse {
   content: string;
@@ -39,7 +40,7 @@ const Header = styled.header`
   display: flex;
   align-items: center;
   padding: 10px 16px 16px 16px;
-  border-bottom: 1px solid #eee;
+  border-bottom: 1px solid #e2e5e9;
 `;
 
 const BackButton = styled.button`
@@ -53,7 +54,7 @@ const BackButton = styled.button`
 
 const PostContainer = styled.article`
   padding: 20px;
-  border-bottom: 1px solid #eee;
+  border-bottom: 1px solid #e2e5e9;
 `;
 
 const PostTitle = styled.h2`
@@ -78,9 +79,13 @@ const CommentSection = styled.section`
 `;
 
 const CommentItem = styled.div`
-  padding: 16px 0;
-  border-bottom: 1px solid #eee;
+  padding: 19px 0;
+  border-bottom: 1px solid #e2e5e9;
   position: relative;
+  /* 마지막 요소의 border 제거 */
+  &:last-child {
+    border-bottom: none;
+  }
 `;
 
 const CommentHeader = styled.div`
@@ -308,9 +313,37 @@ export default function PraiseDetail() {
   };
 
   const like = async (commentId: number) => {
-    const result = await axiosInstance.post<any>(`/replies/${commentId}/like`);
-    console.log('좋아요 결과>>', result);
-    if (result.status === 201 || result.status === 200) {
+    try {
+      const result = await axiosInstance.post<any>(
+        `/replies/${commentId}/like`,
+      );
+      console.log('좋아요 결과>>', result, 'nickname>>', loggedInNickname);
+      const { data } = result;
+
+      // 성공 처리
+      if (result.status === 201 || result.status === 200) {
+        // 성공 시 바로 UI 업데이트: 좋아요 상태 변경 및 게시글 데이터 갱신
+
+        // 또는 더 효율적인 방법: 현재 상태를 직접 업데이트
+        if (articleDetail) {
+          const updatedReplyList = articleDetail.replyList.map((reply) => {
+            if (reply.id === commentId) {
+              return { ...reply, isLike: true }; // 좋아요 상태 변경
+            }
+            return reply;
+          });
+
+          // 업데이트된 리스트로 상태 갱신
+          setArticleDetail({
+            ...articleDetail,
+            replyList: updatedReplyList,
+          });
+        }
+      } else {
+        toast(data.message);
+      }
+    } catch (error) {
+      // 에러 처리 로직...
     }
   };
 

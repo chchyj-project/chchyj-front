@@ -13,7 +13,7 @@ import { useApiError } from '../hooks/useApiError.ts';
 import { useReportModalStore } from '../store/reportModalStore.ts';
 import CommentActions from '../components/CommentActions.tsx';
 import { useArticleStore } from '../store/useArticleStore.ts';
-import { usePopup } from '../components/popup/PopupContext.tsx';
+import { usePopup } from '../context/PopupContext.tsx';
 import { toast } from 'react-toastify';
 
 const Container = styled.div<ContainerProps>`
@@ -81,7 +81,6 @@ const PraiseItem = ({
   const toggleCommentBox = () => {
     setIsCommentOpen(!isCommentOpen);
   };
-  console.log('article___>', article);
   const { showConfirm } = usePopup();
 
   const createdAt = dayjs(article.createdAt);

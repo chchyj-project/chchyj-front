@@ -53,7 +53,7 @@ const Title = styled.h1`
 
 // 배너 영역
 const BannerSection = styled.section`
-  background-color: #b3daff;
+  background-color: #c9ebff;
   padding: 24px 20px;
   display: flex;
   align-items: center;
@@ -68,7 +68,7 @@ const BannerText = styled.div`
 const BannerTitle = styled.h2`
   font-size: 20px;
   font-weight: bold;
-  color: #2c5282;
+  color: #111111;
   margin: 0 0 8px 0;
 `;
 
@@ -104,8 +104,8 @@ const Tab = styled.button<{ active: boolean }>`
   background: none;
   border: none;
   border-bottom: 3px solid
-    ${(props) => (props.active ? '#4299e1' : 'transparent')};
-  color: ${(props) => (props.active ? '#4299e1' : '#718096')};
+    ${(props) => (props.active ? '#60c3fb' : 'transparent')};
+  color: ${(props) => (props.active ? '#60c3fb' : '#718096')};
   font-weight: ${(props) => (props.active ? 'bold' : 'normal')};
   font-size: 16px;
   cursor: pointer;
@@ -165,8 +165,8 @@ const PageButton = styled.button<{ active?: boolean }>`
   width: 36px;
   height: 36px;
   border-radius: 50%;
-  border: 1px solid ${(props) => (props.active ? '#4299e1' : '#e0e8f5')};
-  background-color: ${(props) => (props.active ? '#4299e1' : 'white')};
+  border: 1px solid ${(props) => (props.active ? '#60c3fb' : '#e0e8f5')};
+  background-color: ${(props) => (props.active ? '#60c3fb' : 'white')};
   color: ${(props) => (props.active ? 'white' : '#4a5568')};
   font-size: 14px;
   display: flex;
@@ -308,7 +308,7 @@ const MyPraiseCollectionPage: React.FC = () => {
   }, [activeTab]);
 
   const handleBack = () => {
-    navigate(-1);
+    navigate('/profile');
   };
 
   const renderEmptyState = () => (

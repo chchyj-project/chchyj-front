@@ -89,7 +89,7 @@ const Hat = styled.div`
   transform: translateX(-50%);
   width: 1.5rem; /* w-6 */
   height: 1.5rem; /* h-6 */
-  background-color: #60a5fa; /* bg-blue-400 */
+  background-color: #60c3fb; /* bg-blue-400 */
   border-radius: 9999px; /* rounded-full */
 `;
 

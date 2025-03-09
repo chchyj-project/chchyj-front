@@ -6,7 +6,7 @@ import 'slick-carousel/slick/slick-theme.css';
 import { axiosInstance } from '../api/axiosConfig.ts';
 import { useNavigate } from 'react-router-dom';
 import dayjs from 'dayjs';
-import { usePopup } from './popup/PopupContext.tsx';
+import { usePopup } from '../context/PopupContext.tsx';
 
 const CommentSection = styled.div`
   padding: 20px 0;
@@ -43,7 +43,7 @@ const CommentCard = styled.div<{ $isActive?: boolean }>`
   padding: 15px;
   background: #fff;
   border-radius: 12px;
-  border: 1px solid #eee;
+  border: 1px solid #e2e5e9;
   box-sizing: border-box;
   touch-action: pan-y pinch-zoom;
 
@@ -77,6 +77,10 @@ const CommentText = styled.p`
   font-size: 14px;
   line-height: 1.4;
   margin: 0;
+`;
+
+const ClickableText = styled.span`
+  cursor: pointer;
 `;
 
 const ProgressBarContainer = styled.div`
@@ -161,10 +165,12 @@ const RecentComments = () => {
                     </CommentTime>
                   </div>
                 </UserInfo>
-                <CommentText
-                  onClick={() => moveToDetail(comment.articleId.toString())}
-                >
-                  {comment.content}
+                <CommentText>
+                  <ClickableText
+                    onClick={() => moveToDetail(comment.articleId.toString())}
+                  >
+                    {comment.content}
+                  </ClickableText>
                 </CommentText>
               </CommentCard>
             </div>
