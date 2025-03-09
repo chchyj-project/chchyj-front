@@ -373,9 +373,7 @@ const MyPraiseCollectionPage: React.FC = () => {
       </TabMenu>
 
       <PraiseListSection>
-        {loading ? (
-          <div>로딩 중...</div>
-        ) : praiseItems.length > 0 ? (
+        {praiseItems.length > 0 && (
           <>
             {praiseItems.map((item) => (
               <PraiseItem key={item.id}>
@@ -395,8 +393,6 @@ const MyPraiseCollectionPage: React.FC = () => {
               <PageButton>&gt;</PageButton>
             </Pagination>
           </>
-        ) : (
-          renderEmptyState()
         )}
       </PraiseListSection>
     </Container>

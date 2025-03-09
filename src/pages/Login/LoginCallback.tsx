@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import AuthService from '../../api/AuthService';
 import axiosPath from '../../api/axiosPath';
+import Loading from '../../components/common/Loading.tsx';
 
 const LoginCallback = () => {
   const href = window.location.href;
@@ -24,11 +25,7 @@ const LoginCallback = () => {
     }
   }, [code]);
 
-  return (
-    <div style={{ width: '100%', height: '100vh', verticalAlign: 'middle' }}>
-      로그인 중입니다! 잠시만 기다려주세요!
-    </div>
-  );
+  return <Loading />;
 };
 
 export default LoginCallback;
