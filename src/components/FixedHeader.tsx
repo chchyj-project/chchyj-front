@@ -67,7 +67,7 @@ const NicknameWrapper = styled.div`
 const Nickname = styled.button`
   color: #84d1fd;
   font-weight: 700;
-  font-size: 14px;
+  font-size: 1.25rem;
   line-height: 17px;
   cursor: pointer;
 `;
@@ -103,7 +103,7 @@ const FixedHeader = ({ bgColor }: FixedHeaderProps) => {
             </MenuButton>
           ) : (
             <NicknameWrapper onClick={() => navigate('/profile')}>
-              <div style={{ padding: '0 4px' }}>
+              <div style={{ padding: '0 4px', marginRight: '4px' }}>
                 <img src={FilledHeart} alt={'filled_heart'} />
               </div>
               <Nickname>{nickname}</Nickname>

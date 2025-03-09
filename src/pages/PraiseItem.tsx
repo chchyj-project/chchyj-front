@@ -18,7 +18,7 @@ import { toast } from 'react-toastify';
 
 const Container = styled.div<ContainerProps>`
   margin-bottom: ${(props) => (props.$islast ? '0px' : '8px')};
-  padding: 15px 15px 5px 15px;
+  padding: 15px;
   background-color: #fff;
 `;
 
@@ -38,6 +38,7 @@ const Title = styled.h2`
 
 const Date = styled.span`
   font-size: 14px;
+  padding: 10px 0;
   color: #999;
 `;
 
