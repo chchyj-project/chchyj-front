@@ -220,6 +220,7 @@ export default function PraiseDetail() {
   const fetchArticleDetail = async () => {
     try {
       const { data } = await axiosInstance.get(`/articles/${postId}`);
+      console.log('detail data>>', data);
       setArticleDetail(data);
     } catch (error) {
       console.error('상세 조회 중 에러 발생:', error);

@@ -9,7 +9,7 @@ export interface IconProps {
 }
 
 export type Article = {
-  commentCount: number;
+  replyCount: number;
   content: string;
   createdAt: string;
   id: number;

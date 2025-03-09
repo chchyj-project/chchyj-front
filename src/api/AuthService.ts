@@ -40,7 +40,7 @@ class AuthService {
         code,
         redirectUri,
       });
-
+      console.log('response>>', response);
       const { isNewUser, accessToken } = response.data;
 
       if (typeof accessToken === 'string') {
@@ -48,7 +48,8 @@ class AuthService {
       }
 
       if (isNewUser) {
-        window.location.href = `/login/nickname`;
+        const { userSocialId } = response.data;
+        window.location.href = `/login/nickname?userSocialId=${encodeURIComponent(String(userSocialId))}`;
       } else {
         try {
           const result = await this.getUserInfo();

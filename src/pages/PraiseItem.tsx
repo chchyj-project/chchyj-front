@@ -189,7 +189,7 @@ const PraiseItem = ({
 
         <RowFlexBetween>
           <CommentInfo onClick={toggleCommentBox}>
-            칭찬댓글 {article.commentCount}개
+            칭찬댓글 {article.replyCount}개
           </CommentInfo>
           <WritingCommentWrapper
             onClick={() =>

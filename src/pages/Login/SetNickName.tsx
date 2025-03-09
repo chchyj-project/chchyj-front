@@ -36,8 +36,9 @@ function SetNickName() {
     setUserNickName(value);
   };
   const handleSubmit = async () => {
-    const userSocialId = searchParams.get('userSocialId');
-    if (userNickName) {
+    let userSocialId = searchParams.get('userSocialId');
+    debugger;
+    if (userSocialId) {
       const response = await axiosInstance.post('/users/by-social', {
         userSocialId,
         nickname: userNickName,
