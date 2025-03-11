@@ -68,7 +68,7 @@ export default function ToastPopup({ message, setToast, position }: any) {
   useEffect(() => {
     const timer = setTimeout(() => {
       setToast(false);
-    }, 3000);
+    }, 500);
     return () => {
       clearTimeout(timer);
     };

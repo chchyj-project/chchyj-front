@@ -165,11 +165,11 @@ export default function WriteCommentSlidingPanel({
       if (result.status === 201 || result.status === 200) {
         // 성공적으로 저장됨
         console.log('댓글이 성공적으로 저장되었습니다:', result.data);
-        toast('댓글이 성공적으로 저장되었습니다.');
-        setTimeout(() => {
-          handleWriteClick(false);
-          setContent('');
-        }, 2000); // 2초 후 실행
+        // toast('댓글이 성공적으로 저장되었습니다.');
+        // setTimeout(() => {
+        handleWriteClick(false);
+        //   setContent('');
+        // }, 2000); // 2초 후 실행
       }
     } catch (error) {
       handleApiError(error);

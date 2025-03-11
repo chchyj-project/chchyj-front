@@ -6,6 +6,8 @@ import {
   SmileIcon,
   Clock,
   LogOut,
+  Edit2,
+  ArrowRight,
 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import Footer from './Footer.tsx';
@@ -21,11 +23,12 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
 `;
+
 const Header = styled.header`
   display: flex;
   align-items: center;
-  padding: 16px;
-  border-bottom: 1px solid #eee;
+  padding: 14px 16px;
+  border-bottom: 1px solid #e2e5e9;
 `;
 
 const BackButton = styled.button`
@@ -35,48 +38,68 @@ const BackButton = styled.button`
   cursor: pointer;
   display: flex;
   align-items: center;
+  transition: opacity 0.2s;
+
+  &:hover {
+    opacity: 0.7;
+  }
 `;
 
 const ProfileSection = styled.div`
-  padding: 20px;
-  flex: 1; // 나머지 공간을 차지하도록
+  padding: 28px 20px;
+  flex: 1;
+  background-color: #fafafa;
 `;
 
 const ProfileHeader = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 10px;
+  margin-bottom: 12px;
 `;
 
 const Title = styled.h1`
   font-size: 24px;
-  font-weight: bold;
+  font-weight: 700;
+  color: #333;
 `;
 
 const Subtitle = styled.p`
   color: #666;
-  font-size: 14px;
-  margin-bottom: 20px;
+  font-size: 15px;
+  margin-bottom: 28px;
 `;
 
 const StatsContainer = styled.div`
   display: flex;
   justify-content: space-around;
-  background: #f8f9fa;
-  padding: 20px;
-  border-radius: 8px;
-  margin-bottom: 20px;
+  background: white;
+  padding: 22px 16px;
+  border-radius: 12px;
+  margin-bottom: 28px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
 `;
 
 const StatItem = styled.div`
   text-align: center;
+  position: relative;
+
+  &:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    right: -10px;
+    top: 15%;
+    height: 70%;
+    width: 1px;
+    background-color: #e2e5e9;
+  }
 `;
 
 const StatNumber = styled.div`
-  font-size: 24px;
-  font-weight: bold;
-  margin-bottom: 8px;
+  font-size: 26px;
+  font-weight: 700;
+  margin-bottom: 10px;
+  color: #333;
 `;
 
 const StatLabel = styled.div`
@@ -85,50 +108,72 @@ const StatLabel = styled.div`
 `;
 
 const MenuList = styled.div`
-  padding: 0; /* 여백 제거 */
+  background: white;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  margin-bottom: 20px;
 `;
 
 const MenuItem = styled.button`
   display: flex;
   align-items: center;
   width: 100%;
-  padding: 16px 10px; /* 좌우 패딩 감소 */
+  padding: 18px 16px;
   border: none;
   background: none;
   font-size: 16px;
   color: #333;
   cursor: pointer;
+  text-align: left;
+  border-bottom: 1px solid #f0f0f0;
+  transition: background-color 0.2s;
 
-  @media (max-width: 480px) {
-    padding: 14px 8px; /* 모바일에서 패딩 더 줄임 */
+  &:last-child {
+    border-bottom: none;
   }
 
   &:hover {
     background: #f8f9fa;
   }
+
+  ${(props) =>
+    props.danger &&
+    `
+    color: #e74c3c;
+  `}
 `;
 
 const MenuIcon = styled.span`
-  margin-right: 12px;
+  margin-right: 14px;
   display: flex;
   align-items: center;
+  color: ${(props) => props.color || '#555'};
 `;
 
 const TitleWrapper = styled.div`
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 12px;
 `;
 
 const EditButton = styled.button`
   display: flex;
   align-items: center;
+  gap: 6px;
   background: none;
-  border: none;
+  border: 1px solid #ddd;
+  border-radius: 8px;
   color: #666;
   font-size: 14px;
+  font-weight: 500;
   cursor: pointer;
-  padding: 4px 8px;
+  padding: 6px 12px;
+  transition: all 0.2s;
+
+  &:hover {
+    background: #f5f5f5;
+  }
 `;
 
 const MenuItemContent = styled.div`
@@ -136,31 +181,32 @@ const MenuItemContent = styled.div`
   align-items: center;
   justify-content: space-between;
   width: 100%;
-  flex-wrap: wrap; /* 필요시 줄바꿈 허용 */
-
-  @media (max-width: 480px) {
-    gap: 8px; /* 모바일에서 요소 간 간격 추가 */
-  }
 `;
 
 const MenuText = styled.div`
   display: flex;
   align-items: center;
-  flex-shrink: 0; /* 줄어들지 않도록 설정 */
+  flex-shrink: 0;
+  font-weight: 500;
 `;
 
 const NewCommentBadge = styled.span`
   background-color: #e8f4f9;
-  color: #87ceeb;
-  padding: 4px 8px;
-  border-radius: 4px;
-  font-size: 12px;
+  color: #69b4d6;
+  padding: 6px 10px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 600;
   white-space: nowrap;
-  margin-left: auto; /* 오른쪽 정렬 */
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+`;
 
-  @media (max-width: 480px) {
-    margin-left: 32px; /* 모바일에서 아이콘 아래 정렬 */
-  }
+const HeartIcon = styled.span`
+  font-size: 20px;
+  margin-right: 4px;
+  color: #87ceeb;
 `;
 
 type ProfileProps = {
@@ -194,6 +240,7 @@ export default function Profile() {
     AuthService.logout();
     navigate('/home');
   };
+
   return (
     <Container>
       <Header>
@@ -209,16 +256,21 @@ export default function Profile() {
       <ProfileSection>
         <ProfileHeader>
           <TitleWrapper>
-            <Title>{myProfileInfo.nickname}</Title>
-            <EditButton>편집하기</EditButton>
+            <Title>{myProfileInfo.nickname || '사용자'}</Title>
+            <EditButton>
+              <Edit2 size={14} />
+              편집하기
+            </EditButton>
           </TitleWrapper>
         </ProfileHeader>
-        <Subtitle>창천요정이 되신지 일이 되었어요~</Subtitle>
+        <Subtitle>
+          창천요정이 되신지 {myProfileInfo.userId ? '1일' : '0일'}이 되었어요!
+        </Subtitle>
 
         <StatsContainer>
           <StatItem>
             <StatNumber>{myProfileInfo.heartTotalCount ?? 0}</StatNumber>
-            <StatLabel>총 하트 개수</StatLabel>
+            <StatLabel>총 하트</StatLabel>
           </StatItem>
           <StatItem>
             <StatNumber>{myProfileInfo.heartConsumeCount ?? 0}</StatNumber>
@@ -226,44 +278,49 @@ export default function Profile() {
           </StatItem>
           <StatItem>
             <StatNumber>{myProfileInfo.heartRemainCount ?? 0}</StatNumber>
-            <StatLabel>남은 하트💙</StatLabel>
+            <StatLabel>
+              남은 하트 <HeartIcon>💙</HeartIcon>
+            </StatLabel>
           </StatItem>
         </StatsContainer>
 
         <MenuList>
-          <MenuItem>
-            <MenuItemContent
-              onClick={() => navigate('/my-collection?tab=posts')}
-            >
-              <MenuText>
-                <MenuIcon>
-                  <Folder size={20} />
-                </MenuIcon>
-                내 칭찬글 모아보기
-              </MenuText>
-              <NewCommentBadge>새로운 칭찬댓글 개</NewCommentBadge>
+          <MenuItem onClick={() => navigate('/my-collection?tab=posts')}>
+            <MenuIcon color="#4a6fa5">
+              <Folder size={20} />
+            </MenuIcon>
+            <MenuItemContent>
+              <MenuText>내 칭찬글 모아보기</MenuText>
+              <div
+                style={{ display: 'flex', alignItems: 'center', gap: '8px' }}
+              >
+                <NewCommentBadge>새로운 댓글 3개</NewCommentBadge>
+                <ArrowRight size={16} color="#999" />
+              </div>
             </MenuItemContent>
           </MenuItem>
-          <MenuItem>
-            <MenuItemContent
-              onClick={() => navigate('/my-collection?tab=comments')}
-            >
-              <MenuText>
-                <MenuIcon>
-                  <SmileIcon size={20} />
-                </MenuIcon>
-                내가 쓴 칭찬댓글 모아보기
-              </MenuText>
+
+          <MenuItem onClick={() => navigate('/my-collection?tab=comments')}>
+            <MenuIcon color="#4b9ed6">
+              <SmileIcon size={20} />
+            </MenuIcon>
+            <MenuItemContent>
+              <MenuText>내가 쓴 칭찬댓글</MenuText>
+              <ArrowRight size={16} color="#999" />
             </MenuItemContent>
           </MenuItem>
+        </MenuList>
+
+        <MenuList>
           <MenuItem onClick={logout}>
-            <MenuIcon>
+            <MenuIcon color="#888">
               <Clock size={20} />
             </MenuIcon>
             로그아웃
           </MenuItem>
-          <MenuItem>
-            <MenuIcon>
+
+          <MenuItem danger>
+            <MenuIcon color="#e74c3c">
               <LogOut size={20} />
             </MenuIcon>
             회원 탈퇴하기

@@ -69,6 +69,7 @@ const RightGroup = styled.div`
 
 const PraiseItem = ({
   islast,
+  index,
   article,
 }: {
   islast: boolean;
@@ -159,6 +160,7 @@ const PraiseItem = ({
       <Container $islast={islast && !isCommentOpen}>
         <Header>
           <TitleWrapper>
+            {String(index)}
             <Title>{article.nickname}</Title>
             <AddtionalWrapper
               onClick={() =>

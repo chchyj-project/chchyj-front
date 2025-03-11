@@ -30,7 +30,7 @@ const Panel = styled(motion.div)`
   transform: translateX(-50%);
   width: 100%;
   max-width: 768px;
-  height: 90vh;
+  height: 94vh;
   background-color: white;
   border-radius: 30px 30px 0 0;
   box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
@@ -136,7 +136,7 @@ const PanelCloseButton = styled(CloseButton)`
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  //box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 
   @media (max-width: 480px) {
     top: 16px;
@@ -155,7 +155,6 @@ export default function WriteSlidingPanel({
   isWriteMode,
   handleWriteClick,
 }: any) {
-  const [toastMessage, setToastMessage] = useState<string>('');
   const [content, setContent] = useState('');
   const { handleApiError } = useApiError();
   const { fetchArticles, setSelectedArticleId } = useArticleStore();
@@ -167,7 +166,7 @@ export default function WriteSlidingPanel({
       });
 
       if (result.status === 201 || result.status === 200) {
-        toast('게시글이 성공적으로 저장되었습니다.');
+        // toast('게시글이 성공적으로 저장되었습니다.');
         setTimeout(() => {
           handleWriteClick(false);
           setContent('');
