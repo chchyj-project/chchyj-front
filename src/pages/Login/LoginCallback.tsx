@@ -10,6 +10,8 @@ const LoginCallback = () => {
   const code = searchParams.get('code');
   const navigate = useNavigate();
 
+  console.log(window.location.origin)
+
   useEffect(() => {
     console.log('code-->', code);
     if (code) {
@@ -23,7 +25,7 @@ const LoginCallback = () => {
           navigate('/login');
         });
     }
-  }, [code]);
+  }, [code, navigate]);
 
   return <Loading />;
 };

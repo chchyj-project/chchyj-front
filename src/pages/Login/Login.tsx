@@ -52,7 +52,7 @@ const Login = () => {
   const handleClick = () => {
     if (window.Kakao?.isInitialized()) {
       window.Kakao.Auth.authorize({
-        redirectUri: axiosPath.REDIRECT_URI,
+        redirectUri: window.location.origin + axiosPath.REDIRECT_URI,
       });
     }
   };
