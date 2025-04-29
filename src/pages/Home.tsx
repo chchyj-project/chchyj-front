@@ -3,6 +3,7 @@
 import styled from 'styled-components';
 import styleToken from '../style/styleToken.ts';
 import Logo from '../images/character.png';
+import BtnText from '../images/buttonText.png';
 import PraiseItem from './PraiseItem.tsx';
 import FixedHeader from '../components/FixedHeader.tsx';
 import { useEffect, useRef, useState, useCallback } from 'react';
@@ -19,19 +20,15 @@ import { axiosInstance } from '../api/axiosConfig.ts';
 
 // 스타일 컴포넌트들은 그대로 유지합니다.
 const PraiseCard = styled.div`
-  background-color: ${styleToken.color.primary};
-  margin-top: 70px;
-  border: 1px solid #d3e9ff;
-  border-radius: 16px;
-  padding: 32px 0;
+  background-color: #E5ECFF;
+  margin: 69px 0 0 0;
+  padding: 18.99px 24px;
   text-align: left;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+ // box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
   box-sizing: border-box;
-  margin-left: 16px;
-  margin-right: 16px;
 
   @media (max-width: 768px) {
-    padding: 28px 0;
+    padding: 28px 24px;
     margin-top: 65px;
   }
 `;
@@ -41,8 +38,7 @@ const ContentWrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin: 0 auto;
-  padding: 0 24px;
+  padding: 0 8px;
   box-sizing: border-box;
   text-align: center;
 
@@ -58,16 +54,23 @@ const TextGroup = styled.div`
 `;
 
 const Icon = styled.img`
-  width: 130px;
-  height: 130px;
+  width: 82.96px;
+  height: 117.64px;
   margin-top: -5px;
-
   @media (max-width: 480px) {
-    width: 110px;
-    height: 110px;
+  width: 82.96px;
+  height: 117.64px;
   }
 `;
+const MainButton = styled.button`
+  width: 100%;
+  background:${styleToken.color.primary};
+  height: 56px;
+  border-radius: 8px;
 
+
+
+`;
 const PraiseList = styled.div`
   position: relative;
   top: 0;
@@ -447,17 +450,16 @@ const Home = () => {
             <PraiseCard>
               <ContentWrapper>
                 <TextGroup>
-                  <TitleStyle>당신의 칭찬요정을 만나보세요!</TitleStyle>
+                  <TitleStyle>요정들 출동 완료! <br/>당신을 발견했어요</TitleStyle>
                   <Subtitle>
-                    오늘 하루, 뿌듯한 일이 있으셨나요?
+                    오늘 하루 뿌듯한 일,
                     <br />
-                    너무 작고 사소한 일이라도 좋습니다.
-                    <br />
-                    글을 올리면 칭찬요정들이 찾아갈거에요~
+                   우리 요정들과 나눠보실래요?
                   </Subtitle>
                 </TextGroup>
-                <Icon src={Logo} alt="logo" />
+                <Icon src={Logo} alt="logo" />           
               </ContentWrapper>
+              <MainButton><img src={BtnText} alt='button text'/></MainButton>
             </PraiseCard>
 
             <div style={{ margin: '28px 16px 0' }}>

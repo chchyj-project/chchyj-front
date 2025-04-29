@@ -1,7 +1,7 @@
 const headerHeight = 80;
 const menuHeight = 80;
 const COLOR_PROPERTIES = {
-  primary: '#c9ebff', // 주요 색상 (Primary)
+  primary: '#2559F3', // 주요 색상 (Primary)
   secondary: '#60c3fb', // 보조 색상 (Secondary)
   background: '#ffffff', // 배경 색상
   backgroundSecondary: '#fafafa',

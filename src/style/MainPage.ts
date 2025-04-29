@@ -38,11 +38,14 @@ export const PageContainer = styled.div`
 `;
 
 export const TitleStyle = styled.h1`
-  font-size: 18px;
+  font-size: 25px;
   font-weight: bold;
   color: #333333;
   text-align: left;
-  margin-bottom: 10px;
+  margin-bottom: 8px;
+    @media (max-width: 768px) {
+  font-size: 20px;
+  }
   line-height: 1.4; /* 줄 간격 조정 */
   word-wrap: break-word; /* 단어 단위로 줄바꿈 */
 `;
@@ -51,7 +54,7 @@ export const Subtitle = styled.p`
   font-size: 14px;
   color: #333333;
   text-align: left;
-  margin-bottom: 20px;
+  margin-bottom: 16px;
   line-height: 1.4; /* 줄 간격 조정 */
   max-width: 400px; /* 줄바꿈 일정하게 유지 */
   word-wrap: break-word;

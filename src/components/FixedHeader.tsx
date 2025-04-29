@@ -4,6 +4,8 @@ import { useNavigate } from 'react-router-dom';
 import Common from '../style/Common.ts';
 import FilledHeart from '../images/filled_heart.svg';
 import { ACCESS_TOKEN_NAME } from '../constant/constant.ts';
+import TopLogo from '../images/topLogo.png';
+
 interface ContainerProps {
   $bgColor: string;
 }
@@ -39,7 +41,7 @@ const HeaderContainer = styled.header<ContainerProps>`
   box-sizing: border-box;
   background-color: ${(props) => props.$bgColor || '#ffffff'};
   @media (max-width: 768px) {
-    padding: 50px 10px 30px 10px;
+    padding: 24pxw;
   }
 `;
 
@@ -65,7 +67,7 @@ const NicknameWrapper = styled.div`
 `;
 
 const Nickname = styled.button`
-  color: #84d1fd;
+  color: #6B90FF;
   font-weight: 700;
   font-size: 1.25rem;
   line-height: 17px;
@@ -92,7 +94,7 @@ const FixedHeader = ({ bgColor }: FixedHeaderProps) => {
     <PageContainer>
       <FixedHeaderWrapper>
         <HeaderContainer $bgColor={bgColor}>
-          <Title>칭찬요정</Title>
+          <Title><img src={TopLogo} alt='logo'/></Title>
           {!nickname ? (
             <MenuButton
               onClick={toggleMenu}
