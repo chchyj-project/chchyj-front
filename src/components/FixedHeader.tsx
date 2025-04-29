@@ -41,7 +41,7 @@ const HeaderContainer = styled.header<ContainerProps>`
   box-sizing: border-box;
   background-color: ${(props) => props.$bgColor || '#ffffff'};
   @media (max-width: 768px) {
-    padding: 24pxw;
+    padding: 24px;
   }
 `;
 
