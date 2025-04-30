@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import { ScrollAwareBottomButtonProps } from '../types/PraiseItem.ts';
 import Common from './Common.ts';
 import styleToken from './styleToken.ts';
+import Border from '../images/Union.png';
 
 export const RowFlexBetween = styled.div`
   display: flex;

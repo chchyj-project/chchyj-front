@@ -24,11 +24,9 @@ const PraiseCard = styled.div`
   margin: 69px 0 0 0;
   padding: 18.99px 24px;
   text-align: left;
- // box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
   box-sizing: border-box;
 
   @media (max-width: 768px) {
-    padding: 28px 24px;
     margin-top: 65px;
   }
 `;
@@ -67,9 +65,6 @@ const MainButton = styled.button`
   background:${styleToken.color.primary};
   height: 56px;
   border-radius: 8px;
-
-
-
 `;
 const PraiseList = styled.div`
   position: relative;
@@ -77,16 +72,12 @@ const PraiseList = styled.div`
   left: 0;
   right: 0;
   z-index: 100;
-  border: 1px solid #d3e9ff;
-  border-radius: 16px;
-  padding: 16px 0 48px 0;
   background-color: ${styleToken.color.background};
-  margin: 24px 16px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+  margin: 24px;
 `;
 
 const ListGap = styled.div`
-  background-color: ${styleToken.color.backgroundSecondary};
+ //  background-color: ${styleToken.color.backgroundSecondary};
   height: 10px;
   margin: 4px 0;
 `;
@@ -111,7 +102,7 @@ const FloatingActionButton = styled.button`
   width: 60px;
   height: 60px;
   border-radius: 50%;
-  background-color: ${Common.colors.skyblue};
+  background-color:${styleToken.color.primary};
   color: white;
   display: flex;
   align-items: center;
@@ -462,7 +453,7 @@ const Home = () => {
               <MainButton><img src={BtnText} alt='button text'/></MainButton>
             </PraiseCard>
 
-            <div style={{ margin: '28px 16px 0' }}>
+            <div style={{ margin: '16px 24px 0' }}>
               <RecentComments />
             </div>
 

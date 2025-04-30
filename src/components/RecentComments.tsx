@@ -7,24 +7,25 @@ import { axiosInstance } from '../api/axiosConfig.ts';
 import { useNavigate } from 'react-router-dom';
 import dayjs from 'dayjs';
 import { usePopup } from '../context/PopupContext.tsx';
+import styleToken from '../style/styleToken.ts';
 
 const CommentSection = styled.div`
-  padding: 20px 0;
+  padding: 16px;
   background-color: #fff;
-  border: 1px solid #d3e9ff;
+  border: 1px solid ${styleToken.color.primary};
+  border-radius: 8px;
   width: 100%;
 `;
 
 const CommentTitle = styled.h2`
-  font-size: 20px;
+  font-size: 12px;
   font-weight: bold;
-  padding: 0 18px;
-  margin-bottom: 20px;
+  color:${styleToken.color.primary};
+  margin-bottom: 8px;
 `;
 
 const StyledSlider = styled(Slider)`
   .slick-slide {
-    padding: 0 18px;
     box-sizing: border-box;
 
     &[aria-hidden='true'] {
@@ -39,12 +40,12 @@ const StyledSlider = styled(Slider)`
 
 // CommentCard 컴포넌트 수정
 const CommentCard = styled.div<{ $isActive?: boolean }>`
-  width: 100%;
-  padding: 15px;
-  background: #fff;
-  border-radius: 12px;
-  border: 1px solid #e2e5e9;
+  width: calc(100% - 8px);
+  padding: 12px 41px;
+  background: #E5ECFF;
+  border-radius: 8px;
   box-sizing: border-box;
+  margin:0 4px;
   touch-action: pan-y pinch-zoom;
 
   /* 비활성 슬라이드일 때 포커스 방지 */
@@ -84,17 +85,16 @@ const ClickableText = styled.span`
 `;
 
 const ProgressBarContainer = styled.div`
-  width: 30%;
-  margin: 20px auto 0;
+  width: 60%;
+  margin: 8px auto 0;
   display: flex;
 `;
 
 const ProgressSegment = styled.div<{ $isActive: string }>`
   flex: 1;
   height: 3px;
-
   background-color: ${(props) =>
-    props.$isActive === 'true' ? '#000' : '#E5E5E5'};
+    props.$isActive === 'true' ? `${styleToken.color.primary}` : '#E5E5E5'};
   transition: background-color 0.3s ease;
 `;
 
@@ -149,7 +149,7 @@ const RecentComments = () => {
 
   return (
     <CommentSection>
-      <CommentTitle>최신 댓글 목록</CommentTitle>
+      <CommentTitle>하트가 필요한 댓글 목록</CommentTitle>
       <StyledSlider {...settings}>
         {recentComments &&
           recentComments.length > 0 &&

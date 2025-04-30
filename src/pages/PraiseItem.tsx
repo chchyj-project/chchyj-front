@@ -16,10 +16,12 @@ import { useArticleStore } from '../store/useArticleStore.ts';
 import { usePopup } from '../context/PopupContext.tsx';
 import { toast } from 'react-toastify';
 
+
 const Container = styled.div<ContainerProps>`
   margin-bottom: ${(props) => (props.$islast ? '0px' : '8px')};
-  padding: 15px;
+   padding-bottom: 16px;
   background-color: #fff;
+  border-bottom:1px solid #E1E2E4;
 `;
 
 const Header = styled.div`
@@ -37,7 +39,7 @@ const Title = styled.h2`
 `;
 
 const Date = styled.span`
-  font-size: 14px;
+  font-size: 11px;
   padding: 10px 0;
   color: #999;
 `;
@@ -67,6 +69,18 @@ const RightGroup = styled.div`
   gap: 8px; // Date와 CommentActions 사이의 간격
 `;
 
+const ContentBox = styled.div`
+border: 1px solid #E1E2E4;
+border-radius: 12px;
+width:100%;
+height:95px;
+padding:16px;
+margin:8px;
+`
+const Tail = styled.div`
+width:18px;
+height:28px;
+`
 const PraiseItem = ({
   islast,
   index,
@@ -162,17 +176,17 @@ const PraiseItem = ({
           <TitleWrapper>
             {String(index)}
             <Title>{article.nickname}</Title>
+            <Date>{createdAt.format('YYYY.MM.DD')}</Date>
+          </TitleWrapper>
+          <RightGroup>
             <AddtionalWrapper
               onClick={() =>
                 handleReportClick(article.content, article.id, 'article')
               }
             >
-              <Icon src={Siren} size={'12px'} />
               신고하기
             </AddtionalWrapper>
-          </TitleWrapper>
-          <RightGroup>
-            <Date>{createdAt.format('YYYY.MM.DD')}</Date>
+           
             {String(article.userId) === loggedInUserId && (
               <CommentActions
                 isopen={openDropdownId === article.id ? 'true' : 'false'}
@@ -187,7 +201,8 @@ const PraiseItem = ({
             )}
           </RightGroup>
         </Header>
-        <Content onClick={moveToDetail}>{article.content}</Content>
+        <ContentBox><Content onClick={moveToDetail}>{article.content}</Content></ContentBox>
+        {/* <Tail></Tail> */}
 
         <RowFlexBetween>
           <CommentInfo onClick={toggleCommentBox}>

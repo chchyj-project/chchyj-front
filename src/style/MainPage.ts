@@ -2,15 +2,12 @@ import styled from 'styled-components';
 import styleToken from './styleToken.ts';
 import { IconProps } from '../types/MainPage.ts';
 
-export const AddtionalWrapper = styled.div`
-  display: flex;
-  align-items: center;
+export const AddtionalWrapper = styled.button`
   font-size: 12px;
-  color: ${styleToken.color.textSub};
-  gap: 5px;
-  svg {
-    margin-right: 4px;
-  }
+  background:#6B90FF;
+  color: #EDF2FF;
+  padding: 4px 12px;
+  border-radius: 6px;
   cursor: pointer;
 `;
 
