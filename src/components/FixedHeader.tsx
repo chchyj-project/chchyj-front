@@ -5,6 +5,8 @@ import Common from '../style/Common.ts';
 import FilledHeart from '../images/filled_heart.svg';
 import { ACCESS_TOKEN_NAME } from '../constant/constant.ts';
 import TopLogo from '../images/topLogo.png';
+import Person from '../images/person.png';
+import styleToken from '../style/styleToken.ts';
 
 interface ContainerProps {
   $bgColor: string;
@@ -70,10 +72,27 @@ const Nickname = styled.button`
   color: #6B90FF;
   font-weight: 700;
   font-size: 15px;
-  line-height: 17px;
+  // line-height: 17px;
   cursor: pointer;
 `;
+const Img = styled.img`
+width:24px;
+height:24px;
+margin-left: 8px;
+`
+const New = styled.div`
+width:13px;
+height:13px;
+color:#fff;
+background-color: ${styleToken.color.primary};
+border-radius: 8px;
+font-size: 7px;
+text-align:center;
+line-height: 10.5px;
+border: 1px solid #fff;
+margin-left: -8px;
 
+`
 interface FixedHeaderProps {
   bgColor: string;
 }
@@ -109,6 +128,8 @@ const FixedHeader = ({ bgColor }: FixedHeaderProps) => {
                <img src={FilledHeart} alt={'filled_heart'} />
               </div> */}
               <Nickname>{nickname}</Nickname>
+              <Img src={Person} alt='user icon' />
+              <New>N</New>
             </NicknameWrapper>
           )}
         </HeaderContainer>

@@ -15,6 +15,8 @@ import CommentActions from '../components/CommentActions.tsx';
 import { useArticleStore } from '../store/useArticleStore.ts';
 import { usePopup } from '../context/PopupContext.tsx';
 import { toast } from 'react-toastify';
+import Comment from '../images/comment.png';
+import heart from '../images/heart2.png';
 
 
 const Container = styled.div<ContainerProps>`
@@ -46,8 +48,7 @@ const Date = styled.span`
 
 const CommentInfo = styled.div`
   font-size: 12px;
-  color: #999;
-  margin-top: 10px;
+  color:  ${styleToken.color.primary};
 `;
 
 const WritingCommentWrapper = styled.div`
@@ -55,7 +56,10 @@ const WritingCommentWrapper = styled.div`
   align-items: center;
   font-size: 12px;
   color: ${styleToken.color.secondary};
-  cursor: pointer;
+  border: 1px solid  ${styleToken.color.secondary};
+  border-radius: 20px;
+  padding: 4px 16px;
+  cursor: pointer ;
 
   svg {
     margin-right: 4px;
@@ -75,11 +79,24 @@ border-radius: 12px;
 width:100%;
 height:95px;
 padding:16px;
-margin:8px;
+margin-bottom: 8px;
+
 `
 const Tail = styled.div`
 width:18px;
 height:28px;
+`
+const CommentIcon = styled.img`
+ width:17px;
+ height:16px; 
+ margin-right: 4px;
+`
+const CommentBox = styled.div`
+  display: flex;
+`
+const HeartIcon = styled.img`
+  width:17px;
+ height:16px; 
 `
 const PraiseItem = ({
   islast,
@@ -205,9 +222,12 @@ const PraiseItem = ({
         {/* <Tail></Tail> */}
 
         <RowFlexBetween>
+          <CommentBox>
+          <CommentIcon src={Comment} alt='Comment icon'/>
           <CommentInfo onClick={toggleCommentBox}>
             칭찬댓글 {article.replyCount}개
           </CommentInfo>
+          </CommentBox>
           <WritingCommentWrapper
             onClick={() =>
               // URL에는 안보이지만 state로 데이터 전달
@@ -218,7 +238,8 @@ const PraiseItem = ({
               })
             }
           >
-            <Smile size={'14px'} />
+            
+            <HeartIcon src={heart}  alt='heart icon'/>
             칭찬댓글 달기
           </WritingCommentWrapper>
         </RowFlexBetween>
