@@ -450,7 +450,7 @@ const Home = () => {
                 </TextGroup>
                 <Icon src={Logo} alt="logo" />           
               </ContentWrapper>
-              <MainButton><img src={BtnText} alt='button text'/></MainButton>
+              <MainButton  onClick={() => handleWriteClick(true)}><img src={BtnText} alt='button text'/></MainButton>
             </PraiseCard>
 
             <div style={{ margin: '16px 24px 0' }}>

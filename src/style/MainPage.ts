@@ -6,8 +6,10 @@ export const AddtionalWrapper = styled.button`
   font-size: 12px;
   background:#6B90FF;
   color: #EDF2FF;
-  padding: 4px 12px;
-  border-radius: 6px;
+  height: 18px;
+  width: 59px;
+  line-height: 12px;
+  border-radius: 4px;
   cursor: pointer;
 `;
 

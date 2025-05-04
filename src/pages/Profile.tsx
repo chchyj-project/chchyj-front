@@ -14,6 +14,9 @@ import Footer from './Footer.tsx';
 import AuthService from '../api/AuthService.ts';
 import { useEffect, useState } from 'react';
 import { axiosInstance } from '../api/axiosConfig.ts';
+import TopLogo from '../images/topLogo.png';
+import Heart from '../images/heart3.png';
+import styleToken from '../style/styleToken.ts';
 
 const Container = styled.div`
   max-width: 768px;
@@ -27,14 +30,14 @@ const Container = styled.div`
 const Header = styled.header`
   display: flex;
   align-items: center;
-  padding: 14px 16px;
+  justify-content: space-between;
+  padding: 16px 24px;
   border-bottom: 1px solid #e2e5e9;
 `;
 
 const BackButton = styled.button`
   background: none;
   border: none;
-  padding: 8px;
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -46,9 +49,9 @@ const BackButton = styled.button`
 `;
 
 const ProfileSection = styled.div`
-  padding: 28px 20px;
+  padding: 24px;
   flex: 1;
-  background-color: #fafafa;
+  background-color: #F5F5F5;
 `;
 
 const ProfileHeader = styled.div`
@@ -59,49 +62,57 @@ const ProfileHeader = styled.div`
 `;
 
 const Title = styled.h1`
-  font-size: 24px;
+  font-size: 26px;
   font-weight: 700;
-  color: #333;
+  color: #303030;
 `;
 
 const Subtitle = styled.p`
-  color: #666;
-  font-size: 15px;
+  color: #303030;
+  font-size: 19px;
   margin-bottom: 28px;
 `;
 
 const StatsContainer = styled.div`
   display: flex;
   justify-content: space-around;
+  align-items: center;
   background: white;
-  padding: 22px 16px;
-  border-radius: 12px;
-  margin-bottom: 28px;
+  height: 80px;
+  border-radius: 8px;
+  margin-bottom: 24px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
 `;
 
 const StatItem = styled.div`
   text-align: center;
-  position: relative;
 
-  &:not(:last-child)::after {
-    content: '';
-    position: absolute;
-    right: -10px;
-    top: 15%;
-    height: 70%;
-    width: 1px;
-    background-color: #e2e5e9;
-  }
 `;
 
 const StatNumber = styled.div`
-  font-size: 26px;
+  font-size: 28px;
   font-weight: 700;
   margin-bottom: 10px;
-  color: #333;
+  color:  ${styleToken.color.primary};
 `;
-
+const HeartNumber = styled.div`
+  width: 18px;
+  height: 18px;
+  color:#fff;
+  font-size:12px;
+  border-radius: 9px;
+  text-align: center;
+  line-height: 1.2;
+  border: 1px solid #fff;
+  margin-left: -10px;
+  background: ${styleToken.color.primary};
+`
+const Img = styled.img`
+  margin-top: -4px;
+`
+const HeartNumberBox = styled.div`
+  display: flex;
+`
 const StatLabel = styled.div`
   font-size: 14px;
   color: #666;
@@ -158,22 +169,26 @@ const TitleWrapper = styled.div`
 `;
 
 const EditButton = styled.button`
+width: 82px;
+height: 22px;
   display: flex;
   align-items: center;
-  gap: 6px;
+  justify-content: center;
   background: none;
   border: 1px solid #ddd;
-  border-radius: 8px;
+  border-radius: 4px;
   color: #666;
-  font-size: 14px;
-  font-weight: 500;
+  font-size: 11px;
   cursor: pointer;
-  padding: 6px 12px;
+ white-space: nowrap;
   transition: all 0.2s;
-
+  svg{
+    margin-right: 2px;
+  }
   &:hover {
     background: #f5f5f5;
   }
+
 `;
 
 const MenuItemContent = styled.div`
@@ -201,6 +216,7 @@ const NewCommentBadge = styled.span`
   margin-left: auto;
   display: flex;
   align-items: center;
+
 `;
 
 const HeartIcon = styled.span`
@@ -208,7 +224,12 @@ const HeartIcon = styled.span`
   margin-right: 4px;
   color: #87ceeb;
 `;
-
+const Logo = styled.div`
+img{
+  width: 80px;
+  height: 30px; 
+}
+`
 type ProfileProps = {
   heartConsumeCount: number;
   heartRemainCount: number;
@@ -251,15 +272,16 @@ export default function Profile() {
         >
           <ChevronLeft size={24} />
         </BackButton>
+        <Logo><img src={TopLogo} alt='logo'/></Logo>
       </Header>
 
-      <ProfileSection>
+      <ProfileSection> 
         <ProfileHeader>
           <TitleWrapper>
             <Title>{myProfileInfo.nickname || '사용자'}</Title>
             <EditButton>
               <Edit2 size={14} />
-              편집하기
+              닉네임변경
             </EditButton>
           </TitleWrapper>
         </ProfileHeader>
@@ -277,9 +299,10 @@ export default function Profile() {
             <StatLabel>사용한 하트</StatLabel>
           </StatItem>
           <StatItem>
-            <StatNumber>{myProfileInfo.heartRemainCount ?? 0}</StatNumber>
+            <HeartNumberBox><Img src={Heart} alt='heart icon'/><HeartNumber>{myProfileInfo.heartRemainCount ?? 0}</HeartNumber>
+            </HeartNumberBox>
             <StatLabel>
-              남은 하트 <HeartIcon>💙</HeartIcon>
+              남은 하트 
             </StatLabel>
           </StatItem>
         </StatsContainer>

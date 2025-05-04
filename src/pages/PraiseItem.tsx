@@ -34,10 +34,10 @@ const Header = styled.div`
 `;
 
 const Title = styled.h2`
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 600;
   margin-right: 8px;
-  color: #111111;
+  color: #303030;
 `;
 
 const Date = styled.span`
@@ -54,11 +54,14 @@ const CommentInfo = styled.div`
 const WritingCommentWrapper = styled.div`
   display: flex;
   align-items: center;
+  justify-content: center;
+  width: 126px;
+  height: 26px;
   font-size: 12px;
   color: ${styleToken.color.secondary};
   border: 1px solid  ${styleToken.color.secondary};
   border-radius: 20px;
-  padding: 4px 16px;
+
   cursor: pointer ;
 
   svg {
@@ -79,7 +82,7 @@ border-radius: 12px;
 width:100%;
 height:95px;
 padding:16px;
-margin-bottom: 8px;
+margin-bottom: 16px;
 
 `
 const Tail = styled.div`
@@ -93,6 +96,7 @@ const CommentIcon = styled.img`
 `
 const CommentBox = styled.div`
   display: flex;
+  
 `
 const HeartIcon = styled.img`
   width:17px;

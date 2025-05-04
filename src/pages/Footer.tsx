@@ -3,15 +3,15 @@ import styled from 'styled-components';
 const FooterContainer = styled.footer`
   width: 100%;
   background-color: #f8f8f8;
-  padding: 20px 0;
+  padding: 24px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   font-family: 'Arial', sans-serif;
-  font-size: 14px;
+  font-size: 13px;
   color: #666;
-  height: 15vh;
+  height: auto;
 `;
 
 const FooterContent = styled.div`
@@ -25,23 +25,25 @@ const FooterContent = styled.div`
 const FooterLinks = styled.div`
   display: flex;
   justify-content: center;
-  gap: 20px;
-  margin-bottom: 10px;
+  /* gap: 20px; */
+  margin-bottom: 16px;
   flex-wrap: wrap; /* 모바일에서 줄바꿈 가능하도록 설정 */
 
   @media (max-width: 600px) {
-    gap: 12px; /* 모바일에서 간격 줄임 */
-    margin: 0 15px; /* 모바일에서 양쪽 여백 추가 */
+    /* gap: 12px; 모바일에서 간격 줄임 */
+    margin:  0px 0px 12px 0px; /* 모바일에서 양쪽 여백 추가 */
+   
   }
 
   a {
     text-decoration: none;
     color: #666;
-    font-size: 14px;
-    padding: 5px; /* 터치 영역 확장 */
+    font-size: 13px;
+    color:#8A8A8A;
+    padding: 0px 8px 8px; /* 터치 영역 확장 */
 
     @media (max-width: 600px) {
-      font-size: 13px; /* 모바일에서 글자 크기 줄임 */
+      font-size: 12px; /* 모바일에서 글자 크기 줄임 */
     }
 
     &:hover {
@@ -54,9 +56,9 @@ const FooterInfo = styled.div`
   text-align: center;
   font-size: 12px;
   color: #999;
-  line-height: 1.5;
+  line-height: 12px;
   width: 100%;
-  padding: 0 15px; /* 양쪽 여백 추가 */
+  /* padding: 0 15px; 양쪽 여백 추가 */
 
   span {
     display: block;
