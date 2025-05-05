@@ -80,7 +80,7 @@ const StatsContainer = styled.div`
   background: white;
   height: 80px;
   border-radius: 8px;
-  margin-bottom: 24px;
+  margin-bottom: 16px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
 `;
 
@@ -104,7 +104,8 @@ const HeartNumber = styled.div`
   text-align: center;
   line-height: 1.2;
   border: 1px solid #fff;
-  margin-left: -10px;
+  margin-left: -12px;
+  margin-top: -4px;
   background: ${styleToken.color.primary};
 `
 const Img = styled.img`
@@ -120,47 +121,39 @@ const StatLabel = styled.div`
 
 const MenuList = styled.div`
   background: white;
-  border-radius: 12px;
+  border-radius: 8px;
   overflow: hidden;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-  margin-bottom: 20px;
+  margin-bottom: 8px;
 `;
 
 const MenuItem = styled.button`
-  display: flex;
-  align-items: center;
-  width: 100%;
-  padding: 18px 16px;
-  border: none;
-  background: none;
-  font-size: 16px;
-  color: #333;
-  cursor: pointer;
-  text-align: left;
-  border-bottom: 1px solid #f0f0f0;
-  transition: background-color 0.2s;
-
-  &:last-child {
-    border-bottom: none;
-  }
-
-  &:hover {
-    background: #f8f9fa;
-  }
-
-  ${(props) =>
-    props.danger &&
-    `
-    color: #e74c3c;
-  `}
+display: flex;
+align-items: center;
+width: 100%;
+border: none;
+background: none;
+font-size: 17px;
+color: #303030;
+cursor: pointer;
+text-align: left;
+padding: 8px 24px;
+transition: background-color 0.2s;
+color:#303030;
+&:last-child {
+  border-bottom: none;
+}
+&:hover {
+  background: #f8f9fa;
+}
 `;
 
-const MenuIcon = styled.span`
-  margin-right: 14px;
-  display: flex;
-  align-items: center;
-  color: ${(props) => props.color || '#555'};
-`;
+// const MenuIcon = styled.span`
+//   margin-right: 14px;
+//   display: flex;
+//   align-items: center;
+//   color: ${(props) => props.color || '#555'};
+// `;
 
 const TitleWrapper = styled.div`
   display: flex;
@@ -205,19 +198,19 @@ const MenuText = styled.div`
   font-weight: 500;
 `;
 
-const NewCommentBadge = styled.span`
-  background-color: #e8f4f9;
-  color: #69b4d6;
-  padding: 6px 10px;
-  border-radius: 20px;
-  font-size: 13px;
-  font-weight: 600;
-  white-space: nowrap;
-  margin-left: auto;
-  display: flex;
-  align-items: center;
+// const NewCommentBadge = styled.span`
+//   background-color: #e8f4f9;
+//   color: #69b4d6;
+//   padding: 6px 10px;
+//   border-radius: 20px;
+//   font-size: 13px;
+//   font-weight: 600;
+//   white-space: nowrap;
+//   margin-left: auto;
+//   display: flex;
+//   align-items: center;
 
-`;
+// `;
 
 const HeartIcon = styled.span`
   font-size: 20px;
@@ -230,6 +223,24 @@ img{
   height: 30px; 
 }
 `
+const Secession= styled.p`
+ text-align:right; 
+ font-size: 17px;
+ color:#8A8A8A;
+ padding-right: 8px;
+`
+const New = styled.div`
+width:22px;
+height:22px;
+color:#fff;
+background-color: ${styleToken.color.primary};
+border-radius: 12px;
+font-size: 12px;
+text-align:center;
+line-height: 1.5;
+border: 1px solid #fff;
+margin-right: -12px;
+`
 type ProfileProps = {
   heartConsumeCount: number;
   heartRemainCount: number;
@@ -237,6 +248,7 @@ type ProfileProps = {
   nickname: string;
   userId: number;
 };
+
 
 export default function Profile() {
   const navigate = useNavigate();
@@ -247,6 +259,7 @@ export default function Profile() {
     nickname: '',
     userId: 0,
   });
+
 
   useEffect(() => {
     const fetchMyHeartCount = async () => {
@@ -261,7 +274,7 @@ export default function Profile() {
     AuthService.logout();
     navigate('/home');
   };
-
+  const [danger, setDanger] = useState(true);
   return (
     <Container>
       <Header>
@@ -309,46 +322,60 @@ export default function Profile() {
 
         <MenuList>
           <MenuItem onClick={() => navigate('/my-collection?tab=posts')}>
-            <MenuIcon color="#4a6fa5">
+            {/* <MenuIcon color="#4a6fa5">
               <Folder size={20} />
-            </MenuIcon>
+            </MenuIcon> */}
             <MenuItemContent>
               <MenuText>내 칭찬글 모아보기</MenuText>
               <div
                 style={{ display: 'flex', alignItems: 'center', gap: '8px' }}
               >
-                <NewCommentBadge>새로운 댓글 3개</NewCommentBadge>
-                <ArrowRight size={16} color="#999" />
+                {/* <NewCommentBadge>새로운 댓글 3개</NewCommentBadge> */}
+                {/* <ArrowRight size={16} color="#999" /> */}
               </div>
             </MenuItemContent>
           </MenuItem>
-
+          </MenuList>
+          <MenuList>
           <MenuItem onClick={() => navigate('/my-collection?tab=comments')}>
-            <MenuIcon color="#4b9ed6">
+            {/* <MenuIcon color="#4b9ed6">
               <SmileIcon size={20} />
-            </MenuIcon>
+            </MenuIcon> */}
             <MenuItemContent>
               <MenuText>내가 쓴 칭찬댓글</MenuText>
-              <ArrowRight size={16} color="#999" />
+              {/* <ArrowRight size={16} color="#999" /> */}
+            </MenuItemContent>
+          </MenuItem>
+        </MenuList>
+        <MenuList>
+          <MenuItem>
+            {/* <MenuIcon color="#4b9ed6">
+              <SmileIcon size={20} />
+            </MenuIcon> */}
+            <MenuItemContent>
+              <MenuText>내 글에 칭찬 요정이 찾아왔어요!</MenuText>
+              {/* <ArrowRight size={16} color="#999" /> */}
+              {/*👉 프로필 N표시 */}
+              <New>N</New>
             </MenuItemContent>
           </MenuItem>
         </MenuList>
 
-        <MenuList>
+        <MenuList style={{marginTop:"24px"}}>
           <MenuItem onClick={logout}>
-            <MenuIcon color="#888">
+            {/* <MenuIcon color="#888">
               <Clock size={20} />
-            </MenuIcon>
+            </MenuIcon> */}
             로그아웃
           </MenuItem>
-
-          <MenuItem danger>
-            <MenuIcon color="#e74c3c">
+          </MenuList>
+          <Secession>
+            {/* <MenuIcon color="#e74c3c">
               <LogOut size={20} />
-            </MenuIcon>
+            </MenuIcon> */}
             회원 탈퇴하기
-          </MenuItem>
-        </MenuList>
+          </Secession>
+       
       </ProfileSection>
       <Footer />
     </Container>

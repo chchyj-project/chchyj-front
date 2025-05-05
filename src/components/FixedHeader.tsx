@@ -129,7 +129,9 @@ const FixedHeader = ({ bgColor }: FixedHeaderProps) => {
               </div> */}
               <Nickname>{nickname}</Nickname>
               <Img src={Person} alt='user icon' />
+               {/*👉 프로필 N표시 */}
               <New>N</New>
+               {/*👉 help 아이콘콘 */}
               <Img src={Help} alt='help icon' />
             </NicknameWrapper>
             
