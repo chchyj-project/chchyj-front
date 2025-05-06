@@ -17,6 +17,7 @@ import { usePopup } from '../context/PopupContext.tsx';
 import { toast } from 'react-toastify';
 import Comment from '../images/comment.png';
 import heart from '../images/heart2.png';
+import tail from '../images/tail.png';
 
 
 const Container = styled.div<ContainerProps>`
@@ -77,6 +78,7 @@ const RightGroup = styled.div`
 `;
 
 const ContentBox = styled.div`
+position: relative;
 border: 1px solid #E1E2E4;
 border-radius: 12px;
 width:100%;
@@ -86,8 +88,13 @@ margin-bottom: 16px;
 
 `
 const Tail = styled.div`
-width:18px;
-height:28px;
+position: absolute;
+bottom: -13px;
+left: 16px;
+width:12px;
+height:15px;
+background:#fff url("${tail}") no-repeat;
+background-size: 100%;
 `
 const CommentIcon = styled.img`
  width:17px;
@@ -222,8 +229,10 @@ const PraiseItem = ({
             )}
           </RightGroup>
         </Header>
-        <ContentBox><Content onClick={moveToDetail}>{article.content}</Content></ContentBox>
-        {/* <Tail></Tail> */}
+        <ContentBox><Content onClick={moveToDetail}>{article.content}</Content>
+        <Tail></Tail>
+        </ContentBox>
+        
 
         <RowFlexBetween>
           <CommentBox>
