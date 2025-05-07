@@ -2,36 +2,49 @@ import { useEffect } from 'react';
 import styled from 'styled-components';
 import axiosPath from '../../api/axiosPath';
 import { Button } from '../../components';
-import Logo from '../../images/character.png';
+import Logo from '../../images/logo.png';
+import Logo2 from '../../images/Group794.png';
+import Kakao from '../../images/kakao.png';
+import styleToken from '../../style/styleToken.ts';
 
 const LoginPage = styled.div`
-  position: relative;
-  height: 100vh;
+text-align: center;
+  height: 100%;
   width: 100%;
-  background: white;
+  padding: 30% 30px 30px;
+  background: #2559F4;
 `;
 const Image = styled.div`
-  width: 90%;
-  max-width: 250px;
-  min-width: 150px;
-  position: absolute;
-  left: 50%;
-  top: 40%;
-  transform: translate(-50%, -50%);
+width: 80%;
+max-width: 150px;
+min-width: 100px;
+margin-left: auto;
+margin-right: auto;
   img {
     width: 100%;
-    display: block;
   }
 `;
-const Text = styled.div`
+const LogoBox = styled.div`
+margin-top: 16px;
+text-align: center;
+  img {
+    width: 100%;
+  }
+`; 
+const Info = styled.div`
   width: 100%;
-  color: #000;
-  position: absolute;
-  bottom: 224px;
-  left: 50%;
-  text-align: center;
-  transform: translate(-50%, 0);
-`;
+  background:  ${styleToken.color.secondary};
+  height: 63px;
+  margin-top: 16px;
+  color:#E1E2E4;
+  font-size: 11px;
+  line-height: 1.5;
+  min-width: 314px;
+  h3{
+    font-size: 16px;
+  }
+`
+
 const Login = () => {
   useEffect(() => {
     if (!window.Kakao?.Auth) {
@@ -60,24 +73,30 @@ const Login = () => {
   return (
     <LoginPage>
       <Image>
-        <img src={Logo} alt="" />
+        <img src={Logo2} alt="logo" />
+        <LogoBox>
+        <img src={Logo} alt="logo" />
+      </LogoBox>
       </Image>
-      <Text>
-        지금 <strong>칭찬요정</strong>에서 시작해보세요.
-      </Text>
       <Button
         disabled={false}
         onClick={handleClick}
-        text={'카카오로 로그인하기'}
+        text={'카카오톡으로 로그인하기'}
         styles={{
-          position: 'absolute',
-          bottom: '113px',
-          left: '50%',
-          transform: 'translate(-50%, 0)',
+         marginTop:'40px',
+         borderRadius:'0',
+         fontSize:'18px',
+         width:'100%',
         }}
         buttonColor={'yellow'}
         textColor={'#000'}
+        img={<img src={Kakao} alt='카카오톡톡' style={{width:'20px',marginRight:'16px'}}/>}
       />
+      <Info>
+       <h3>안심하세요!</h3> 
+        어떤한 개인정보도 수집하지 않않습니다.<br/>
+        철저한 익명서비스로 운영됩니다.
+      </Info>
     </LoginPage>
   );
 };

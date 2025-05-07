@@ -16,8 +16,12 @@ interface ButtonProps {
     | 'white'
     | 'black';
   textColor: string;
+  img:any;
 }
 const Layout = styled.button`
+display: flex;
+align-items: center;
+justify-content: center;
   margin: 0 auto;
   min-width: 314px;
   height: 50px;
@@ -30,6 +34,7 @@ function Button({
   disabled,
   onClick,
   text,
+  img,
   styles,
   buttonColor,
   textColor,
@@ -43,7 +48,7 @@ function Button({
         color: `${textColor}`,
         ...styles,
       }}
-    >
+    >{img}
       {text}
     </Layout>
   );
