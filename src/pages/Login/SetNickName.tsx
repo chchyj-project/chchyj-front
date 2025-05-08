@@ -3,27 +3,50 @@ import styled from 'styled-components';
 import { Button } from '../../components';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { axiosInstance } from '../../api/axiosConfig.ts';
+import Logo2 from '../../images/Group794.png';
+import comein from '../../images/Label.png';
 
 const Wrap = styled.div`
+position: relative;
   width: 100%;
   height: 100vh;
   text-align: center;
-  padding: 29px;
-  position: relative;
+  padding:16% 30px 30px;
+  background: #EDF2FF;
   & > div {
-    margin-top: 300px;
+    margin-top: 24px;
+    p{font-size:23px;
+      font-weight: bold;
+      line-height: 1.5;
+      color:#171717;
+      
+    }
   }
 `;
-
+const Image = styled.div`
+width: 80%;
+max-width: 150px;
+min-width: 100px;
+margin-left: auto;
+margin-right: auto;
+  img {
+    width: 100%;
+  }
+`;
 const InputBox = styled.input`
   background: #ffffff;
-  border: 1px solid #acacac;
-  border-radius: 5px;
+  height: 51px;
+  border: 1px solid #6B90FF;
   display: block;
   width: 100%;
   text-align: center;
   padding: 13px 0;
-  margin-top: 40px;
+  margin-top: 24px;
+  outline: none;
+  transition: 0.2s;
+  &:focus {
+    border: 1px solid #1A4DE5; 
+  }
 `;
 
 function SetNickName() {
@@ -56,8 +79,11 @@ function SetNickName() {
   };
   return (
     <Wrap>
+      <Image>
+        <img src={Logo2} alt="logo" />
+      </Image>
       <div className="contentsBox">
-        <p>칭찬요정에서 사용하실 닉네임을 알려주세요.</p>
+        <p>칭찬요정에서 사용하실 <br/>닉네임을 알려주세요.</p>
 
         <InputBox
           placeholder="닉네임을 입력해주세요."
@@ -65,14 +91,18 @@ function SetNickName() {
         />
       </div>
       <Button
+        img={<img src={comein} alt='완료! 입장하기기' style={{}}/>}
         disabled={false}
         onClick={handleSubmit}
-        text={'시작하기'}
+        text=""
         styles={{
-          position: 'fixed',
-          bottom: '113px',
-          left: '50%',
-          transform: 'translate(-50%, 0)',
+          position: 'absolute',
+          bottom: '47px',
+          left: '30px',
+          right:'30px',
+          background:'#3869FA',
+          borderRadius:'8px',
+          with:'100%'
         }}
         buttonColor={'skyblue'}
         textColor={'#fff'}
