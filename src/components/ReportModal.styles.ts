@@ -18,15 +18,14 @@ export const Overlay = styled(motion.div)`
 
 export const Modal = styled(motion.div)`
   position: relative;
-  width: 90%;
-  max-width: 500px;
-  max-height: 90vh; /* 화면 높이의 90%로 제한 */
-  overflow-y: auto; /* 내용이 많을 경우 스크롤 허용 */
+  width: 267px;
   background: white;
-  border-radius: 16px;
-  padding: clamp(16px, 5vw, 24px); /* 반응형 패딩 */
+  border-radius: 8px;
+  padding: 24px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  margin: auto; /* 중앙 정렬 */
+  margin: auto;
+  display: flex;
+  flex-direction: column;
 
   /* 모바일 최적화 */
   @media (max-width: 480px) {
@@ -52,8 +51,8 @@ export const Modal = styled(motion.div)`
 
 export const CloseButton = styled.button`
   position: absolute;
-  top: clamp(8px, 3vw, 16px);
-  right: clamp(8px, 3vw, 16px);
+  top: 16px;
+  right: 16px;
   background: none;
   border: none;
   cursor: pointer;
@@ -62,80 +61,67 @@ export const CloseButton = styled.button`
 `;
 
 export const Title = styled.h2`
-  font-size: clamp(18px, 4vw, 20px);
-  font-weight: bold;
-  margin-bottom: clamp(12px, 3vw, 16px);
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 16px;
+  text-align: center;
 `;
 
 export const Description = styled.p`
-  color: #666;
-  font-size: clamp(14px, 3vw, 16px);
-  margin-bottom: clamp(16px, 5vw, 24px);
+  display: none;
 `;
 
 export const ReportTypeList = styled.div`
   display: flex;
   flex-direction: column;
-  gap: clamp(8px, 2vw, 12px);
-  margin-bottom: clamp(16px, 5vw, 24px);
+  gap: 12px;
+  margin-bottom: 24px;
 `;
 
 export const ReportTypeItem = styled.label`
   display: flex;
   align-items: center;
-  gap: 8px;
-  padding: clamp(8px, 2vw, 12px);
-  border: 1px solid #eee;
-  border-radius: 8px;
+  font-size: 14px;
   cursor: pointer;
-  font-size: clamp(14px, 3vw, 16px);
-
-  &:hover {
-    background: #f8f9fa;
-  }
-`;
-
-export const RadioInput = styled.input`
-  margin-right: 8px;
-  min-width: 18px;
-  min-height: 18px;
+  padding: 6px 0;
+  border: none;
 `;
 
 export const TextArea = styled.textarea`
-  width: 100%;
-  min-height: clamp(80px, 15vh, 120px);
-  padding: clamp(12px, 3vw, 16px);
-  border: 1px solid #eee;
-  border-radius: 8px;
-  margin-bottom: 12px;
-  resize: none;
-  font-size: clamp(14px, 3vw, 16px);
-
-  &::placeholder {
-    color: #999;
-  }
+  display: none;
 `;
 
 export const CharCount = styled.div`
-  text-align: right;
-  color: #666;
-  font-size: clamp(10px, 2vw, 12px);
-  margin-bottom: 12px;
+  display: none;
 `;
 
 export const SubmitButton = styled.button`
-  width: 100%;
-  padding: clamp(12px, 3vw, 16px);
-  background: #ff3b30;
+  width: 231px;
+  padding: 14px;
+  background: #111111;
   color: white;
   border: none;
   border-radius: 8px;
-  font-weight: bold;
-  font-size: clamp(14px, 3vw, 16px);
+  font-weight: 600;
+  font-size: 16px;
   cursor: pointer;
-  opacity: ${(props) => (props.disabled ? 0.5 : 1)};
-
+  font-family: 'Jalnan', sans-serif;
   &:disabled {
     cursor: not-allowed;
+  }
+`;
+
+export const OtherReasonInput = styled.input`
+  // width: 231px;
+  padding: 10px 12px;
+  border: 1px solid #eee;
+  border-radius: 8px;
+  font-size: 14px;
+  margin-top: 8px;
+  margin-left: 32px;
+  margin-bottom: 10px;
+
+  &::placeholder {
+    color: #999;
   }
 `;

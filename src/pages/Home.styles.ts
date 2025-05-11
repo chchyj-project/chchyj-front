@@ -48,7 +48,7 @@ export const MainButton = styled.button`
   background: ${styleToken.color.primary};
   height: 56px;
   border-radius: 8px;
-  font-family: 'SUIT', sans-serif;
+  font-family: 'Jalnan', sans-serif;
   color: white;
   font-size: 16px;
   display: flex;

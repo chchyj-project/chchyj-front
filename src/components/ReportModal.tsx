@@ -1,36 +1,36 @@
 // components/ReportModal.tsx
 import { useReportModalStore } from '../store/reportModalStore';
-import { X } from 'lucide-react';
 import { AnimatePresence } from 'framer-motion';
 import { useState, useEffect, useRef } from 'react';
 import {
   Overlay,
   Modal,
-  CloseButton,
   Title,
-  Description,
   ReportTypeList,
   ReportTypeItem,
-  RadioInput,
-  TextArea,
-  CharCount,
   SubmitButton,
+  OtherReasonInput,
 } from './ReportModal.styles';
+import CircleButton from './common/CircleButton';
+import styled from 'styled-components';
 
 const reportTypes = [
-  { id: 'spam', label: '스팸/광고성 콘텐츠' },
-  { id: 'abuse', label: '욕설/비방/혐오 발언' },
-  { id: 'adult', label: '음란물/성적인 콘텐츠' },
+  { id: 'abuse', label: '욕설 또는 부적절한 언어 사용' },
   { id: 'privacy', label: '개인정보 노출' },
-  { id: 'copyright', label: '저작권 침해' },
-  { id: 'other', label: '기타' },
+  { id: 'adult', label: '홍보 또는 스팸성 내용' },
+  { id: 'spam', label: '무관한 내용 또는 장난성 댓글' },
+  { id: 'other', label: '운영방침에 어긋나는 기타 사유' },
 ];
 
+// Label을 위한 새로운 스타일 컴포넌트 추가
+const LabelText = styled.span`
+  margin-left: 12px; // 왼쪽 여백 추가
+`;
+
 export default function ReportModal() {
-  const { isOpen, targetContent, closeReportModal, submitReport } =
-    useReportModalStore();
+  const { isOpen, closeReportModal, submitReport } = useReportModalStore();
   const [selectedType, setSelectedType] = useState('');
-  const [description, setDescription] = useState('');
+  const [otherReason, setOtherReason] = useState('');
   const modalRef = useRef(null);
 
   // 모달이 열릴 때 body 스크롤 방지
@@ -50,20 +50,32 @@ export default function ReportModal() {
   useEffect(() => {
     if (isOpen) {
       setSelectedType('');
-      setDescription('');
+      setOtherReason('');
     }
   }, [isOpen]);
 
   const handleSubmit = async () => {
-    if (selectedType && description.trim()) {
+    if (selectedType) {
       try {
+        const description = selectedType === 'other' ? otherReason : '';
         await submitReport(selectedType, description);
         setSelectedType('');
-        setDescription('');
+        setOtherReason('');
       } catch (error) {
-        // 에러 처리
         console.error('신고 제출 중 오류 발생:', error);
       }
+    }
+  };
+
+  const handleRadioChange = (
+    e: React.MouseEvent<HTMLButtonElement>,
+    isActive: boolean,
+    typeId: string,
+  ) => {
+    if (isActive) {
+      setSelectedType(typeId);
+    } else {
+      setSelectedType('');
     }
   };
 
@@ -83,42 +95,27 @@ export default function ReportModal() {
             exit={{ scale: 0.95 }}
             onClick={(e) => e.stopPropagation()}
           >
-            <CloseButton onClick={closeReportModal}>
-              <X size={24} />
-            </CloseButton>
-
-            <Title>신고하기</Title>
-            <Description>부적절한 내용에 대해 신고해 주세요.</Description>
+            <Title>신고사유를 선택해주세요</Title>
 
             <ReportTypeList>
               {reportTypes.map((type) => (
                 <ReportTypeItem key={type.id}>
-                  <RadioInput
-                    type="radio"
-                    name="reportType"
-                    value={type.id}
-                    checked={selectedType === type.id}
-                    onChange={(e) => setSelectedType(e.target.value)}
+                  <CircleButton
+                    onClick={(e, isActive) =>
+                      handleRadioChange(e, isActive, type.id)
+                    }
                   />
-                  {type.label}
+                  <LabelText>{type.label}</LabelText>
                 </ReportTypeItem>
               ))}
+              <OtherReasonInput
+                placeholder="기타 사유를 입력해주세요"
+                value={otherReason}
+                onChange={(e) => setOtherReason(e.target.value)}
+              />
             </ReportTypeList>
 
-            <TextArea
-              placeholder="구체적인 신고 사유를 입력해 주세요."
-              value={description}
-              onChange={(e) => setDescription(e.target.value.slice(0, 500))}
-            />
-
-            <CharCount>{description.length}/500자</CharCount>
-
-            <SubmitButton
-              disabled={!selectedType || !description.trim()}
-              onClick={handleSubmit}
-            >
-              신고하기
-            </SubmitButton>
+            <SubmitButton onClick={handleSubmit}>신고하기</SubmitButton>
           </Modal>
         </Overlay>
       )}

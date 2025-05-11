@@ -7,19 +7,18 @@ import LoginCallback from './pages/Login/LoginCallback.tsx';
 import SetNickName from './pages/Login/SetNickName.tsx';
 import PraiseDetail from './pages/PraiseDetail.tsx';
 import Profile from './pages/Profile.tsx';
-import ReportModal from './components/ReportModal.tsx';
 import { ToastContainer, toast } from 'react-toastify';
 import MyPraiseCollectionPage from './pages/MyPraiseCollectionPage.tsx';
 import { PopupProvider } from './context/PopupContext.tsx';
 import { AppContainer } from './style/Common.ts';
+import Layout from './components/Layout.tsx';
 
 const App = () => {
   return (
     <PopupProvider>
       <BrowserRouter>
-        <AppContainer>
+        <Layout>
           <GlobalStyle />
-          <ReportModal />
           <ToastContainer
             position="top-center"
             autoClose={1000}
@@ -53,7 +52,7 @@ const App = () => {
             <Route path="/profile" element={<Profile />} />
             <Route path="/my-collection" element={<MyPraiseCollectionPage />} />
           </Routes>
-        </AppContainer>
+        </Layout>
       </BrowserRouter>
     </PopupProvider>
   );

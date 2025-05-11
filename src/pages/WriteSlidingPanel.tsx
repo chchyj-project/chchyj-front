@@ -80,9 +80,6 @@ export default function WriteSlidingPanel({
               }}
             >
               <PanelContent>
-                <PanelCloseButton onClick={() => handleWriteClick(false)}>
-                  <X size={20} />
-                </PanelCloseButton>
                 <Title>
                   청찬받고 싶은 내용을 입력하세요.
                   <br />
