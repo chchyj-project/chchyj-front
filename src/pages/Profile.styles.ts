@@ -52,7 +52,7 @@ export const Title = styled.h1`
 
 export const Subtitle = styled.p`
   color: #303030;
-  font-size: 19px;
+  font-size: 20px;
   margin-bottom: 28px;
 `;
 
@@ -163,6 +163,12 @@ export const EditButton = styled.button`
   }
 `;
 
+export const MarkerIcon = styled.img`
+  width: 14px;
+  height: 14px;
+  margin-right: 4px;
+`;
+
 export const MenuItemContent = styled.div`
   display: flex;
   align-items: center;
@@ -174,7 +180,7 @@ export const MenuText = styled.div`
   display: flex;
   align-items: center;
   flex-shrink: 0;
-  font-weight: 500;
+  font-size: 14px;
 `;
 
 export const HeartIcon = styled.span`

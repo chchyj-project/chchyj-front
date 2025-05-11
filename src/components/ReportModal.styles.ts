@@ -105,7 +105,7 @@ export const SubmitButton = styled.button`
   font-weight: 600;
   font-size: 16px;
   cursor: pointer;
-  font-family: 'Jalnan', sans-serif;
+  font-family: 'Jalnan', 'NanumSquareRound', sans-serif;
   &:disabled {
     cursor: not-allowed;
   }

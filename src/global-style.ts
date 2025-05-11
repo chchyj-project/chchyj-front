@@ -3,18 +3,32 @@ import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import Common from './style/Common';
 
+// 폰트 파일 import
+import SUITFont from './assets/fonts/SUIT-Variable.woff2';
+
 export const GlobalStyle = createGlobalStyle`
+    /* Jalnan 폰트 */
     @font-face {
         font-family: 'Jalnan';
-        src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_four@1.2/JalnanOTF00.woff') format('woff');
+       src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_four@1.2/JalnanOTF00.woff') format('woff');
+
         font-weight: normal;
+        font-style: normal;
+        font-display: swap;
+    }
+    
+    /* 백업 폰트: Jalnan이 로드되지 않을 경우 사용 */
+    @font-face {
+        font-family: 'NanumSquareRound';
+        src: url('https://hangeul.pstatic.net/hangeul_static/webfont/NanumSquareRound/NanumSquareRoundB.woff') format('woff');
+        font-weight: 700;
         font-style: normal;
         font-display: swap;
     }
     
     @font-face {
         font-family: 'SUIT';
-        src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_suit@1.0/SUIT-Variable.woff2') format('woff2');
+        src: url(${SUITFont}) format('woff2');
         font-weight: normal;
         font-style: normal;
         font-display: swap;

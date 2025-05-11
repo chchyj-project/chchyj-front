@@ -6,16 +6,16 @@ import tail from '../images/tail.png';
 
 export const Container = styled.div<ContainerProps>`
   margin-bottom: ${(props) => (props.$islast ? '0px' : '8px')};
-  padding-bottom: 16px;
+  padding-bottom: 24px;
   background-color: #fff;
-  border-bottom: 1px solid #e1e2e4;
+  border-bottom: 0.5px solid #e1e2e4;
 `;
 
 export const Header = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 10px;
+  margin-bottom: 2px;
 `;
 
 export const Title = styled.h2`
@@ -28,11 +28,11 @@ export const Title = styled.h2`
 export const Date = styled.span`
   font-size: 11px;
   padding: 10px 0;
-  color: #999;
+  color: #c3c3c3;
 `;
 
 export const CommentInfo = styled.div`
-  font-size: 12px;
+  font-size: 14px;
   color: ${styleToken.color.primary};
 `;
 
@@ -87,6 +87,7 @@ export const CommentIcon = styled.img`
 
 export const CommentBox = styled.div`
   display: flex;
+  align-items: center;
 `;
 
 export const HeartIcon = styled.img`

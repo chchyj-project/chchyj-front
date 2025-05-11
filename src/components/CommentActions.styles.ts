@@ -27,7 +27,7 @@ export const DropdownMenu = styled.div<{ $isopen: string }>`
   min-width: 120px;
   display: ${(props) => (props.$isopen == 'true' ? 'block' : 'none')};
   z-index: 1000;
-  font-family: 'Jalnan', sans-serif;
+  font-family: 'Jalnan', 'NanumSquareRound', sans-serif;
 `;
 
 // 메뉴 아이템
@@ -40,7 +40,7 @@ export const MenuItem = styled.button`
   cursor: pointer;
   font-size: 14px;
   color: #333;
-  font-family: 'Jalnan', sans-serif;
+  font-family: 'Jalnan', 'NanumSquareRound', sans-serif;
 
   &:hover {
     background-color: #f5f5f5;

@@ -48,7 +48,7 @@ export const MainButton = styled.button`
   background: ${styleToken.color.primary};
   height: 56px;
   border-radius: 8px;
-  font-family: 'Jalnan', sans-serif;
+  font-family: 'Jalnan', 'NanumSquareRound', sans-serif;
   color: white;
   font-size: 16px;
   display: flex;
@@ -131,7 +131,7 @@ export const Tooltip = styled.div`
   padding: 8px 12px;
   border-radius: 8px;
   font-size: 14px;
-  font-family: 'Jalnan', sans-serif;
+  font-family: 'Jalnan', 'NanumSquareRound', sans-serif;
   white-space: nowrap;
   opacity: 0;
   transition: opacity 0.3s ease;

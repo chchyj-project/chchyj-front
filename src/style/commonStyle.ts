@@ -93,6 +93,6 @@ export const Title = styled.h1`
   font-weight: bold;
   margin: 0;
   color: ${Common.colors.mainBlue};
-  font-family: 'Jalnan', sans-serif;
+  font-family: 'Jalnan', 'NanumSquareRound', sans-serif;
   letter-spacing: 1px;
 `;

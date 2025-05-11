@@ -1,19 +1,10 @@
-import {
-  ChevronLeft,
-  Bell,
-  Folder,
-  SmileIcon,
-  Clock,
-  LogOut,
-  Edit2,
-  ArrowRight,
-} from 'lucide-react';
+import { ChevronLeft } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import Footer from './Footer.tsx';
 import AuthService from '../api/AuthService.ts';
 import { useEffect, useState } from 'react';
 import { axiosInstance } from '../api/axiosConfig.ts';
-import TopLogo from '../images/topLogo.png';
+import inkMarker from '../images/ink_marker.png';
 import Heart from '../images/heart3.png';
 import {
   Container,
@@ -39,6 +30,7 @@ import {
   Logo,
   Secession,
   New,
+  MarkerIcon,
 } from './Profile.styles.ts';
 import { Title as TitleLogo } from '../style/commonStyle.ts';
 
@@ -92,11 +84,12 @@ export default function Profile() {
           <TitleWrapper>
             <Title>{myProfileInfo.nickname || '사용자'}</Title>
             <EditButton>
-              <Edit2 size={14} />
+              <MarkerIcon src={inkMarker} alt="닉네임변경" />
               닉네임변경
             </EditButton>
           </TitleWrapper>
         </ProfileHeader>
+        {/* //TODO: 칭찬요정이 되신지 몇일이 되었어요! */}
         <Subtitle>
           칭찬요정이 되신지 {myProfileInfo.userId ? '1일' : '0일'}이 되었어요!
         </Subtitle>
@@ -145,7 +138,9 @@ export default function Profile() {
           </MenuItem>
         </MenuList>
         <MenuList style={{ marginTop: '24px' }}>
-          <MenuItem onClick={logout}>로그아웃</MenuItem>
+          <MenuItem onClick={logout}>
+            <MenuText>로그아웃</MenuText>
+          </MenuItem>
         </MenuList>
         <Secession>회원 탈퇴하기</Secession>
       </ProfileSection>

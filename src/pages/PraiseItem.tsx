@@ -44,6 +44,7 @@ const PraiseItem = ({
     setIsCommentOpen(!isCommentOpen);
   };
   const { showConfirm } = usePopup();
+  console.log('loggedInUserId>>>', loggedInUserId);
 
   const createdAt = dayjs(article.createdAt);
   const { openReportModal } = useReportModalStore();
@@ -112,7 +113,6 @@ const PraiseItem = ({
         }
       },
     );
-    // setIsOpen(false);
   };
 
   return (
@@ -120,7 +120,6 @@ const PraiseItem = ({
       <Container $islast={islast && !isCommentOpen}>
         <Header>
           <TitleWrapper>
-            {String(index)}
             <Title>{article.nickname}</Title>
             <Date>{createdAt.format('YYYY.MM.DD')}</Date>
           </TitleWrapper>
@@ -156,22 +155,26 @@ const PraiseItem = ({
           <CommentBox>
             <CommentIcon src={Comment} alt="Comment icon" />
             <CommentInfo onClick={toggleCommentBox}>
-              칭찬댓글 {article.replyCount}개
+              {article.replyCount === 0
+                ? '요정님을 기다려요!'
+                : `칭찬댓글 ${article.replyCount}개`}
             </CommentInfo>
           </CommentBox>
-          <WritingCommentWrapper
-            onClick={() =>
-              // URL에는 안보이지만 state로 데이터 전달
-              navigate(`/post/${article.id}`, {
-                state: {
-                  mode: 'commentOpen',
-                },
-              })
-            }
-          >
-            <HeartIcon src={heart} alt="heart icon" />
-            칭찬댓글 달기
-          </WritingCommentWrapper>
+          {String(loggedInUserId) !== String(article.userId) && (
+            <WritingCommentWrapper
+              onClick={() =>
+                // URL에는 안보이지만 state로 데이터 전달
+                navigate(`/post/${article.id}`, {
+                  state: {
+                    mode: 'commentOpen',
+                  },
+                })
+              }
+            >
+              <HeartIcon src={heart} alt="heart icon" />
+              칭찬요정 보내기
+            </WritingCommentWrapper>
+          )}
         </RowFlexBetween>
       </Container>
     </>
