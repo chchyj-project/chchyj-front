@@ -27,8 +27,8 @@ const Button = styled.button`
 const Panel = styled(motion.div)`
   position: fixed;
   bottom: 0;
-  //left: 50%;
-  transform: translateX(-50%);
+  left: calc(50% - 180px); // Shifted slightly to the left
+  transform: translateX(-25%);
   width: 100%;
   max-width: 390px;
   height: auto;
@@ -39,7 +39,7 @@ const Panel = styled(motion.div)`
   z-index: 201; // Overlay보다 높은 z-index
 
   // 모바일에서 높이 조정
-  @media (max-width: 480px) {
+  @media (max-width: 390px) {
     height: auto; // 모바일에서 더 적은 높이로 조정
     max-height: calc(100vh - 50px); // 최대 높이 제한 (상단 여백 확보)
   }
@@ -76,9 +76,6 @@ const StyledTextarea = styled.textarea`
 `;
 
 const Wrapper = styled.div`
-  /* display: flex;
-  flex-direction: column;
-  gap: 8px; 각 항목 간격 */
   color: #9e9e9e; /* 텍스트 색상 */
   font-size: 14px; /* 기본 폰트 크기 */
   line-height: 1.5; /* 텍스트 간격 */
@@ -142,7 +139,6 @@ const PanelCloseButton = styled(CloseButton)`
   align-items: center;
   justify-content: center;
   z-index: 202;
-  //box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 
   @media (max-width: 480px) {
     top: 16px;

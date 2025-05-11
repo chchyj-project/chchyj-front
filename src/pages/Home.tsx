@@ -3,12 +3,10 @@
 import styled from 'styled-components';
 import styleToken from '../style/styleToken.ts';
 import Logo from '../images/character.png';
-import BtnText from '../images/buttonText.png';
 import PraiseItem from './PraiseItem.tsx';
 import FixedHeader from '../components/FixedHeader.tsx';
 import { useEffect, useRef, useState, useCallback } from 'react';
 import '../pages/Login/slick.css';
-import Common from '../style/Common.ts';
 import { PageContainer, Subtitle, TitleStyle } from '../style/MainPage.ts';
 import Footer from './Footer.tsx';
 import WriteSlidingPanel from './WriteSlidingPanel.tsx';
@@ -65,6 +63,12 @@ const MainButton = styled.button`
   background: ${styleToken.color.primary};
   height: 56px;
   border-radius: 8px;
+  font-family: 'Jalnan', sans-serif;
+  color: white;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `;
 const PraiseList = styled.div`
   position: relative;
@@ -142,6 +146,7 @@ const Tooltip = styled.div`
   padding: 8px 12px;
   border-radius: 8px;
   font-size: 14px;
+  font-family: 'Jalnan', sans-serif;
   white-space: nowrap;
   opacity: 0;
   transition: opacity 0.3s ease;
@@ -464,7 +469,12 @@ const Home = () => {
                 <Icon src={Logo} alt="logo" />
               </ContentWrapper>
               <MainButton onClick={() => handleWriteClick(true)}>
-                <img src={BtnText} alt="button text" />
+                <Plus
+                  size={18}
+                  strokeWidth={2.5}
+                  style={{ marginRight: '8px' }}
+                />
+                칭찬 받을래요
               </MainButton>
             </PraiseCard>
 
