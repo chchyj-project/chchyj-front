@@ -87,6 +87,16 @@ export const ReportTypeItem = styled.label`
   border: none;
 `;
 
+// Label을 위한 새로운 스타일 컴포넌트 추가
+export const LabelText = styled.span`
+  margin-left: 12px; // 왼쪽 여백 추가
+`;
+
+export const LabelTextDiv = styled.div`
+  margin-left: 8px;
+  white-space: nowrap;
+`;
+
 export const TextArea = styled.textarea`
   display: none;
 `;
@@ -112,16 +122,24 @@ export const SubmitButton = styled.button`
 `;
 
 export const OtherReasonInput = styled.input`
-  // width: 231px;
+  width: 90%;
   padding: 10px 12px;
   border: 1px solid #eee;
   border-radius: 8px;
   font-size: 14px;
-  margin-top: 8px;
-  margin-left: 32px;
-  margin-bottom: 10px;
+  // margin-top: 8px;s
+  // margin-left: 32px;
+  // margin-bottom: 10px;
 
   &::placeholder {
     color: #999;
   }
+`;
+
+// 기타 사유 입력을 위한 특별 컨테이너
+export const OtherReasonContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  flex-wrap: wrap;
 `;

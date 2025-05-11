@@ -8,6 +8,9 @@ interface StyledButtonProps {
 const StyledButton = styled.button<StyledButtonProps>`
   width: 10px;
   height: 10px;
+  min-width: 10px;
+  min-height: 10px;
+  flex-shrink: 0;
   border-radius: 50%;
   background-color: ${(props) => (props.$isActive ? '#2196F3' : '#888888')};
   border: none;
@@ -39,24 +42,24 @@ const InnerCircle = styled.div<InnerCircleProps>`
   transition: background-color 0.2s ease-in-out;
 `;
 
-const CircleButton = ({
-  onClick,
-  ...props
-}: {
-  onClick: (e: React.MouseEvent<HTMLButtonElement>, isActive: boolean) => void;
-}) => {
-  const [isActive, setIsActive] = useState(false);
+interface CircleButtonProps {
+  onClick: (e: React.MouseEvent<HTMLButtonElement>) => void;
+  isActive?: boolean;
+}
+
+const CircleButton = ({ onClick, isActive, ...props }: CircleButtonProps) => {
+  // When isActive is provided externally, use it instead of internal state
+  const activeState = isActive !== undefined ? isActive : false;
 
   const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
-    setIsActive(!isActive);
     if (onClick) {
-      onClick(e, !isActive);
+      onClick(e);
     }
   };
 
   return (
-    <StyledButton onClick={handleClick} $isActive={isActive} {...props}>
-      <InnerCircle $isActive={isActive} />
+    <StyledButton onClick={handleClick} $isActive={activeState} {...props}>
+      <InnerCircle $isActive={activeState} />
     </StyledButton>
   );
 };

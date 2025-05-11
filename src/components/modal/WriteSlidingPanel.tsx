@@ -1,15 +1,13 @@
 import { AnimatePresence } from 'framer-motion';
 import { axiosInstance } from '../../api/axiosConfig.ts';
 import { useState } from 'react';
-import { X } from 'lucide-react';
 import { useApiError } from '../../hooks/useApiError.ts';
 import { useArticleStore } from '../../store/useArticleStore.ts';
-import { toast } from 'react-toastify';
-import BtnText from '../images/buttonText2.png';
-import Icon1 from '../images/icon1.png';
-import Icon2 from '../images/icon2.png';
-import Icon3 from '../images/icon3.png';
-import Icon4 from '../images/icon4.png';
+import BtnText from '../../images/buttonText2.png';
+import Icon1 from '../../images/icon1.png';
+import Icon2 from '../../images/icon2.png';
+import Icon3 from '../../images/icon3.png';
+import Icon4 from '../../images/icon4.png';
 import {
   Button,
   Panel,

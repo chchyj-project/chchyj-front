@@ -1,12 +1,12 @@
 import styled from 'styled-components';
-import Home from './pages/Home';
+import Home from './pages/HomePage.tsx';
 import { GlobalStyle } from './global-style';
 import { Route, Routes, BrowserRouter, Navigate } from 'react-router-dom';
 import Onboarding from './pages/Login/Onboarding.tsx';
 import LoginCallback from './pages/Login/LoginCallback.tsx';
 import SetNickName from './pages/Login/SetNickName.tsx';
-import PraiseDetail from './pages/PraiseDetail.tsx';
-import Profile from './pages/Profile.tsx';
+import PraiseDetail from './pages/PraiseDetailPage.tsx';
+import Profile from './pages/MyProfilePage.tsx';
 import { ToastContainer, toast } from 'react-toastify';
 import MyPraiseCollectionPage from './pages/MyPraiseCollectionPage.tsx';
 import { PopupProvider } from './context/PopupContext.tsx';

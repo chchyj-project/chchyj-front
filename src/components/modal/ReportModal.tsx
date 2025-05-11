@@ -10,6 +10,9 @@ import {
   ReportTypeItem,
   SubmitButton,
   OtherReasonInput,
+  LabelText,
+  OtherReasonContainer,
+  LabelTextDiv,
 } from './ReportModal.styles';
 import CircleButton from '../common/CircleButton';
 import styled from 'styled-components';
@@ -21,11 +24,6 @@ const reportTypes = [
   { id: 'spam', label: '무관한 내용 또는 장난성 댓글' },
   { id: 'other', label: '운영방침에 어긋나는 기타 사유' },
 ];
-
-// Label을 위한 새로운 스타일 컴포넌트 추가
-const LabelText = styled.span`
-  margin-left: 12px; // 왼쪽 여백 추가
-`;
 
 export default function ReportModal() {
   const { isOpen, closeReportModal, submitReport } = useReportModalStore();
@@ -67,16 +65,8 @@ export default function ReportModal() {
     }
   };
 
-  const handleRadioChange = (
-    e: React.MouseEvent<HTMLButtonElement>,
-    isActive: boolean,
-    typeId: string,
-  ) => {
-    if (isActive) {
-      setSelectedType(typeId);
-    } else {
-      setSelectedType('');
-    }
+  const handleRadioChange = (typeId: string) => {
+    setSelectedType(typeId);
   };
 
   return (
@@ -101,18 +91,25 @@ export default function ReportModal() {
               {reportTypes.map((type) => (
                 <ReportTypeItem key={type.id}>
                   <CircleButton
-                    onClick={(e, isActive) =>
-                      handleRadioChange(e, isActive, type.id)
-                    }
+                    isActive={selectedType === type.id}
+                    onClick={(e) => handleRadioChange(type.id)}
                   />
                   <LabelText>{type.label}</LabelText>
                 </ReportTypeItem>
               ))}
-              <OtherReasonInput
-                placeholder="기타 사유를 입력해주세요"
-                value={otherReason}
-                onChange={(e) => setOtherReason(e.target.value)}
-              />
+              <OtherReasonContainer>
+                <CircleButton
+                  isActive={selectedType === 'etc'}
+                  onClick={(e) => handleRadioChange('etc')}
+                />
+                <LabelTextDiv>기타</LabelTextDiv>
+                <OtherReasonInput
+                  placeholder="기타 사유를 입력해주세요"
+                  value={otherReason}
+                  onChange={(e) => setOtherReason(e.target.value)}
+                  style={{ marginLeft: '30px', marginTop: '8px' }}
+                />
+              </OtherReasonContainer>
             </ReportTypeList>
 
             <SubmitButton onClick={handleSubmit}>신고하기</SubmitButton>
