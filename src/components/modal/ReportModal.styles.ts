@@ -93,7 +93,8 @@ export const LabelText = styled.span`
 `;
 
 export const LabelTextDiv = styled.div`
-  margin-left: 8px;
+  margin-left: 10px;
+  font-size: 14px;
   white-space: nowrap;
 `;
 
