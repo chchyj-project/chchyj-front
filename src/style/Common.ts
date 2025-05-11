@@ -1,7 +1,10 @@
+import styled from 'styled-components';
+
 const Common = {
   colors: {
     red: '#b11313',
     skyblue: '#60c3fb',
+    mainBlue: '#2559F3',
     beige100: '#DECBB8',
     beige200: '#E9C2A1',
     green: '#CECCC2',
@@ -16,5 +19,18 @@ const Common = {
     placeholder: '#bdbdbd',
   },
 };
+
+export const AppContainer = styled.div`
+  max-width: 390px;
+  width: 100%;
+  margin: 0 auto;
+  position: relative;
+  overflow-x: hidden;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+
+  @media (max-width: 390px) {
+    box-shadow: none;
+  }
+`;
 
 export default Common;

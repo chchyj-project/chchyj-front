@@ -4,8 +4,8 @@ import { IconProps } from '../types/MainPage.ts';
 
 export const AddtionalWrapper = styled.button`
   font-size: 12px;
-  background:#6B90FF;
-  color: #EDF2FF;
+  background: #6b90ff;
+  color: #edf2ff;
   height: 18px;
   width: 59px;
   line-height: 12px;
@@ -26,11 +26,8 @@ export const TitleWrapper = styled.div`
 
 export const PageContainer = styled.div`
   display: flex;
-  //width: 100vw;
   flex-direction: column;
-  //align-items: center;
   background-color: white;
-  //width: 100vw;
   overflow-x: hidden;
 
   box-sizing: border-box;
@@ -42,8 +39,8 @@ export const TitleStyle = styled.h1`
   color: #333333;
   text-align: left;
   margin-bottom: 8px;
-    @media (max-width: 768px) {
-  font-size: 20px;
+  @media (max-width: 768px) {
+    font-size: 20px;
   }
   line-height: 1.4; /* 줄 간격 조정 */
   word-wrap: break-word; /* 단어 단위로 줄바꿈 */

@@ -14,7 +14,7 @@ const Panel = styled(motion.div)`
   //left: 50%;
   transform: translateX(-50%);
   width: 100%;
-  max-width: 768px;
+  max-width: 390px;
   height: 50vh;
   background-color: white;
   border-radius: 24px 24px 0 0;

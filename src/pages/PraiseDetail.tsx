@@ -26,7 +26,7 @@ import axios from 'axios';
 import { Plus } from 'lucide-react'; // lucide-react 아이콘 추가
 
 const Container = styled.div`
-  max-width: 768px;
+  max-width: 390px;
   margin: 0 auto;
   background: white;
   min-height: 100vh;
@@ -192,7 +192,7 @@ const FloatingButtonWrapper = styled.div`
   bottom: 24px;
   right: 0;
   left: 0;
-  max-width: 768px;
+  max-width: 390px;
   width: 100%;
   margin: 0 auto;
   padding: 0 16px;

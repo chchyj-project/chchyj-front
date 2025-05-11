@@ -14,10 +14,9 @@ import Icon2 from '../images/icon2.png';
 import Icon3 from '../images/icon3.png';
 import Icon4 from '../images/icon4.png';
 
-
 const Button = styled.button`
   width: 100%;
-  background:${styleToken.color.primary};
+  background: ${styleToken.color.primary};
   height: 56px;
   border-radius: 8px;
   text-align: center;
@@ -31,7 +30,7 @@ const Panel = styled(motion.div)`
   //left: 50%;
   transform: translateX(-50%);
   width: 100%;
-  max-width: 768px;
+  max-width: 390px;
   height: auto;
   background-color: white;
   border-radius: 24px 24px 0 0;
@@ -41,7 +40,7 @@ const Panel = styled(motion.div)`
 
   // 모바일에서 높이 조정
   @media (max-width: 480px) {
-    height:auto; // 모바일에서 더 적은 높이로 조정
+    height: auto; // 모바일에서 더 적은 높이로 조정
     max-height: calc(100vh - 50px); // 최대 높이 제한 (상단 여백 확보)
   }
 `;
@@ -63,16 +62,16 @@ const StyledTextarea = styled.textarea`
   flex-grow: 1;
   margin: 24px 0;
   padding: 8px;
-  border: 1px solid #6B90FF;
+  border: 1px solid #6b90ff;
   border-radius: 12px;
   resize: none;
   font-size: 14px;
-  color:#303030;
+  color: #303030;
   height: 200px;
   outline: none;
   transition: 0.2s;
   &:focus {
-    border: 1px solid #1A4DE5; 
+    border: 1px solid #1a4de5;
   }
 `;
 
@@ -94,15 +93,14 @@ const Item = styled.div`
 
 const Icon = styled.span`
   font-size: 18px; /* 아이콘 크기 */
- `
+`;
 
 const Text = styled.span`
   display: inline-block;
   font-size: 13px;
-  color:${styleToken.color.secondary};
+  color: ${styleToken.color.secondary};
   margin-left: 8px;
 `;
-
 
 const Title = styled(Text)`
   font-style: normal;
@@ -124,7 +122,7 @@ const Overlay = styled(motion.div)`
   left: 50%;
   right: 0;
   bottom: 0;
-  width:100%;
+  width: 100%;
   background-color: #222; // 반투명 검정색 배경
   transform: translateX(-50%);
   z-index: 200; // Panel보다 낮은 z-index
@@ -213,7 +211,7 @@ export default function WriteSlidingPanel({
                   <X size={20} />
                 </PanelCloseButton>
                 <Title>
-                  청찬받고 싶은 내용을 입력하세요. 
+                  청찬받고 싶은 내용을 입력하세요.
                   <br />
                   칭찬요정들이 찾아올거에요~
                 </Title>
@@ -224,25 +222,30 @@ export default function WriteSlidingPanel({
                 />
                 <Wrapper>
                   <Item>
-                    <img src={Icon4} alt='icon image'/>
+                    <img src={Icon4} alt="icon image" />
                     <Text>칭찬글 입력시 하트 1개가 차감됩니다.</Text>
                   </Item>
                   <Item>
-                    <img src={Icon3} alt='icon image'/>
+                    <img src={Icon3} alt="icon image" />
                     <Text>
                       칭찬글은 입력 후 15분 이내에만 수정할 수 있습니다.
                     </Text>
                   </Item>
                   <Item>
-                    <img src={Icon2} alt='icon image'/>
-                    <Text> 칭찬글 삭제 15분 이후에는 하트는 반환되지 않습니다.</Text>
+                    <img src={Icon2} alt="icon image" />
+                    <Text>
+                      {' '}
+                      칭찬글 삭제 15분 이후에는 하트는 반환되지 않습니다.
+                    </Text>
                   </Item>
                   <Item>
-                    <img src={Icon1} alt='icon image'/>
+                    <img src={Icon1} alt="icon image" />
                     <Text>욕설/비방 등은 동의없이 삭제될 수 있습니다.</Text>
                   </Item>
                 </Wrapper>
-                <Button onClick={save}><img src={BtnText} alt='Button text'/></Button>
+                <Button onClick={save}>
+                  <img src={BtnText} alt="Button text" />
+                </Button>
               </PanelContent>
             </Panel>
           </>

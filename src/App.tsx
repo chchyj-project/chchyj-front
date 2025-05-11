@@ -11,19 +11,13 @@ import ReportModal from './components/ReportModal.tsx';
 import { ToastContainer, toast } from 'react-toastify';
 import MyPraiseCollectionPage from './pages/MyPraiseCollectionPage.tsx';
 import { PopupProvider } from './context/PopupContext.tsx';
+import { AppContainer } from './style/Common.ts';
 
-const AppWrap = styled.div`
-  width: 100%;
-  max-width: 768px; /* 최대 너비 제한 */
-  margin: 0 auto;
-  overflow-x: hidden; /* 가로 스크롤 방지 */
-  box-sizing: border-box;
-`;
 const App = () => {
   return (
     <PopupProvider>
       <BrowserRouter>
-        <AppWrap>
+        <AppContainer>
           <GlobalStyle />
           <ReportModal />
           <ToastContainer
@@ -59,7 +53,7 @@ const App = () => {
             <Route path="/profile" element={<Profile />} />
             <Route path="/my-collection" element={<MyPraiseCollectionPage />} />
           </Routes>
-        </AppWrap>
+        </AppContainer>
       </BrowserRouter>
     </PopupProvider>
   );

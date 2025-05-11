@@ -15,7 +15,7 @@ interface PraiseItem {
 
 // 전체 페이지 컨테이너
 const Container = styled.div`
-  max-width: 768px;
+  max-width: 390px;
   margin: 0 auto;
   background: #f5f9ff;
   min-height: 100vh;

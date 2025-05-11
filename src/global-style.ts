@@ -4,6 +4,13 @@ import 'slick-carousel/slick/slick-theme.css';
 import Common from './style/Common';
 
 export const GlobalStyle = createGlobalStyle`
+    @font-face {
+        font-family: 'Jalnan';
+        src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_four@1.2/JalnanOTF00.woff') format('woff');
+        font-weight: normal;
+        font-style: normal;
+        font-display: swap;
+    }
      a,
     abbr,
     acronym,
@@ -134,9 +141,13 @@ export const GlobalStyle = createGlobalStyle`
     }
     body {
         background-color: ${Common.colors.gray};
-      margin: 0;
+      margin: 0 auto;
       padding: 0;
       overflow-x: hidden; /* 가로 스크롤 방지 */
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
     }
     ul,
     ol,

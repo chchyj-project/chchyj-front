@@ -20,7 +20,7 @@ import { axiosInstance } from '../api/axiosConfig.ts';
 
 // 스타일 컴포넌트들은 그대로 유지합니다.
 const PraiseCard = styled.div`
-  background-color: #E5ECFF;
+  background-color: #e5ecff;
   margin: 69px 0 0 0;
   padding: 18.99px 24px;
   text-align: left;
@@ -56,13 +56,13 @@ const Icon = styled.img`
   height: 117.64px;
   margin-top: -5px;
   @media (max-width: 480px) {
-  width: 82.96px;
-  height: 117.64px;
+    width: 82.96px;
+    height: 117.64px;
   }
 `;
 const MainButton = styled.button`
   width: 100%;
-  background:${styleToken.color.primary};
+  background: ${styleToken.color.primary};
   height: 56px;
   border-radius: 8px;
 `;
@@ -77,7 +77,7 @@ const PraiseList = styled.div`
 `;
 
 const ListGap = styled.div`
- //  background-color: ${styleToken.color.backgroundSecondary};
+  //  background-color: ${styleToken.color.backgroundSecondary};
   height: 10px;
   margin: 4px 0;
 `;
@@ -87,22 +87,26 @@ const FloatingButtonWrapper = styled.div`
   bottom: 24px;
   right: 0;
   left: 0;
-  max-width: 768px;
+  max-width: 390px;
   width: 100%;
+  padding: 0 24px;
   margin: 0 auto;
-  padding: 0 16px;
   box-sizing: border-box;
   pointer-events: none;
   z-index: 100;
   display: flex;
   justify-content: flex-end;
+
+  @media (max-width: 430px) {
+    padding: 0 24px;
+  }
 `;
 
 const FloatingActionButton = styled.button`
   width: 60px;
   height: 60px;
   border-radius: 50%;
-  background-color:${styleToken.color.primary};
+  background-color: ${styleToken.color.primary};
   color: white;
   display: flex;
   align-items: center;
@@ -112,6 +116,12 @@ const FloatingActionButton = styled.button`
   cursor: pointer;
   transition: all 0.3s ease;
   pointer-events: auto;
+  margin-right: 0;
+
+  @media (max-width: 390px) {
+    width: 50px;
+    height: 50px;
+  }
 
   &:hover {
     transform: translateY(-3px);
@@ -441,16 +451,21 @@ const Home = () => {
             <PraiseCard>
               <ContentWrapper>
                 <TextGroup>
-                  <TitleStyle>요정들 출동 완료! <br/>당신을 발견했어요</TitleStyle>
+                  <TitleStyle>
+                    요정들 출동 완료! <br />
+                    당신을 발견했어요
+                  </TitleStyle>
                   <Subtitle>
                     오늘 하루 뿌듯한 일,
                     <br />
-                   우리 요정들과 나눠보실래요?
+                    우리 요정들과 나눠보실래요?
                   </Subtitle>
                 </TextGroup>
-                <Icon src={Logo} alt="logo" />           
+                <Icon src={Logo} alt="logo" />
               </ContentWrapper>
-              <MainButton  onClick={() => handleWriteClick(true)}><img src={BtnText} alt='button text'/></MainButton>
+              <MainButton onClick={() => handleWriteClick(true)}>
+                <img src={BtnText} alt="button text" />
+              </MainButton>
             </PraiseCard>
 
             <div style={{ margin: '16px 24px 0' }}>

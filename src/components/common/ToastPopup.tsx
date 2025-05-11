@@ -32,7 +32,7 @@ const ToastContainer = styled.div`
   left: 0;
   right: 0;
   bottom: 0;
-  max-width: 768px;
+  max-width: 390px;
   margin: 0 auto;
   pointer-events: none; // 클릭 이벤트가 뒤의 요소들에 전달되도록
   z-index: 20;

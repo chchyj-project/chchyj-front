@@ -19,9 +19,8 @@ import Heart from '../images/heart3.png';
 import styleToken from '../style/styleToken.ts';
 
 const Container = styled.div`
-  max-width: 768px;
+  max-width: 390px;
   margin: 0 auto;
-  background: white;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -51,7 +50,7 @@ const BackButton = styled.button`
 const ProfileSection = styled.div`
   padding: 24px;
   flex: 1;
-  background-color: #F5F5F5;
+  background-color: #f5f5f5;
 `;
 
 const ProfileHeader = styled.div`
@@ -86,20 +85,19 @@ const StatsContainer = styled.div`
 
 const StatItem = styled.div`
   text-align: center;
-
 `;
 
 const StatNumber = styled.div`
   font-size: 28px;
   font-weight: 700;
   margin-bottom: 10px;
-  color:  ${styleToken.color.primary};
+  color: ${styleToken.color.primary};
 `;
 const HeartNumber = styled.div`
   width: 18px;
   height: 18px;
-  color:#fff;
-  font-size:12px;
+  color: #fff;
+  font-size: 12px;
   border-radius: 9px;
   text-align: center;
   line-height: 1.2;
@@ -107,13 +105,13 @@ const HeartNumber = styled.div`
   margin-left: -12px;
   margin-top: -4px;
   background: ${styleToken.color.primary};
-`
+`;
 const Img = styled.img`
   margin-top: -4px;
-`
+`;
 const HeartNumberBox = styled.div`
   display: flex;
-`
+`;
 const StatLabel = styled.div`
   font-size: 14px;
   color: #666;
@@ -128,32 +126,26 @@ const MenuList = styled.div`
 `;
 
 const MenuItem = styled.button`
-display: flex;
-align-items: center;
-width: 100%;
-border: none;
-background: none;
-font-size: 17px;
-color: #303030;
-cursor: pointer;
-text-align: left;
-padding: 8px 24px;
-transition: background-color 0.2s;
-color:#303030;
-&:last-child {
-  border-bottom: none;
-}
-&:hover {
-  background: #f8f9fa;
-}
+  display: flex;
+  align-items: center;
+  width: 340px;
+  height: 51px;
+  border: none;
+  background: none;
+  font-size: 17px;
+  color: #303030;
+  cursor: pointer;
+  text-align: left;
+  padding: 10px;
+  transition: background-color 0.2s;
+  color: #303030;
+  &:last-child {
+    border-bottom: none;
+  }
+  &:hover {
+    background: #f8f9fa;
+  }
 `;
-
-// const MenuIcon = styled.span`
-//   margin-right: 14px;
-//   display: flex;
-//   align-items: center;
-//   color: ${(props) => props.color || '#555'};
-// `;
 
 const TitleWrapper = styled.div`
   display: flex;
@@ -162,8 +154,8 @@ const TitleWrapper = styled.div`
 `;
 
 const EditButton = styled.button`
-width: 82px;
-height: 22px;
+  width: 82px;
+  height: 22px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -173,15 +165,14 @@ height: 22px;
   color: #666;
   font-size: 11px;
   cursor: pointer;
- white-space: nowrap;
+  white-space: nowrap;
   transition: all 0.2s;
-  svg{
+  svg {
     margin-right: 2px;
   }
   &:hover {
     background: #f5f5f5;
   }
-
 `;
 
 const MenuItemContent = styled.div`
@@ -218,29 +209,29 @@ const HeartIcon = styled.span`
   color: #87ceeb;
 `;
 const Logo = styled.div`
-img{
-  width: 80px;
-  height: 30px; 
-}
-`
-const Secession= styled.p`
- text-align:right; 
- font-size: 17px;
- color:#8A8A8A;
- padding-right: 8px;
-`
+  img {
+    width: 80px;
+    height: 30px;
+  }
+`;
+const Secession = styled.p`
+  text-align: right;
+  font-size: 17px;
+  color: #8a8a8a;
+  padding-right: 8px;
+`;
 const New = styled.div`
-width:22px;
-height:22px;
-color:#fff;
-background-color: ${styleToken.color.primary};
-border-radius: 12px;
-font-size: 12px;
-text-align:center;
-line-height: 1.5;
-border: 1px solid #fff;
-margin-right: -12px;
-`
+  width: 22px;
+  height: 22px;
+  color: #fff;
+  background-color: ${styleToken.color.primary};
+  border-radius: 12px;
+  font-size: 12px;
+  text-align: center;
+  line-height: 1.5;
+  border: 1px solid #fff;
+  margin-right: -12px;
+`;
 type ProfileProps = {
   heartConsumeCount: number;
   heartRemainCount: number;
@@ -248,7 +239,6 @@ type ProfileProps = {
   nickname: string;
   userId: number;
 };
-
 
 export default function Profile() {
   const navigate = useNavigate();
@@ -259,7 +249,6 @@ export default function Profile() {
     nickname: '',
     userId: 0,
   });
-
 
   useEffect(() => {
     const fetchMyHeartCount = async () => {
@@ -285,10 +274,12 @@ export default function Profile() {
         >
           <ChevronLeft size={24} />
         </BackButton>
-        <Logo><img src={TopLogo} alt='logo'/></Logo>
+        <Logo>
+          <img src={TopLogo} alt="logo" />
+        </Logo>
       </Header>
 
-      <ProfileSection> 
+      <ProfileSection>
         <ProfileHeader>
           <TitleWrapper>
             <Title>{myProfileInfo.nickname || '사용자'}</Title>
@@ -299,7 +290,7 @@ export default function Profile() {
           </TitleWrapper>
         </ProfileHeader>
         <Subtitle>
-          창천요정이 되신지 {myProfileInfo.userId ? '1일' : '0일'}이 되었어요!
+          칭찬요정이 되신지 {myProfileInfo.userId ? '1일' : '0일'}이 되었어요!
         </Subtitle>
 
         <StatsContainer>
@@ -312,70 +303,43 @@ export default function Profile() {
             <StatLabel>사용한 하트</StatLabel>
           </StatItem>
           <StatItem>
-            <HeartNumberBox><Img src={Heart} alt='heart icon'/><HeartNumber>{myProfileInfo.heartRemainCount ?? 0}</HeartNumber>
+            <HeartNumberBox>
+              <Img src={Heart} alt="heart icon" />
+              <HeartNumber>{myProfileInfo.heartRemainCount ?? 0}</HeartNumber>
             </HeartNumberBox>
-            <StatLabel>
-              남은 하트 
-            </StatLabel>
+            <StatLabel>남은 하트</StatLabel>
           </StatItem>
         </StatsContainer>
 
         <MenuList>
           <MenuItem onClick={() => navigate('/my-collection?tab=posts')}>
-            {/* <MenuIcon color="#4a6fa5">
-              <Folder size={20} />
-            </MenuIcon> */}
             <MenuItemContent>
               <MenuText>내 칭찬글 모아보기</MenuText>
               <div
                 style={{ display: 'flex', alignItems: 'center', gap: '8px' }}
-              >
-                {/* <NewCommentBadge>새로운 댓글 3개</NewCommentBadge> */}
-                {/* <ArrowRight size={16} color="#999" /> */}
-              </div>
+              ></div>
             </MenuItemContent>
           </MenuItem>
-          </MenuList>
-          <MenuList>
+        </MenuList>
+        <MenuList>
           <MenuItem onClick={() => navigate('/my-collection?tab=comments')}>
-            {/* <MenuIcon color="#4b9ed6">
-              <SmileIcon size={20} />
-            </MenuIcon> */}
             <MenuItemContent>
               <MenuText>내가 쓴 칭찬댓글</MenuText>
-              {/* <ArrowRight size={16} color="#999" /> */}
             </MenuItemContent>
           </MenuItem>
         </MenuList>
         <MenuList>
           <MenuItem>
-            {/* <MenuIcon color="#4b9ed6">
-              <SmileIcon size={20} />
-            </MenuIcon> */}
             <MenuItemContent>
               <MenuText>내 글에 칭찬 요정이 찾아왔어요!</MenuText>
-              {/* <ArrowRight size={16} color="#999" /> */}
-              {/*👉 프로필 N표시 */}
               <New>N</New>
             </MenuItemContent>
           </MenuItem>
         </MenuList>
-
-        <MenuList style={{marginTop:"24px"}}>
-          <MenuItem onClick={logout}>
-            {/* <MenuIcon color="#888">
-              <Clock size={20} />
-            </MenuIcon> */}
-            로그아웃
-          </MenuItem>
-          </MenuList>
-          <Secession>
-            {/* <MenuIcon color="#e74c3c">
-              <LogOut size={20} />
-            </MenuIcon> */}
-            회원 탈퇴하기
-          </Secession>
-       
+        <MenuList style={{ marginTop: '24px' }}>
+          <MenuItem onClick={logout}>로그아웃</MenuItem>
+        </MenuList>
+        <Secession>회원 탈퇴하기</Secession>
       </ProfileSection>
       <Footer />
     </Container>
