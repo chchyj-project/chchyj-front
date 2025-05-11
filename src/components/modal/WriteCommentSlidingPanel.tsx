@@ -1,9 +1,9 @@
 import { AnimatePresence } from 'framer-motion';
-import { axiosInstance } from '../api/axiosConfig.ts';
+import { axiosInstance } from '../../api/axiosConfig.ts';
 import { useState } from 'react';
 import { Heart, LockIcon, AlertTriangle, X } from 'lucide-react';
 import { useParams } from 'react-router-dom';
-import { useApiError } from '../hooks/useApiError.ts';
+import { useApiError } from '../../hooks/useApiError.ts';
 import {
   Panel,
   PanelContent,

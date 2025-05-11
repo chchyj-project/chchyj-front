@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
-import { CloseButton } from '../style/commonStyle.ts';
-import styleToken from '../style/styleToken.ts';
+import { CloseButton } from '../../style/commonStyle.ts';
+import styleToken from '../../style/styleToken.ts';
 
 export const Button = styled.button`
   width: 100%;

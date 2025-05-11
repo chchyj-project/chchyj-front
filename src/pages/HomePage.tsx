@@ -1,13 +1,13 @@
 // Home.tsx에 무한 스크롤 기능을 추가한 버전 (문제 해결)
 
 import Logo from '../images/character.png';
-import PraiseItem from './PraiseItem.tsx';
+import PraiseItem from '../components/PraiseItem.tsx';
 import FixedHeader from '../components/FixedHeader.tsx';
 import { useEffect, useRef, useState, useCallback } from 'react';
 import '../pages/Login/slick.css';
 import { PageContainer, Subtitle, TitleStyle } from '../style/MainPage.ts';
-import Footer from './Footer.tsx';
-import WriteSlidingPanel from './WriteSlidingPanel.tsx';
+import Footer from '../components/Footer.tsx';
+import WriteSlidingPanel from '../components/modal/WriteSlidingPanel.tsx';
 import RecentComments from '../components/RecentComments.tsx';
 import { useArticleStore } from '../store/useArticleStore.ts';
 import React from 'react';
@@ -26,7 +26,7 @@ import {
   Tooltip,
   LoadingIndicator,
   LoadingContainer,
-} from './Home.styles.ts';
+} from './HomePage.styles.ts';
 
 const Home = () => {
   const {

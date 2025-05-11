@@ -1,5 +1,5 @@
 // components/ReportModal.tsx
-import { useReportModalStore } from '../store/reportModalStore';
+import { useReportModalStore } from '../../store/reportModalStore';
 import { AnimatePresence } from 'framer-motion';
 import { useState, useEffect, useRef } from 'react';
 import {
@@ -11,7 +11,7 @@ import {
   SubmitButton,
   OtherReasonInput,
 } from './ReportModal.styles';
-import CircleButton from './common/CircleButton';
+import CircleButton from '../common/CircleButton';
 import styled from 'styled-components';
 
 const reportTypes = [

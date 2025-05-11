@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
-import { CloseButton } from '../style/commonStyle.ts';
+import { CloseButton } from '../../style/commonStyle.ts';
 
 export const Panel = styled(motion.div)`
   position: fixed;

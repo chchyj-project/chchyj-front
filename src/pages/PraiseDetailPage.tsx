@@ -7,7 +7,7 @@ import { useParams } from 'react-router-dom';
 import { RowFlexBetween } from '../style/commonStyle.ts';
 import CommentActions from '../components/CommentActions.tsx';
 import dayjs from 'dayjs';
-import WriteCommentSlidingPanel from './WriteCommentSlidingPanel.tsx';
+import WriteCommentSlidingPanel from '../components/modal/WriteCommentSlidingPanel.tsx';
 import Siren from '../images/siren.png';
 import { Icon } from '../style/MainPage.ts';
 import { useReportModalStore } from '../store/reportModalStore.ts';
@@ -37,7 +37,7 @@ import {
   FloatingButtonWrapper,
   FloatingActionButton,
   Tooltip,
-} from './PraiseDetail.styles.ts';
+} from './PraiseDetailPage.styles.ts';
 
 export default function PraiseDetail() {
   const navigate = useNavigate();

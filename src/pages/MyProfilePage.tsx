@@ -1,6 +1,6 @@
 import { ChevronLeft } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
-import Footer from './Footer.tsx';
+import Footer from '../components/Footer.tsx';
 import AuthService from '../api/AuthService.ts';
 import { useEffect, useState } from 'react';
 import { axiosInstance } from '../api/axiosConfig.ts';
@@ -31,7 +31,7 @@ import {
   Secession,
   New,
   MarkerIcon,
-} from './Profile.styles.ts';
+} from './MyProfilePage.styles.ts';
 import { Title as TitleLogo } from '../style/commonStyle.ts';
 
 type ProfileProps = {
