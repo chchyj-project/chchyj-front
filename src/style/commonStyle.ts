@@ -87,3 +87,12 @@ export const Content = styled.span`
   margin: 10px 0;
   cursor: pointer;
 `;
+
+export const Title = styled.h1`
+  font-size: 20px;
+  font-weight: bold;
+  margin: 0;
+  color: ${Common.colors.mainBlue};
+  font-family: 'Jalnan', sans-serif;
+  letter-spacing: 1px;
+`;

@@ -1,17 +1,10 @@
-import styled from 'styled-components';
 import { ChevronLeft, Heart } from 'lucide-react';
-import Common from '../style/Common.ts';
-import styleToken from '../style/styleToken.ts';
 import { useNavigate, useLocation } from 'react-router-dom';
 import React, { useEffect, useRef, useState } from 'react';
 import { ArticleDetail } from '../types/PraiseItem.ts';
 import { axiosInstance } from '../api/axiosConfig.ts';
 import { useParams } from 'react-router-dom';
-import {
-  Content,
-  RowFlexBetween,
-  ScrollAwareBottomButtonWrapper,
-} from '../style/commonStyle.ts';
+import { RowFlexBetween } from '../style/commonStyle.ts';
 import CommentActions from '../components/CommentActions.tsx';
 import dayjs from 'dayjs';
 import WriteCommentSlidingPanel from './WriteCommentSlidingPanel.tsx';
@@ -23,242 +16,29 @@ import { useScrollDirection } from '../hooks/useScrollDirection.ts';
 import { usePopup } from '../context/PopupContext.tsx';
 import { useArticleStore } from '../store/useArticleStore.ts';
 import axios from 'axios';
-import { Plus } from 'lucide-react'; // lucide-react 아이콘 추가
+import { Plus } from 'lucide-react';
+import {
+  Container,
+  Header,
+  BackButton,
+  PostContainer,
+  PostTitle,
+  StyledContent,
+  PostDate,
+  CommentSection,
+  CommentItem,
+  CommentHeader,
+  PostHeader,
+  Nickname,
+  ActionButton,
+  CommentContent,
+  LikeButton,
+  LikeContainer,
+  FloatingButtonWrapper,
+  FloatingActionButton,
+  Tooltip,
+} from './PraiseDetail.styles.ts';
 
-const Container = styled.div`
-  max-width: 390px;
-  margin: 0 auto;
-  background: white;
-  min-height: 100vh;
-  padding-bottom: 110px; // 하단 버튼 여백 증가
-`;
-
-const Header = styled.header`
-  display: flex;
-  align-items: center;
-  padding: 12px 16px 16px 16px;
-  border-bottom: 1px solid #e2e5e9;
-`;
-
-const BackButton = styled.button`
-  background: none;
-  border: none;
-  padding: 8px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  transition: opacity 0.2s;
-
-  &:hover {
-    opacity: 0.7;
-  }
-`;
-
-const PostContainer = styled.article`
-  padding: 24px 20px;
-  border-bottom: 1px solid #e2e5e9;
-  margin-bottom: 8px;
-`;
-
-const PostTitle = styled.h2`
-  font-size: 17px;
-  font-weight: 700;
-  margin-bottom: 16px;
-  color: #222;
-`;
-
-const StyledContent = styled(Content)`
-  font-size: 15px;
-  line-height: 1.6;
-  color: #333;
-  margin-bottom: 8px;
-  word-break: break-word;
-  white-space: pre-wrap;
-`;
-
-const PostDate = styled.span`
-  font-size: 12px;
-  color: #888;
-  display: block;
-  margin-top: 4px;
-`;
-
-const CommentSection = styled.section`
-  padding: 0 20px;
-  margin-top: 4px;
-`;
-
-const CommentItem = styled.div`
-  padding: 22px 0;
-  border-bottom: 1px solid #e2e5e9;
-  position: relative;
-
-  /* 마지막 요소의 border 제거 */
-  &:last-child {
-    border-bottom: none;
-  }
-`;
-
-const CommentHeader = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-bottom: 12px;
-`;
-
-const PostHeader = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 16px;
-`;
-
-const Nickname = styled.div`
-  font-size: 15px;
-  color: #222;
-  font-weight: 700;
-  display: flex;
-  align-items: center;
-`;
-
-const ActionButton = styled.button`
-  background: none;
-  border: none;
-  cursor: pointer;
-  font-size: 12px;
-  color: #888;
-  margin-right: auto;
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  transition: color 0.2s;
-
-  &:hover {
-    color: #666;
-  }
-`;
-
-const CommentContent = styled.p`
-  font-size: 15px;
-  line-height: 1.6;
-  color: #333;
-  margin-bottom: 10px;
-  word-break: break-word;
-  white-space: pre-wrap;
-`;
-
-const BottomButton = styled.button`
-  height: 58px;
-  width: 90%;
-  background-color: ${Common.colors.skyblue};
-  color: ${styleToken.color.white};
-  font-size: 17px;
-  font-weight: 700;
-  line-height: 19px;
-  border-radius: 12px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-
-  &:hover {
-    background-color: #70c1e2;
-  }
-`;
-
-const LikeButton = styled.button`
-  padding: 6px;
-  background: none;
-  border: none;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: transform 0.2s;
-
-  &:hover {
-    transform: scale(1.1);
-  }
-`;
-
-const LikeContainer = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 2px;
-`;
-
-// 플로팅 버튼 래퍼 - 컨테이너와 동일한 최대 너비를 적용
-const FloatingButtonWrapper = styled.div`
-  position: fixed;
-  bottom: 24px;
-  right: 0;
-  left: 0;
-  max-width: 390px;
-  width: 100%;
-  margin: 0 auto;
-  padding: 0 16px;
-  box-sizing: border-box;
-  pointer-events: none;
-  z-index: 100;
-  display: flex;
-  justify-content: flex-end;
-`;
-
-// 둥근 플로팅 액션 버튼
-const FloatingActionButton = styled.button`
-  width: 56px;
-  height: 56px;
-  border-radius: 50%;
-  background-color: ${Common.colors.skyblue};
-  color: ${styleToken.color.white};
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border: none;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  cursor: pointer;
-  transition: all 0.3s ease;
-  pointer-events: auto;
-
-  &:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
-    background-color: #70c1e2;
-  }
-
-  &:active {
-    transform: translateY(0);
-  }
-`;
-
-// 툴팁 컴포넌트
-const Tooltip = styled.div`
-  position: absolute;
-  top: -40px;
-  right: 0;
-  background-color: #333;
-  color: white;
-  padding: 8px 12px;
-  border-radius: 8px;
-  font-size: 14px;
-  white-space: nowrap;
-  opacity: 0;
-  transition: opacity 0.3s ease;
-  pointer-events: none;
-
-  ${FloatingActionButton}:hover & {
-    opacity: 1;
-  }
-
-  &::after {
-    content: '';
-    position: absolute;
-    top: 100%;
-    right: 24px;
-    border-width: 5px;
-    border-style: solid;
-    border-color: #333 transparent transparent transparent;
-  }
-`;
 export default function PraiseDetail() {
   const navigate = useNavigate();
   const nickname = localStorage.getItem('nickname');

@@ -1,15 +1,10 @@
-import styled from 'styled-components';
-import { Smile } from 'lucide-react';
 import Siren from '../images/siren.png';
-import styleToken from '../style/styleToken.ts';
 import { Content, RowFlexBetween } from '../style/commonStyle.ts';
 import React, { useEffect, useState } from 'react';
 import { AddtionalWrapper, Icon, TitleWrapper } from '../style/MainPage.ts';
-import { Article, ContainerProps } from '../types/MainPage.ts';
+import { Article } from '../types/MainPage.ts';
 import dayjs from 'dayjs';
 import { useNavigate } from 'react-router-dom';
-import { axiosInstance } from '../api/axiosConfig.ts';
-import { useApiError } from '../hooks/useApiError.ts';
 import { useReportModalStore } from '../store/reportModalStore.ts';
 import CommentActions from '../components/CommentActions.tsx';
 import { useArticleStore } from '../store/useArticleStore.ts';
@@ -17,98 +12,21 @@ import { usePopup } from '../context/PopupContext.tsx';
 import { toast } from 'react-toastify';
 import Comment from '../images/comment.png';
 import heart from '../images/heart2.png';
-import tail from '../images/tail.png';
+import {
+  Container,
+  Header,
+  Title,
+  Date,
+  CommentInfo,
+  WritingCommentWrapper,
+  RightGroup,
+  ContentBox,
+  Tail,
+  CommentIcon,
+  CommentBox,
+  HeartIcon,
+} from './PraiseItem.styles.ts';
 
-
-const Container = styled.div<ContainerProps>`
-  margin-bottom: ${(props) => (props.$islast ? '0px' : '8px')};
-   padding-bottom: 16px;
-  background-color: #fff;
-  border-bottom:1px solid #E1E2E4;
-`;
-
-const Header = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 10px;
-`;
-
-const Title = styled.h2`
-  font-size: 16px;
-  font-weight: 600;
-  margin-right: 8px;
-  color: #303030;
-`;
-
-const Date = styled.span`
-  font-size: 11px;
-  padding: 10px 0;
-  color: #999;
-`;
-
-const CommentInfo = styled.div`
-  font-size: 12px;
-  color:  ${styleToken.color.primary};
-`;
-
-const WritingCommentWrapper = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 126px;
-  height: 26px;
-  font-size: 12px;
-  color: ${styleToken.color.secondary};
-  border: 1px solid  ${styleToken.color.secondary};
-  border-radius: 20px;
-
-  cursor: pointer ;
-
-  svg {
-    margin-right: 4px;
-  }
-`;
-
-// 새로 추가할 스타일드 엘리먼트
-const RightGroup = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 8px; // Date와 CommentActions 사이의 간격
-`;
-
-const ContentBox = styled.div`
-position: relative;
-border: 1px solid #E1E2E4;
-border-radius: 12px;
-width:100%;
-height:95px;
-padding:16px;
-margin-bottom: 16px;
-
-`
-const Tail = styled.div`
-position: absolute;
-bottom: -13px;
-left: 16px;
-width:12px;
-height:15px;
-background:#fff url("${tail}") no-repeat;
-background-size: 100%;
-`
-const CommentIcon = styled.img`
- width:17px;
- height:16px; 
- margin-right: 4px;
-`
-const CommentBox = styled.div`
-  display: flex;
-  
-`
-const HeartIcon = styled.img`
-  width:17px;
- height:16px; 
-`
 const PraiseItem = ({
   islast,
   index,
@@ -214,7 +132,7 @@ const PraiseItem = ({
             >
               신고하기
             </AddtionalWrapper>
-           
+
             {String(article.userId) === loggedInUserId && (
               <CommentActions
                 isopen={openDropdownId === article.id ? 'true' : 'false'}
@@ -229,17 +147,17 @@ const PraiseItem = ({
             )}
           </RightGroup>
         </Header>
-        <ContentBox><Content onClick={moveToDetail}>{article.content}</Content>
-        <Tail></Tail>
+        <ContentBox>
+          <Content onClick={moveToDetail}>{article.content}</Content>
+          <Tail></Tail>
         </ContentBox>
-        
 
         <RowFlexBetween>
           <CommentBox>
-          <CommentIcon src={Comment} alt='Comment icon'/>
-          <CommentInfo onClick={toggleCommentBox}>
-            칭찬댓글 {article.replyCount}개
-          </CommentInfo>
+            <CommentIcon src={Comment} alt="Comment icon" />
+            <CommentInfo onClick={toggleCommentBox}>
+              칭찬댓글 {article.replyCount}개
+            </CommentInfo>
           </CommentBox>
           <WritingCommentWrapper
             onClick={() =>
@@ -251,8 +169,7 @@ const PraiseItem = ({
               })
             }
           >
-            
-            <HeartIcon src={heart}  alt='heart icon'/>
+            <HeartIcon src={heart} alt="heart icon" />
             칭찬댓글 달기
           </WritingCommentWrapper>
         </RowFlexBetween>

@@ -1,102 +1,22 @@
 import React, { useEffect, useState } from 'react';
-import styled from 'styled-components';
-import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import { axiosInstance } from '../api/axiosConfig.ts';
 import { useNavigate } from 'react-router-dom';
 import dayjs from 'dayjs';
-import { usePopup } from '../context/PopupContext.tsx';
-import styleToken from '../style/styleToken.ts';
-
-const CommentSection = styled.div`
-  padding: 16px;
-  background-color: #fff;
-  border: 1px solid ${styleToken.color.primary};
-  border-radius: 8px;
-  width: 100%;
-`;
-
-const CommentTitle = styled.h2`
-  font-size: 12px;
-  font-weight: bold;
-  color:${styleToken.color.primary};
-  margin-bottom: 8px;
-`;
-
-const StyledSlider = styled(Slider)`
-  .slick-slide {
-    box-sizing: border-box;
-
-    &[aria-hidden='true'] {
-      pointer-events: none;
-      * {
-        visibility: visible !important;
-        pointer-events: none !important;
-      }
-    }
-  }
-`;
-
-// CommentCard 컴포넌트 수정
-const CommentCard = styled.div<{ $isActive?: boolean }>`
-  width: calc(100% - 8px);
-  padding: 12px 41px;
-  background: #E5ECFF;
-  border-radius: 8px;
-  box-sizing: border-box;
-  margin:0 4px;
-  touch-action: pan-y pinch-zoom;
-
-  /* 비활성 슬라이드일 때 포커스 방지 */
-  ${(props) =>
-    !props.$isActive &&
-    `
-    pointer-events: none;
-    user-select: none;
-  `}
-`;
-
-const UserInfo = styled.div`
-  display: flex;
-  align-items: center;
-  margin-bottom: 10px;
-`;
-
-const UserName = styled.span`
-  font-weight: bold;
-  font-size: 14px;
-`;
-
-const CommentTime = styled.span`
-  color: #666;
-  font-size: 12px;
-  margin-left: 10px;
-`;
-
-const CommentText = styled.p`
-  font-size: 14px;
-  line-height: 1.4;
-  margin: 0;
-`;
-
-const ClickableText = styled.span`
-  cursor: pointer;
-`;
-
-const ProgressBarContainer = styled.div`
-  width: 60%;
-  margin: 8px auto 0;
-  display: flex;
-`;
-
-const ProgressSegment = styled.div<{ $isActive: string }>`
-  flex: 1;
-  height: 3px;
-  background-color: ${(props) =>
-    props.$isActive === 'true' ? `${styleToken.color.primary}` : '#E5E5E5'};
-  transition: background-color 0.3s ease;
-`;
+import {
+  CommentSection,
+  CommentTitle,
+  StyledSlider,
+  CommentCard,
+  UserInfo,
+  UserName,
+  CommentTime,
+  CommentText,
+  ClickableText,
+  ProgressBarContainer,
+  ProgressSegment,
+} from './RecentComments.styles.ts';
 
 type Comment = {
   id: number;

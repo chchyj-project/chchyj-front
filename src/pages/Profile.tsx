@@ -1,4 +1,3 @@
-import styled from 'styled-components';
 import {
   ChevronLeft,
   Bell,
@@ -16,222 +15,33 @@ import { useEffect, useState } from 'react';
 import { axiosInstance } from '../api/axiosConfig.ts';
 import TopLogo from '../images/topLogo.png';
 import Heart from '../images/heart3.png';
-import styleToken from '../style/styleToken.ts';
+import {
+  Container,
+  Header,
+  BackButton,
+  ProfileSection,
+  ProfileHeader,
+  Title,
+  Subtitle,
+  StatsContainer,
+  StatItem,
+  StatNumber,
+  HeartNumber,
+  Img,
+  HeartNumberBox,
+  StatLabel,
+  MenuList,
+  MenuItem,
+  TitleWrapper,
+  EditButton,
+  MenuItemContent,
+  MenuText,
+  Logo,
+  Secession,
+  New,
+} from './Profile.styles.ts';
+import { Title as TitleLogo } from '../style/commonStyle.ts';
 
-const Container = styled.div`
-  max-width: 390px;
-  margin: 0 auto;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-`;
-
-const Header = styled.header`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 16px 24px;
-  border-bottom: 1px solid #e2e5e9;
-`;
-
-const BackButton = styled.button`
-  background: none;
-  border: none;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  transition: opacity 0.2s;
-
-  &:hover {
-    opacity: 0.7;
-  }
-`;
-
-const ProfileSection = styled.div`
-  padding: 24px;
-  flex: 1;
-  background-color: #f5f5f5;
-`;
-
-const ProfileHeader = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 12px;
-`;
-
-const Title = styled.h1`
-  font-size: 26px;
-  font-weight: 700;
-  color: #303030;
-`;
-
-const Subtitle = styled.p`
-  color: #303030;
-  font-size: 19px;
-  margin-bottom: 28px;
-`;
-
-const StatsContainer = styled.div`
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  background: white;
-  height: 80px;
-  border-radius: 8px;
-  margin-bottom: 16px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-`;
-
-const StatItem = styled.div`
-  text-align: center;
-`;
-
-const StatNumber = styled.div`
-  font-size: 28px;
-  font-weight: 700;
-  margin-bottom: 10px;
-  color: ${styleToken.color.primary};
-`;
-const HeartNumber = styled.div`
-  width: 18px;
-  height: 18px;
-  color: #fff;
-  font-size: 12px;
-  border-radius: 9px;
-  text-align: center;
-  line-height: 1.2;
-  border: 1px solid #fff;
-  margin-left: -12px;
-  margin-top: -4px;
-  background: ${styleToken.color.primary};
-`;
-const Img = styled.img`
-  margin-top: -4px;
-`;
-const HeartNumberBox = styled.div`
-  display: flex;
-`;
-const StatLabel = styled.div`
-  font-size: 14px;
-  color: #666;
-`;
-
-const MenuList = styled.div`
-  background: white;
-  border-radius: 8px;
-  overflow: hidden;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-  margin-bottom: 8px;
-`;
-
-const MenuItem = styled.button`
-  display: flex;
-  align-items: center;
-  width: 340px;
-  height: 51px;
-  border: none;
-  background: none;
-  font-size: 17px;
-  color: #303030;
-  cursor: pointer;
-  text-align: left;
-  padding: 10px;
-  transition: background-color 0.2s;
-  color: #303030;
-  &:last-child {
-    border-bottom: none;
-  }
-  &:hover {
-    background: #f8f9fa;
-  }
-`;
-
-const TitleWrapper = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 12px;
-`;
-
-const EditButton = styled.button`
-  width: 82px;
-  height: 22px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: none;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  color: #666;
-  font-size: 11px;
-  cursor: pointer;
-  white-space: nowrap;
-  transition: all 0.2s;
-  svg {
-    margin-right: 2px;
-  }
-  &:hover {
-    background: #f5f5f5;
-  }
-`;
-
-const MenuItemContent = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 100%;
-`;
-
-const MenuText = styled.div`
-  display: flex;
-  align-items: center;
-  flex-shrink: 0;
-  font-weight: 500;
-`;
-
-// const NewCommentBadge = styled.span`
-//   background-color: #e8f4f9;
-//   color: #69b4d6;
-//   padding: 6px 10px;
-//   border-radius: 20px;
-//   font-size: 13px;
-//   font-weight: 600;
-//   white-space: nowrap;
-//   margin-left: auto;
-//   display: flex;
-//   align-items: center;
-
-// `;
-
-const HeartIcon = styled.span`
-  font-size: 20px;
-  margin-right: 4px;
-  color: #87ceeb;
-`;
-const Logo = styled.div`
-  img {
-    width: 80px;
-    height: 30px;
-  }
-`;
-const Secession = styled.p`
-  text-align: right;
-  font-size: 17px;
-  color: #8a8a8a;
-  padding-right: 8px;
-`;
-const New = styled.div`
-  width: 22px;
-  height: 22px;
-  color: #fff;
-  background-color: ${styleToken.color.primary};
-  border-radius: 12px;
-  font-size: 12px;
-  text-align: center;
-  line-height: 1.5;
-  border: 1px solid #fff;
-  margin-right: -12px;
-`;
 type ProfileProps = {
   heartConsumeCount: number;
   heartRemainCount: number;
@@ -274,9 +84,7 @@ export default function Profile() {
         >
           <ChevronLeft size={24} />
         </BackButton>
-        <Logo>
-          <img src={TopLogo} alt="logo" />
-        </Logo>
+        <TitleLogo>칭찬요정</TitleLogo>
       </Header>
 
       <ProfileSection>

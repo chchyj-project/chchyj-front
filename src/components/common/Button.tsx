@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import Common from '../style/Common';
+import Common from '../../style/Common';
 
 interface ButtonProps {
   disabled: boolean;
@@ -16,12 +16,12 @@ interface ButtonProps {
     | 'white'
     | 'black';
   textColor: string;
-  img:any;
+  img: any;
 }
 const Layout = styled.button`
-display: flex;
-align-items: center;
-justify-content: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   margin: 0 auto;
   min-width: 314px;
   height: 50px;
@@ -48,7 +48,8 @@ function Button({
         color: `${textColor}`,
         ...styles,
       }}
-    >{img}
+    >
+      {img}
       {text}
     </Layout>
   );

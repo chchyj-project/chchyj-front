@@ -1,7 +1,5 @@
 // Home.tsx에 무한 스크롤 기능을 추가한 버전 (문제 해결)
 
-import styled from 'styled-components';
-import styleToken from '../style/styleToken.ts';
 import Logo from '../images/character.png';
 import PraiseItem from './PraiseItem.tsx';
 import FixedHeader from '../components/FixedHeader.tsx';
@@ -15,175 +13,20 @@ import { useArticleStore } from '../store/useArticleStore.ts';
 import React from 'react';
 import { Plus } from 'lucide-react';
 import { axiosInstance } from '../api/axiosConfig.ts';
-
-// 스타일 컴포넌트들은 그대로 유지합니다.
-const PraiseCard = styled.div`
-  background-color: #e5ecff;
-  margin: 69px 0 0 0;
-  padding: 18.99px 24px;
-  text-align: left;
-  box-sizing: border-box;
-
-  @media (max-width: 768px) {
-    margin-top: 65px;
-  }
-`;
-
-const ContentWrapper = styled.div`
-  color: #111111;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 8px;
-  box-sizing: border-box;
-  text-align: center;
-
-  @media (max-width: 768px) {
-    width: 100%;
-  }
-`;
-
-const TextGroup = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-`;
-
-const Icon = styled.img`
-  width: 82.96px;
-  height: 117.64px;
-  margin-top: -5px;
-  @media (max-width: 480px) {
-    width: 82.96px;
-    height: 117.64px;
-  }
-`;
-const MainButton = styled.button`
-  width: 100%;
-  background: ${styleToken.color.primary};
-  height: 56px;
-  border-radius: 8px;
-  font-family: 'Jalnan', sans-serif;
-  color: white;
-  font-size: 16px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`;
-const PraiseList = styled.div`
-  position: relative;
-  top: 0;
-  left: 0;
-  right: 0;
-  z-index: 100;
-  background-color: ${styleToken.color.background};
-  margin: 24px;
-`;
-
-const ListGap = styled.div`
-  //  background-color: ${styleToken.color.backgroundSecondary};
-  height: 10px;
-  margin: 4px 0;
-`;
-
-const FloatingButtonWrapper = styled.div`
-  position: fixed;
-  bottom: 24px;
-  right: 0;
-  left: 0;
-  max-width: 390px;
-  width: 100%;
-  padding: 0 24px;
-  margin: 0 auto;
-  box-sizing: border-box;
-  pointer-events: none;
-  z-index: 100;
-  display: flex;
-  justify-content: flex-end;
-
-  @media (max-width: 430px) {
-    padding: 0 24px;
-  }
-`;
-
-const FloatingActionButton = styled.button`
-  width: 60px;
-  height: 60px;
-  border-radius: 50%;
-  background-color: ${styleToken.color.primary};
-  color: white;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border: none;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  cursor: pointer;
-  transition: all 0.3s ease;
-  pointer-events: auto;
-  margin-right: 0;
-
-  @media (max-width: 390px) {
-    width: 50px;
-    height: 50px;
-  }
-
-  &:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
-  }
-
-  &:active {
-    transform: translateY(0);
-  }
-`;
-
-const Tooltip = styled.div`
-  position: absolute;
-  top: -40px;
-  right: 0;
-  background-color: #333;
-  color: white;
-  padding: 8px 12px;
-  border-radius: 8px;
-  font-size: 14px;
-  font-family: 'Jalnan', sans-serif;
-  white-space: nowrap;
-  opacity: 0;
-  transition: opacity 0.3s ease;
-  pointer-events: none;
-
-  ${FloatingActionButton}:hover & {
-    opacity: 1;
-  }
-
-  &::after {
-    content: '';
-    position: absolute;
-    top: 100%;
-    right: 24px;
-    margin-left: -5px;
-    border-width: 5px;
-    border-style: solid;
-    border-color: #333 transparent transparent transparent;
-  }
-`;
-
-// 로딩 인디케이터 스타일 추가
-const LoadingIndicator = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 20px 0;
-  font-size: 14px;
-  color: #666;
-`;
-
-// 별도의 로딩 컨테이너 (별도로 위치 지정 가능)
-const LoadingContainer = styled.div`
-  padding: 20px 0;
-  text-align: center;
-  min-height: 60px;
-`;
+import {
+  PraiseCard,
+  ContentWrapper,
+  TextGroup,
+  Icon,
+  MainButton,
+  PraiseList,
+  ListGap,
+  FloatingButtonWrapper,
+  FloatingActionButton,
+  Tooltip,
+  LoadingIndicator,
+  LoadingContainer,
+} from './Home.styles.ts';
 
 const Home = () => {
   const {
@@ -409,6 +252,7 @@ const Home = () => {
     }
     setWriteMode(isWriteMode);
   };
+
   // 컴포넌트 마운트/언마운트시 처리
   useEffect(() => {
     // 컴포넌트 마운트 시 실행할 코드
@@ -446,7 +290,8 @@ const Home = () => {
 
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
-  }, [hasMore, loadMoreArticles]); // Home.tsx에 무한 스크롤 기능을 추가한 버전 (문제 해결)
+  }, [hasMore, loadMoreArticles]);
+
   return (
     <>
       <FixedHeader bgColor={bgColor} />

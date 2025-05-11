@@ -11,6 +11,15 @@ export const GlobalStyle = createGlobalStyle`
         font-style: normal;
         font-display: swap;
     }
+    
+    @font-face {
+        font-family: 'SUIT';
+        src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_suit@1.0/SUIT-Variable.woff2') format('woff2');
+        font-weight: normal;
+        font-style: normal;
+        font-display: swap;
+    }
+    
      a,
     abbr,
     acronym,
@@ -137,7 +146,7 @@ export const GlobalStyle = createGlobalStyle`
         margin: 0;
         padding: 0;
         box-sizing: border-box;
-        font-family: "sans-serif";
+        font-family: 'SUIT', "sans-serif";
     }
     body {
         background-color: ${Common.colors.gray};
