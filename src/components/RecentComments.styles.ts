@@ -11,7 +11,8 @@ export const CommentSection = styled.div`
 `;
 
 export const CommentTitle = styled.h2`
-  font-size: 12px;
+  font-size: 10px;
+  font-weight: 600;
   color: ${styleToken.color.primary};
   margin-bottom: 8px;
   line-height: 14px;
@@ -64,13 +65,13 @@ export const UserName = styled.span`
 `;
 
 export const CommentTime = styled.span`
-  color: #666;
-  font-size: 12px;
+  color: #8a8a8a;
+  font-size: 8px;
   margin-left: 10px;
 `;
 
 export const CommentText = styled.p`
-  font-size: 14px;
+  font-size: 11px;
   line-height: 1.4;
   margin: 0;
 `;

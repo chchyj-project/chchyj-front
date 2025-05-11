@@ -19,14 +19,14 @@ export const FixedHeaderWrapper = styled.div`
   position: fixed;
   left: 0;
   right: 0;
-  background-color: ${Common.colors.gray};
   display: flex;
   justify-content: center;
   width: 100%;
+  background-color: transparent;
 `;
 
 export const HeaderContainer = styled.header<ContainerProps>`
-  max-width: 390px;
+  max-width: 379px;
   width: 100%;
   height: 60px;
   margin: 0 auto;
@@ -38,7 +38,7 @@ export const HeaderContainer = styled.header<ContainerProps>`
 
   padding: 0 24px;
   box-sizing: border-box;
-  background-color: ${(props) => props.$bgColor || '#ffffff'};
+  background-color: ${(props) => props.$bgColor || Common.colors.gray};
 `;
 
 export const MenuButton = styled.button`
@@ -80,4 +80,13 @@ export const New = styled.div`
   line-height: 10.5px;
   border: 1px solid #fff;
   margin-left: -10px;
+`;
+
+export const AppContainer = styled.div`
+  max-width: 390px;
+  width: 100%;
+  margin: 0 auto;
+  position: relative;
+  overflow-x: hidden;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 `;

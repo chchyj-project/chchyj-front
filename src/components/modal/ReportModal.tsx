@@ -15,7 +15,6 @@ import {
   LabelTextDiv,
 } from './ReportModal.styles';
 import CircleButton from '../common/CircleButton';
-import styled from 'styled-components';
 
 const reportTypes = [
   { id: 'abuse', label: '욕설 또는 부적절한 언어 사용' },

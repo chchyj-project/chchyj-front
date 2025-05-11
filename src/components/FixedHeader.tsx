@@ -14,6 +14,7 @@ import {
   New,
 } from './FixedHeader.styles.ts';
 import { Title } from '../style/commonStyle';
+import { useHelpModalStore } from '../store/helpModalStore';
 
 interface FixedHeaderProps {
   bgColor: string;
@@ -22,6 +23,7 @@ interface FixedHeaderProps {
 const FixedHeader = ({ bgColor }: FixedHeaderProps) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const navigate = useNavigate();
+  const { openHelpModal } = useHelpModalStore();
 
   const token = localStorage.getItem(ACCESS_TOKEN_NAME);
   const nickname = token ? localStorage.getItem('nickname') : '';
@@ -29,6 +31,11 @@ const FixedHeader = ({ bgColor }: FixedHeaderProps) => {
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
     navigate('/login');
+  };
+
+  const handleHelpClick = (e: { stopPropagation: () => void }) => {
+    e.stopPropagation(); // Prevent navigation to profile
+    openHelpModal();
   };
 
   return (
@@ -51,7 +58,12 @@ const FixedHeader = ({ bgColor }: FixedHeaderProps) => {
               {/*👉 프로필 N표시 */}
               <New>N</New>
               {/*👉 help 아이콘 */}
-              <Img src={Help} alt="help icon" />
+              <Img
+                src={Help}
+                alt="help icon"
+                onClick={handleHelpClick}
+                style={{ cursor: 'pointer' }}
+              />
             </NicknameWrapper>
           )}
         </HeaderContainer>
