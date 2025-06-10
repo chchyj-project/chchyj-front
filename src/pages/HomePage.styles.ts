@@ -33,13 +33,22 @@ export const TextGroup = styled.div`
   gap: 12px;
 `;
 
-export const Icon = styled.img`
-  width: 82.96px;
-  height: 117.64px;
+interface IconProps {
+  width?: string; // ex: "50px", "5rem"
+  height?: string;
+  mobileWidth?: string; // @media 변경용
+  mobileHeight?: string;
+}
+
+export const Icon = styled.img<IconProps>`
+  width: ${({ width = '82.96px' }) => width};
+  height: ${({ height = '117.64px' }) => height};
   margin-top: -5px;
+
   @media (max-width: 480px) {
-    width: 82.96px;
-    height: 117.64px;
+    width: ${({ mobileWidth, width = '82.96px' }) => mobileWidth || width};
+    height: ${({ mobileHeight, height = '117.64px' }) =>
+      mobileHeight || height};
   }
 `;
 
