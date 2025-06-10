@@ -1,11 +1,13 @@
 import styled from 'styled-components';
+import Common from '../style/Common';
 
 export const Container = styled.div`
   max-width: 390px;
   margin: 0 auto;
-  background: #f5f9ff;
+  background: white;
   min-height: 100vh;
-  padding-bottom: 80px;
+  display: flex;
+  flex-direction: column;
 `;
 
 export const Header = styled.header`
@@ -14,7 +16,7 @@ export const Header = styled.header`
   justify-content: center;
   padding: 20px 16px;
   position: relative;
-  border-bottom: 1px solid #e0e8f5;
+  // border-bottom: 1px solid ${Common.colors.grey};
   background-color: white;
 `;
 
@@ -78,7 +80,7 @@ export const TabMenu = styled.div`
   display: flex;
   background-color: white;
   margin-bottom: 16px;
-  border-bottom: 1px solid #e0e8f5;
+  // border-bottom: 3px solid ${Common.colors.grey};
 `;
 
 export const Tab = styled.button<{ active: boolean }>`
@@ -86,10 +88,10 @@ export const Tab = styled.button<{ active: boolean }>`
   padding: 16px;
   background: none;
   border: none;
-  border-bottom: 3px solid
-    ${(props) => (props.active ? '#60c3fb' : 'transparent')};
-  color: ${(props) => (props.active ? '#60c3fb' : '#718096')};
-  font-weight: ${(props) => (props.active ? 'bold' : 'normal')};
+  background-color: ${Common.colors.backgroundSkyblue};
+  border-top: 3px solid
+    ${(props) => (props.active ? Common.colors.mainBlue : Common.colors.grey)};
+  color: black;
   font-size: 16px;
   cursor: pointer;
   transition: all 0.2s;
@@ -101,6 +103,55 @@ export const Tab = styled.button<{ active: boolean }>`
 
 export const PraiseListSection = styled.section`
   padding: 0 16px;
+  flex: 1;
+  padding-bottom: 20px;
+`;
+
+// MyPraiseCollectionPage.styles.ts
+
+// 1) 리스트 아이템 전체 래퍼
+export const PraiseItemWrapper = styled.div`
+  margin-bottom: 24px;
+`;
+
+// 2) 메타 영역: 날짜 & 댓글
+export const PraiseMeta = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 16px;
+  margin-bottom: 8px;
+`;
+
+// 댓글 수 표시
+export const CommentCount = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  color: #4a5568;
+  font-size: 14px;
+`;
+
+// 3) 말풍선 박스
+export const PraiseBubble = styled.div`
+  position: relative;
+  background: white;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 16px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+`;
+
+// 4) 아바타 (말풍선 우측 하단)
+export const Avatar = styled.img`
+  position: absolute;
+  bottom: -8px;
+  right: -8px;
+  width: 40px;
+  height: 40px;
+  border: 2px solid white;
+  border-radius: 50%;
+  object-fit: cover;
 `;
 
 export const PraiseItem = styled.div`

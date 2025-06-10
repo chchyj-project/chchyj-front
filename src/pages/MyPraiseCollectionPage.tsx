@@ -1,41 +1,42 @@
 // MyPraiseCollectionPage.tsx
 import React, { useState, useEffect } from 'react';
-import { ChevronLeft, MessageCircle, Edit3 } from 'lucide-react';
-import PraiseFairy from '../components/PraiseFairy.tsx';
-import { useNavigate, useLocation, useSearchParams } from 'react-router-dom';
+import { ChevronLeft } from 'lucide-react';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import {
   Container,
   Header,
   BackButton,
-  BannerSection,
-  BannerText,
-  BannerTitle,
-  BannerDescription,
-  BannerImage,
   TabMenu,
   Tab,
-  PraiseListSection,
-  PraiseItem,
+  StyledPraiseItem,
   PraiseHeader,
   Nickname,
   DateInfo,
   PraiseContent,
-  Pagination,
-  PageButton,
+  PraiseListSection,
+  PraiseItemWrapper,
+  PraiseMeta,
+  CommentCount,
+  PraiseBubble,
+  Avatar,
 } from './MyPraiseCollectionPage.styles.ts';
-import { Title } from '../style/commonStyle';
+import { Title as TitleLogo } from '../style/commonStyle.ts';
+import Footer from '../components/Footer.tsx';
+import { MessageCircle } from 'lucide-react';
+
 // 타입 정의
 interface PraiseItem {
   id: number;
   nickname: string;
   content: string;
   date: string;
+  commentCount?: number;
+  avatarUrl?: string;
 }
 
 // 메인 컴포넌트
 const MyPraiseCollectionPage: React.FC = () => {
   const navigate = useNavigate();
-  const [currentPage, setCurrentPage] = useState(1);
   const [praiseItems, setPraiseItems] = useState<PraiseItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchParams, setSearchParams] = useSearchParams();
@@ -121,59 +122,49 @@ const MyPraiseCollectionPage: React.FC = () => {
   return (
     <Container>
       <Header>
-        <BackButton onClick={handleBack}>
+        <BackButton
+          onClick={() =>
+            navigate(`/home?userSocialId=${localStorage.getItem('nickname')}`)
+          }
+        >
           <ChevronLeft size={24} />
         </BackButton>
-        <Title>내 칭찬 모아보기</Title>
+        <TitleLogo>칭찬요정</TitleLogo>
       </Header>
-
-      <BannerSection>
-        <BannerText>
-          <BannerTitle>나의 칭찬 활동을 모아봐요!</BannerTitle>
-          <BannerDescription>
-            내가 작성한 칭찬글과 댓글을 한눈에 확인할 수 있어요.
-          </BannerDescription>
-        </BannerText>
-        <BannerImage>
-          <PraiseFairy />
-        </BannerImage>
-      </BannerSection>
 
       <TabMenu>
         <Tab active={activeTab === 'posts'} onClick={() => updateTab('posts')}>
-          <Edit3 size={18} />내 칭찬글
+          내 칭찬글 모아보기
         </Tab>
         <Tab
           active={activeTab === 'comments'}
           onClick={() => updateTab('comments')}
         >
-          <MessageCircle size={18} />내 댓글
+          내가 쓴 칭찬 댓글
         </Tab>
       </TabMenu>
-
       <PraiseListSection>
-        {praiseItems.length > 0 && (
-          <>
-            {praiseItems.map((item) => (
-              <PraiseItem key={item.id}>
-                <PraiseHeader>
-                  <Nickname>{item.nickname}</Nickname>
-                  <DateInfo>{item.date}</DateInfo>
-                </PraiseHeader>
-                <PraiseContent>{item.content}</PraiseContent>
-              </PraiseItem>
-            ))}
+        {praiseItems.map((item) => (
+          <PraiseItemWrapper key={item.id}>
+            {/* 메타 정보: 날짜와 댓글 수 */}
+            <PraiseMeta>
+              <DateInfo>{item.date}</DateInfo>
+              <CommentCount>
+                <MessageCircle size={16} />
+                <span>칭찬댓글 {item.commentCount ?? 0}개</span>
+              </CommentCount>
+            </PraiseMeta>
 
-            <Pagination>
-              <PageButton disabled={currentPage === 1}>&lt;</PageButton>
-              <PageButton active={true}>1</PageButton>
-              <PageButton>2</PageButton>
-              <PageButton>3</PageButton>
-              <PageButton>&gt;</PageButton>
-            </Pagination>
-          </>
-        )}
+            {/* 말풍선 스타일 박스 */}
+            <PraiseBubble>
+              <PraiseContent>{item.content}</PraiseContent>
+              {item.avatarUrl && <Avatar src={item.avatarUrl} alt="profile" />}
+            </PraiseBubble>
+          </PraiseItemWrapper>
+        ))}
       </PraiseListSection>
+
+      <Footer />
     </Container>
   );
 };

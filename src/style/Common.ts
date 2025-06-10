@@ -4,6 +4,7 @@ const Common = {
   colors: {
     red: '#b11313',
     skyblue: '#60c3fb',
+    backgroundSkyblue: '#E0F2FF',
     mainBlue: '#2559F3',
     beige100: '#DECBB8',
     beige200: '#E9C2A1',
@@ -15,7 +16,7 @@ const Common = {
     textBlack: '#505050',
     seekBarBgColor: 'rgba(233, 194, 161, 0.2)',
     seekBarMarkColor: '#E9C2A1',
-
+    grey: '#CCCCCC',
     placeholder: '#bdbdbd',
   },
 };

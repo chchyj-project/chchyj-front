@@ -78,7 +78,7 @@ export const useArticleStore = create<ArticleState>((set, get) => ({
   fetchArticlesWithPagination: async (page: number, size: number = 10) => {
     try {
       // 실제 API 엔드포인트에 맞게 수정
-      const response = await fetch(`/api/articles?page=${page}&size=${size}`);
+      const response = await fetch(`/articles?page=${page}&size=${size}`);
 
       if (!response.ok) {
         throw new Error('서버 응답이 올바르지 않습니다');

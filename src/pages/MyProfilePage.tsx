@@ -27,7 +27,6 @@ import {
   EditButton,
   MenuItemContent,
   MenuText,
-  Logo,
   Secession,
   New,
   MarkerIcon,

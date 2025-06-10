@@ -2,6 +2,7 @@ import styled from 'styled-components';
 
 export const FooterContainer = styled.footer`
   width: 100%;
+  max-width: 390px;
   background-color: #f8f8f8;
   padding: 24px;
   display: flex;
@@ -11,7 +12,8 @@ export const FooterContainer = styled.footer`
   font-family: 'Arial', sans-serif;
   font-size: 13px;
   color: #666;
-  height: auto;
+  margin-top: auto;
+  flex-shrink: 0;
 `;
 
 export const FooterContent = styled.div`
@@ -22,14 +24,17 @@ export const FooterContent = styled.div`
 
 export const FooterLinks = styled.div`
   display: flex;
-  justify-content: space-around;
+  justify-content: center;
+  align-items: center;
   margin-bottom: 16px;
+  gap: 24px;
 
   a {
     text-decoration: none;
     color: #666;
-    font-size: 13px;
+    font-size: 12px;
     color: #8a8a8a;
+    white-space: nowrap;
 
     &:hover {
       color: #333;
