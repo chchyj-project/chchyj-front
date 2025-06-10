@@ -119,7 +119,7 @@ export const PraiseMeta = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0 16px;
+  // padding: 0 16px;
   margin-bottom: 8px;
 `;
 
@@ -128,8 +128,8 @@ export const CommentCount = styled.div`
   display: flex;
   align-items: center;
   gap: 4px;
-  color: #4a5568;
-  font-size: 14px;
+  color: ${Common.colors.mainBlue};
+  font-size: 11px;
 `;
 
 // 3) 말풍선 박스
@@ -139,7 +139,6 @@ export const PraiseBubble = styled.div`
   border: 1px solid #e2e8f0;
   border-radius: 12px;
   padding: 16px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
 `;
 
 // 4) 아바타 (말풍선 우측 하단)
@@ -159,7 +158,6 @@ export const PraiseItem = styled.div`
   border-radius: 12px;
   padding: 16px;
   margin-bottom: 16px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
 `;
 
 export const PraiseHeader = styled.div`
@@ -176,12 +174,12 @@ export const Nickname = styled.div`
 
 export const DateInfo = styled.div`
   color: #a0aec0;
-  font-size: 14px;
+  font-size: 11px;
 `;
 
 export const PraiseContent = styled.p`
   color: #4a5568;
-  font-size: 15px;
+  font-size: 14px;
   line-height: 1.5;
   margin: 0;
 `;

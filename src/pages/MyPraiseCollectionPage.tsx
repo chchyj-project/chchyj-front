@@ -8,8 +8,6 @@ import {
   BackButton,
   TabMenu,
   Tab,
-  PraiseHeader,
-  Nickname,
   DateInfo,
   PraiseContent,
   PraiseListSection,
@@ -17,12 +15,14 @@ import {
   PraiseMeta,
   CommentCount,
   PraiseBubble,
-  Avatar,
 } from './MyPraiseCollectionPage.styles.ts';
 import { Title as TitleLogo } from '../style/commonStyle.ts';
 import Footer from '../components/Footer.tsx';
 import { MessageCircle } from 'lucide-react';
 import { MyArticle, useArticleStore } from '../store/useArticleStore.ts';
+import dayjs from 'dayjs';
+import { CommentIcon } from '../components/PraiseItem.styles.ts';
+import Comment from '../images/comment.png';
 
 // 타입 정의
 interface PraiseItem {
@@ -110,9 +110,10 @@ const MyPraiseCollectionPage: React.FC = () => {
           <PraiseItemWrapper key={item.id}>
             {/* 메타 정보: 날짜와 댓글 수 */}
             <PraiseMeta>
-              <DateInfo>{item.createdAt}</DateInfo>
+              <DateInfo>{dayjs(item.createdAt).format('YYYY.MM.DD')}</DateInfo>
               <CommentCount>
-                <MessageCircle size={16} />
+                <CommentIcon src={Comment} alt="Comment icon" />
+
                 <span>칭찬댓글 {item.replyCount ?? 0}개</span>
               </CommentCount>
             </PraiseMeta>
@@ -120,7 +121,6 @@ const MyPraiseCollectionPage: React.FC = () => {
             {/* 말풍선 스타일 박스 */}
             <PraiseBubble>
               <PraiseContent>{item.content}</PraiseContent>
-              {/* {item.avatarUrl && <Avatar src={item.avatarUrl} alt="profile" />} */}
             </PraiseBubble>
           </PraiseItemWrapper>
         ))}
