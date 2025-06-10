@@ -16,6 +16,24 @@ export interface Article {
   // 기타 필요한 필드들
 }
 
+export interface MyArticle {
+  id: number;
+  nickname: string;
+  content: string;
+  createdAt: string;
+  replyCount: number;
+  userId: number;
+}
+
+export interface MyArticleResponse {
+  list: MyArticle[];
+  pageInfo: {
+    totalCount: number;
+    limit: number;
+    offset: number;
+  };
+}
+
 interface ArticleState {
   // 상태
   articles: Article[];
@@ -33,6 +51,10 @@ interface ArticleState {
     page: number,
     size?: number,
   ) => Promise<Article[]>;
+  fetchMyArticlesWithPagination: (
+    page: number,
+    size?: number,
+  ) => Promise<MyArticleResponse>;
   setArticles: (articles: Article[]) => void;
   appendArticles: (articles: Article[]) => void;
   setWriteMode: (isWriteMode: boolean) => void;
@@ -86,6 +108,25 @@ export const useArticleStore = create<ArticleState>((set, get) => ({
 
       const data = await response.json();
       return data.articles || []; // API 응답 구조에 맞게 조정
+    } catch (error) {
+      console.error('Error fetching articles:', error);
+      return [];
+    }
+  },
+
+  // 마이 페이지네이션 내 칭찬게시글 조회 메서드
+  fetchMyArticlesWithPagination: async (page: number, size: number = 10) => {
+    try {
+      // 실제 API 엔드포인트에 맞게 수정
+      const response = await axiosInstance.get(
+        `/articles/my-articles?offset=${page}&limit=${size}`,
+      );
+
+      console.log('직접 호출 response>>>', response);
+      const data = response.data;
+      console.log('직접 호출 data>>>', data);
+
+      return data || []; // API 응답 구조에 맞게 조정
     } catch (error) {
       console.error('Error fetching articles:', error);
       return [];

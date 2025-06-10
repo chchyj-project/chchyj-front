@@ -8,7 +8,6 @@ import {
   BackButton,
   TabMenu,
   Tab,
-  StyledPraiseItem,
   PraiseHeader,
   Nickname,
   DateInfo,
@@ -23,6 +22,7 @@ import {
 import { Title as TitleLogo } from '../style/commonStyle.ts';
 import Footer from '../components/Footer.tsx';
 import { MessageCircle } from 'lucide-react';
+import { MyArticle, useArticleStore } from '../store/useArticleStore.ts';
 
 // 타입 정의
 interface PraiseItem {
@@ -36,8 +36,9 @@ interface PraiseItem {
 
 // 메인 컴포넌트
 const MyPraiseCollectionPage: React.FC = () => {
+  const { fetchMyArticlesWithPagination } = useArticleStore();
   const navigate = useNavigate();
-  const [praiseItems, setPraiseItems] = useState<PraiseItem[]>([]);
+  const [praiseItems, setPraiseItems] = useState<MyArticle[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchParams, setSearchParams] = useSearchParams();
   const tabFromUrl = searchParams.get('tab') || 'posts';
@@ -55,59 +56,20 @@ const MyPraiseCollectionPage: React.FC = () => {
   }, [searchParams, activeTab]);
   // 데이터 로딩 예시 (실제 구현 시 API 호출로 대체)
   useEffect(() => {
-    // 예시 데이터
-    const dummyData: PraiseItem[] =
-      activeTab === 'posts'
-        ? [
-            {
-              id: 1,
-              nickname: '행복한하루',
-              content:
-                '오늘 하루, 멋진 일이 있으셨나요? 너무 착한 일이라도 좋습니다.',
-              date: '2024.11.24',
-            },
-            {
-              id: 2,
-              nickname: '칭찬요정',
-              content:
-                '맛집 탐방하신 글 정말 좋았어요! 덕분에 저도 방문해보려고요~',
-              date: '2024.11.23',
-            },
-            {
-              id: 3,
-              nickname: '따뜻한마음',
-              content: '오늘은 글 목록 api를 만들었어요~',
-              date: '2024.11.22',
-            },
-          ]
-        : [
-            {
-              id: 1,
-              nickname: '나',
-              content:
-                '정말 감동적인 이야기네요. 당신의 따뜻한 마음이 느껴집니다.',
-              date: '2024.11.24',
-            },
-            {
-              id: 2,
-              nickname: '나',
-              content: '오늘은 글 목록 api를 만들었어요~',
-              date: '2024.11.23',
-            },
-            {
-              id: 3,
-              nickname: '나',
-              content: '멋진 생각이에요! 저도 한번 시도해볼게요.',
-              date: '2024.11.22',
-            },
-          ];
-
-    // 데이터 로딩 시뮬레이션
-    setLoading(true);
-    setTimeout(() => {
-      setPraiseItems(dummyData);
+    const fetchData = async () => {
+      setLoading(true);
+      try {
+        const response = await fetchMyArticlesWithPagination(1, 10);
+        console.log('response>>>', response);
+        setPraiseItems(response.list);
+      } catch (error) {
+        console.error('Failed to fetch praise items:', error);
+        setPraiseItems([]);
+      }
       setLoading(false);
-    }, 500);
+    };
+
+    fetchData();
   }, [activeTab]);
 
   const handleBack = () => {
