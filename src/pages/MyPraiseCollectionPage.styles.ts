@@ -88,7 +88,7 @@ export const Tab = styled.button<{ active: boolean }>`
   padding: 16px;
   background: none;
   border: none;
-  background-color: ${Common.colors.backgroundSkyblue};
+  background-color: ${Common.colors.backgroundSkyblue2};
   border-top: 3px solid
     ${(props) => (props.active ? Common.colors.mainBlue : Common.colors.grey)};
   color: black;
@@ -257,4 +257,253 @@ export const ActionButton = styled.button`
   &:hover {
     background-color: #3182ce;
   }
+`;
+// 새로운 댓글 스타일 컴포넌트들을 기존 스타일 파일에 추가
+
+// 기존 CommentItemWrapper 스타일 교체
+export const CommentItemWrapper = styled.div`
+  margin-bottom: 16px;
+`;
+
+// 새로운 카드 스타일
+export const CommentCard = styled.div`
+  background: white;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 16px;
+  // box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+`;
+
+export const CommentCardHeader = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 12px;
+`;
+
+export const UserInfo = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 12px;
+`;
+
+// 기존 UserProfileImage 스타일 업데이트
+export const UserProfileImage = styled.div`
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: ${Common.colors.mainBlue};
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  font-weight: bold;
+  flex-shrink: 0;
+`;
+
+export const UserDetails = styled.div<{
+  $theme?: 'light' | 'dark' | 'primary' | 'secondary';
+  $size?: 'small' | 'medium' | 'large';
+}>`
+  display: flex;
+  flex-direction: column;
+
+  /* 크기별 스타일 */
+  ${(props) => {
+    switch (props.$size) {
+      case 'small':
+        return `
+          gap: 2px;
+          font-size: 12px;
+        `;
+      case 'large':
+        return `
+          gap: 8px;
+          font-size: 16px;
+        `;
+      default:
+        return `
+          gap: 4px;
+          font-size: 14px;
+        `;
+    }
+  }}
+
+  /* 테마별 스타일 */
+  ${(props) => {
+    switch (props.$theme) {
+      case 'dark':
+        return `
+          background: #2d3748;
+          color: white;
+          padding: 8px;
+          border-radius: 6px;
+        `;
+      case 'primary':
+        return `
+          background: ${Common.colors.backgroundSkyblue};
+          color: ${Common.colors.mainBlue};
+          padding: 6px;
+          border-radius: 4px;
+        `;
+      case 'secondary':
+        return `
+          background: #f1f5f9;
+          color: #64748b;
+          padding: 6px;
+          border-radius: 4px;
+        `;
+      default:
+        return `
+          background: transparent;
+          color: inherit;
+        `;
+    }
+  }}
+`;
+
+export const UserName = styled.span`
+  font-size: 14px;
+  font-weight: 600;
+  color: #2d3748;
+`;
+
+export const CommentDate = styled.span`
+  font-size: 12px;
+  color: #a0aec0;
+`;
+
+export const LikeSection = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 6px;
+`;
+
+export const LikeCount = styled.span`
+  font-size: 12px;
+  color: ${Common.colors.mainBlue};
+  font-weight: 500;
+`;
+
+export const CommentText = styled.p`
+  color: #4a5568;
+  font-size: 14px;
+  line-height: 1.6;
+  margin: 0;
+  padding: 0;
+`;
+
+// 기존에 사용하지 않게 될 스타일들 (제거하거나 주석 처리)
+/*
+export const CommentHeader = styled.div`
+  // 더 이상 사용하지 않음
+`;
+
+export const CommentBubble = styled.div`
+  // 더 이상 사용하지 않음 - 카드 스타일로 변경
+`;
+
+export const LikeInfo = styled.div`
+  // LikeSection으로 대체됨
+`;
+*/
+
+// 기존 UserDetails는 그대로 두고 새로운 확장 버전 생성
+export const EnhancedUserDetails = styled.div<{
+  $layout?: 'vertical' | 'horizontal' | 'grid';
+  $spacing?: 'tight' | 'normal' | 'loose';
+  $background?: boolean;
+  $shadow?: boolean;
+  $hover?: boolean;
+}>`
+  display: flex;
+  transition: all 0.2s ease;
+
+  /* 레이아웃 */
+  ${(props) => {
+    switch (props.$layout) {
+      case 'horizontal':
+        return `
+          flex-direction: row;
+          align-items: center;
+        `;
+      case 'grid':
+        return `
+          display: grid;
+          grid-template-columns: auto 1fr;
+        `;
+      default:
+        return `
+          flex-direction: column;
+        `;
+    }
+  }}
+
+  /* 간격 */
+  gap: ${(props) => {
+    switch (props.$spacing) {
+      case 'tight':
+        return '2px';
+      case 'loose':
+        return '12px';
+      default:
+        return '6px';
+    }
+  }};
+
+  /* 배경 */
+  ${(props) =>
+    props.$background &&
+    `
+    background: white;
+    padding: 12px;
+    border-radius: 8px;
+    border: 1px solid #e2e8f0;
+  `}
+
+  /* 그림자 */
+  ${(props) =>
+    props.$shadow &&
+    `
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  `}
+  
+  /* 호버 효과 */
+  ${(props) =>
+    props.$hover &&
+    `
+    cursor: pointer;
+    
+    &:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+  `}
+`;
+
+// 특화된 사용자 정보 컴포넌트
+export const UserProfileDetails = styled(EnhancedUserDetails)`
+  position: relative;
+
+  &::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 3px;
+    background: ${Common.colors.mainBlue};
+    border-radius: 2px;
+  }
+`;
+
+// 댓글 전용 UserDetails
+export const CommentUserDetails = styled(UserDetails)`
+  position: relative;
+  padding-left: 16px;
+  background: ${Common.colors.backgroundSkyblue2};
+  color: ${Common.colors.mainBlue};
+  border-radius: 12px;
+  padding: 16px;
 `;

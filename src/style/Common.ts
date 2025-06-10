@@ -5,6 +5,7 @@ const Common = {
     red: '#b11313',
     skyblue: '#60c3fb',
     backgroundSkyblue: '#E0F2FF',
+    backgroundSkyblue2: '#EDF0FF',
     mainBlue: '#2559F3',
     beige100: '#DECBB8',
     beige200: '#E9C2A1',
