@@ -110,17 +110,17 @@ const MyPraiseCollectionPage: React.FC = () => {
           <PraiseItemWrapper key={item.id}>
             {/* 메타 정보: 날짜와 댓글 수 */}
             <PraiseMeta>
-              <DateInfo>{item.date}</DateInfo>
+              <DateInfo>{item.createdAt}</DateInfo>
               <CommentCount>
                 <MessageCircle size={16} />
-                <span>칭찬댓글 {item.commentCount ?? 0}개</span>
+                <span>칭찬댓글 {item.replyCount ?? 0}개</span>
               </CommentCount>
             </PraiseMeta>
 
             {/* 말풍선 스타일 박스 */}
             <PraiseBubble>
               <PraiseContent>{item.content}</PraiseContent>
-              {item.avatarUrl && <Avatar src={item.avatarUrl} alt="profile" />}
+              {/* {item.avatarUrl && <Avatar src={item.avatarUrl} alt="profile" />} */}
             </PraiseBubble>
           </PraiseItemWrapper>
         ))}
