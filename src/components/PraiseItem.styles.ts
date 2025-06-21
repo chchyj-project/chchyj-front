@@ -36,17 +36,22 @@ export const CommentInfo = styled.div`
   color: ${styleToken.color.primary};
 `;
 
-export const WritingCommentWrapper = styled.div`
+interface WritingCommentWrapperProps {
+  $backgroundColor?: string;
+  $fontColor?: string;
+}
+
+export const WritingCommentWrapper = styled.div<WritingCommentWrapperProps>`
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 126px;
-  height: 26px;
+  padding: 3px 10px;
   font-size: 12px;
-  color: ${styleToken.color.secondary};
+  color: ${(props) => (props.$fontColor || styleToken.color.secondary)};
   border: 1px solid ${styleToken.color.secondary};
   border-radius: 20px;
   cursor: pointer;
+  background-color: ${(props) => props.$backgroundColor || 'transparent'};
 
   svg {
     margin-right: 4px;

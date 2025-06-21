@@ -26,6 +26,7 @@ import {
   CommentBox,
   HeartIcon,
 } from './PraiseItem.styles.ts';
+import Common from '../style/Common.ts';
 
 const PraiseItem = ({
   islast,
@@ -160,19 +161,22 @@ const PraiseItem = ({
                 : `칭찬댓글 ${article.replyCount}개`}
             </CommentInfo>
           </CommentBox>
-          {String(loggedInUserId) !== String(article.userId) && (
+          {String(loggedInUserId) !== String(article.userId) ? (
             <WritingCommentWrapper
               onClick={() =>
-                // URL에는 안보이지만 state로 데이터 전달
-                navigate(`/post/${article.id}`, {
-                  state: {
-                    mode: 'commentOpen',
-                  },
-                })
+                navigate(`/post/${article.id}`)
               }
             >
               <HeartIcon src={heart} alt="heart icon" />
               칭찬요정 보내기
+            </WritingCommentWrapper>
+          ) : (
+            <WritingCommentWrapper
+              $backgroundColor={Common.colors.mainBlue}
+              $fontColor={Common.colors.white}
+            >
+              <HeartIcon src={heart} alt="heart icon" />
+              칭찬요정이 도착했어요!
             </WritingCommentWrapper>
           )}
         </RowFlexBetween>
