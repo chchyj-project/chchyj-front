@@ -84,20 +84,16 @@ export const ListGap = styled.div`
 export const FloatingButtonWrapper = styled.div`
   position: fixed;
   bottom: 24px;
-  right: 0;
-  left: 0;
-  max-width: 390px;
-  width: 100%;
-  padding: 0 24px;
-  margin: 0 auto;
-  box-sizing: border-box;
+  right: calc(50vw - 195px + 24px); /* 390px/2 = 195px, 중앙에서 195px 빼고 24px 여백 */
+  z-index: 1000;
   pointer-events: none;
-  z-index: 100;
-  display: flex;
-  justify-content: flex-end;
+
+  @media (max-width: 390px) {
+    right: 24px; /* 화면이 390px 이하일 때는 그냥 우측 24px */
+  }
 
   @media (max-width: 430px) {
-    padding: 0 24px;
+    bottom: 16px;
   }
 `;
 

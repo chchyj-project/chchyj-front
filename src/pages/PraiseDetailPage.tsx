@@ -21,15 +21,13 @@ import {
   CommentInfo,
   CommentListContainer,
   CommentItem,
-  ProfileImage,
   CommentBubble,
-  CommentHeader as ReplyCommentHeader,
   CommentAuthorInfo,
   CommentContent,
-  FixedBottomBar,
-  CommentInputContainer,
-  CommentInput,
-  SubmitButton,
+  CommentAuthorSection,
+  CommentAuthorName,
+  CommentHeader,
+  CommentDate,
 } from './PraiseDetailPage.styles.ts';
 import {
   ContentBox,
@@ -214,7 +212,7 @@ export default function PraiseDetail() {
           </PostHeader>
           <ContentBox>
             <StyledContent>{articleDetail?.content}</StyledContent>
-            <Tail/>
+            <Tail />
           </ContentBox>
           <CommentInfo>
             <CommentIcon src={Comment} alt="Comment icon" />
@@ -222,7 +220,6 @@ export default function PraiseDetail() {
             <span>칭찬댓글 {articleDetail?.replyList.length || 0}개</span>
           </CommentInfo>
         </PostContainer>
-
         <CommentListContainer>
           {articleDetail?.replyList && articleDetail.replyList.length > 0 ? (
             articleDetail.replyList.map((comment, index) => {
@@ -237,16 +234,18 @@ export default function PraiseDetail() {
                       : undefined
                   }
                 >
-                  {!isOwn && (
-                    <ProfileImage>
-                      {comment.nickname.charAt(0)}
-                    </ProfileImage>
-                  )}
                   <CommentBubble isOwn={isOwn}>
-                    <ReplyCommentHeader>
-                      <CommentAuthorInfo>
-                        {comment.nickname}
-                      </CommentAuthorInfo>
+                    <CommentHeader>
+                      <CommentAuthorSection>
+                        <CommentAuthorInfo>
+                          <CommentAuthorName>
+                            {comment.nickname}
+                          </CommentAuthorName>
+                          <CommentDate>
+                            {dayjs(comment.createdAt).format('YYYY.M.D')}
+                          </CommentDate>
+                        </CommentAuthorInfo>
+                      </CommentAuthorSection>
                       {comment.canDelete && (
                         <CommentActions
                           isopen={
@@ -260,7 +259,7 @@ export default function PraiseDetail() {
                           }
                         />
                       )}
-                    </ReplyCommentHeader>
+                    </CommentHeader>
                     <CommentContent>{comment.content}</CommentContent>
                   </CommentBubble>
                 </CommentItem>
@@ -269,9 +268,12 @@ export default function PraiseDetail() {
           ) : (
             <div
               style={{
-                padding: '30px 0',
+                padding: '60px 20px',
                 textAlign: 'center',
                 color: '#999',
+                backgroundColor: 'white',
+                borderRadius: '12px',
+                margin: '20px 0',
               }}
             >
               아직 댓글이 없습니다. 첫 번째 댓글을 작성해보세요!
@@ -279,14 +281,14 @@ export default function PraiseDetail() {
           )}
         </CommentListContainer>
       </Container>
-      <FixedBottomBar>
+      {/* <FixedBottomBar>
         <CommentInputContainer>
           <ProfileImage>{nickname?.charAt(0)}</ProfileImage>
           <CommentInput
             placeholder="댓글을 입력하세요..."
             value={commentContent}
-            onChange={(e) => setCommentContent(e.target.value)}
-            onKeyPress={(e) => e.key === 'Enter' && handleCommentSubmit()}
+            onChange={(e: { target: { value: React.SetStateAction<string>; }; }) => setCommentContent(e.target.value)}
+            onKeyPress={(e: { key: string; }) => e.key === 'Enter' && handleCommentSubmit()}
           />
         </CommentInputContainer>
         <SubmitButton
@@ -295,7 +297,7 @@ export default function PraiseDetail() {
         >
           댓글 입력
         </SubmitButton>
-      </FixedBottomBar>
+      </FixedBottomBar> */}
     </>
   );
 }

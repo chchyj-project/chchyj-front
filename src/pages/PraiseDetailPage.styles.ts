@@ -92,346 +92,102 @@ export const CommentInfo = styled.div`
   color: ${styleToken.color.primary};
   padding: 8px 0;
 `;
-
 export const CommentListContainer = styled.div`
-  padding: 20px;
-  min-height: 200px; /* 최소 높이 설정으로 레이아웃 안정성 확보 */
-  overflow-x: hidden; /* 가로 스크롤 방지 */
-  flex: 1; /* 남은 공간 모두 사용 */
+  padding: 0 20px 20px 20px;
+  min-height: 200px;
+  overflow-x: hidden;
+  flex: 1;
 `;
 
 export const CommentItem = styled.div<{ isOwn: boolean }>`
-  display: flex;
-  margin-bottom: 24px;
-  justify-content: ${(props) => (props.isOwn ? 'flex-end' : 'flex-start')};
-  gap: 8px;
-  width: 100%; /* 명시적으로 전체 너비 설정 */
+  background-color: white;
+  border-radius: 4px;
+  margin-bottom: 16px;
+  padding: 10px 16px;
+  width: 100%;
   box-sizing: border-box;
-`;
-
-export const ProfileImage = styled.div`
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  background-color: #e9ecef;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: bold;
-  color: #495057;
-  flex-shrink: 0;
-`;
-
-export const CommentBubble = styled.div<{ isOwn: boolean }>`
-  background-color: ${(props) => (props.isOwn ? '#E0F2FF' : '#f1f3f5')};
-  border-radius: 12px;
-  padding: 12px;
-  max-width: calc(100% - 60px);
-  min-height: 60px;
-  height: 60px;
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  word-break: break-word;
-  overflow-wrap: break-word;
+  border: 0.5px solid ${Common.colors.grey};
 `;
 
 export const CommentHeader = styled.div`
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 8px;
+  align-items: flex-start;
 `;
 
+export const CommentAuthorSection = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex: 1;
+`;
+
+
 export const CommentAuthorInfo = styled.div`
-  font-size: 14px;
-  font-weight: bold;
-  color: #343a40;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+`;
+
+export const CommentAuthorName = styled.div`
+  font-size: 10px;
+  font-weight: 700;
+  line-height: 12px;
+  color: #222;
+`;
+
+export const CommentDate = styled.div`
+  font-size: 8px;
+  line-height: 10px;
+  color: #999;
 `;
 
 export const CommentContent = styled.p`
-  font-size: 15px;
-  line-height: 1.4;
+  font-size: 10px;    s
+  line-height: 12px;
   color: #333;
   margin: 0;
   word-break: break-word;
   white-space: pre-wrap;
-  flex: 1;
-  overflow: hidden;
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
 `;
 
-export const FixedBottomBar = styled.div`
-  position: absolute; /* fixed에서 absolute로 변경 */
-  bottom: 0;
-  left: 0;
-  right: 0;
-  width: 100%;
-  background-color: white;
-  padding: 12px 20px 24px;
-  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.05);
-  display: flex;
-  flex-direction: column;
-  z-index: 100;
-  box-sizing: border-box;
-  flex-shrink: 0; /* 크기 고정 */
-`;
-
-export const CommentInputContainer = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  margin-bottom: 12px;
-`;
-
-export const CommentInput = styled.input`
-  flex-grow: 1;
-  height: 44px;
-  padding: 0 16px;
-  border: 1px solid #dee2e6;
-  border-radius: 22px;
-  font-size: 15px;
-
-  &:focus {
-    outline: none;
-    border-color: #4dabf7;
-  }
-`;
-
-export const SubmitButton = styled.button`
-  width: 100%;
-  height: 48px;
-  background-color: ${Common.colors.mainBlue};
-  color: white;
-  border: none;
-  border-radius: 8px;
-  font-size: 16px;
-  font-weight: bold;
-  cursor: pointer;
-  transition: background-color 0.2s;
-
-  &:hover {
-    background-color: ${Common.colors.mainBlue};
-  }
-
-  &:disabled {
-    background-color: #ced4da;
-    cursor: not-allowed;
-  }
-`;
-
-export const LikeButton = styled.button`
-  padding: 6px;
-  background: none;
-  border: none;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: transform 0.2s;
-
-  &:hover {
-    transform: scale(1.1);
-  }
-`;
-
-export const Nickname = styled.div`
-  font-size: 15px;
-  color: #222;
-  font-weight: 700;
-  display: flex;
-  align-items: center;
-`;
-
-export const InfoHeader = styled.div`
-  padding: 16px 20px;
-  font-size: 14px;
-  color: #555;
-  // border-bottom: 1px solid #e2e5e9;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-
-  span {
-    font-weight: bold;
-    color: #333;
-  }
-`;
-
-export const TimelineContainer = styled.div`
-  padding: 20px;
-`;
-
-export const TimelineItem = styled.div`
-  display: flex;
-  position: relative;
-  padding-left: 30px;
-  margin-bottom: 24px;
-
-  &:before {
-    content: '';
-    position: absolute;
-    left: 8px;
-    top: 0;
-    width: 2px;
-    height: 100%;
-    background-color: #dee2e6;
-  }
-
-  &:last-child {
-    margin-bottom: 0;
-  }
-
-  &:last-child:before {
-    height: 0;
-  }
-`;
-
-export const TimelineDot = styled.div`
-  position: absolute;
-  left: 0;
-  top: 0;
-  width: 18px;
-  height: 18px;
-  border-radius: 50%;
-  background-color: #4dabf7;
-  border: 3px solid #fff;
-  z-index: 1;
-`;
-
-export const TimelineItemContent = styled.div`
+export const CommentBubble = styled.div<{ isOwn: boolean }>`
   width: 100%;
 `;
 
-export const TimelineItemHeader = styled.div`
+export const LikeSection = styled.div`
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  margin-bottom: 8px;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 8px;
 `;
 
-export const TimelineItemNickname = styled.div`
-  font-size: 15px;
-  font-weight: 700;
-`;
-
-export const TimelineCard = styled.div`
-  border: 1px solid #e9ecef;
-  border-radius: 6px;
-  padding: 12px 16px;
-  background-color: #f8f9fa;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-`;
-
-export const ActionButton = styled.button`
-  background: none;
-  border: none;
-  cursor: pointer;
-  font-size: 12px;
-  color: #888;
-  margin-right: auto;
+export const LikeButton = styled.button<{ isLiked?: boolean }>`
   display: flex;
   align-items: center;
   gap: 4px;
-  transition: color 0.2s;
-
-  &:hover {
-    color: #666;
-  }
-`;
-
-export const BottomButton = styled.button`
-  height: 58px;
-  width: 90%;
-  background-color: ${Common.colors.skyblue};
-  color: ${styleToken.color.white};
-  font-size: 17px;
-  font-weight: 700;
-  line-height: 19px;
-  border-radius: 12px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-
-  &:hover {
-    background-color: #70c1e2;
-  }
-`;
-
-export const LikeContainer = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 2px;
-`;
-
-export const FloatingButtonWrapper = styled.div`
-  position: absolute; /* fixed에서 absolute로 변경 */
-  bottom: 140px; /* FixedBottomBar 위쪽에 위치 */
-  right: 20px;
-  width: 56px; /* 버튼 크기만큼만 */
-  height: 56px;
-  pointer-events: none;
-  z-index: 101; /* FixedBottomBar보다 위에 */
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
-
-export const FloatingActionButton = styled.button`
-  width: 56px;
-  height: 56px;
-  border-radius: 50%;
-  background-color: ${Common.colors.skyblue};
-  color: ${styleToken.color.white};
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  background: none;
   border: none;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
   cursor: pointer;
-  transition: all 0.3s ease;
-  pointer-events: auto;
-
-  &:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
-    background-color: #70c1e2;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #4285f4;
+  transition: all 0.2s;
+  
+  svg {
+    fill: #4285f4;
+    color: #4285f4;
   }
 
-  &:active {
-    transform: translateY(0);
+  &:hover {
+    background-color: rgba(66, 133, 244, 0.1);
   }
 `;
 
-export const Tooltip = styled.div`
-  position: absolute;
-  top: -40px;
-  right: 0;
-  background-color: #333;
-  color: white;
-  padding: 8px 12px;
-  border-radius: 8px;
-  font-size: 14px;
-  white-space: nowrap;
-  opacity: 0;
-  transition: opacity 0.3s ease;
-  pointer-events: none;
-
-  ${FloatingActionButton}:hover & {
-    opacity: 1;
-  }
-
-  &::after {
-    content: '';
-    position: absolute;
-    top: 100%;
-    right: 24px;
-    border-width: 5px;
-    border-style: solid;
-    border-color: #333 transparent transparent transparent;
-  }
+export const LikeCount = styled.span`
+  font-size: 13px;
+  font-weight: 500;
+  color: #4285f4;
 `;

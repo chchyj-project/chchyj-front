@@ -10,7 +10,7 @@ export const DropdownContainer = styled.div`
 export const MoreButton = styled.button`
   background: none;
   border: none;
-  padding: 4px;
+  padding: 0px;
   cursor: pointer;
   color: #999;
 `;

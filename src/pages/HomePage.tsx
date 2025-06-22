@@ -28,6 +28,7 @@ import {
   LoadingContainer,
 } from './HomePage.styles.ts';
 import Common from '../style/Common.ts';
+import ReactDOM from 'react-dom';
 
 const Home = () => {
   const {
@@ -245,14 +246,14 @@ const Home = () => {
   const handleWriteClick = (isWriteMode: boolean) => {
     // FixedHeader의 배경색은 항상 흰색으로 유지
     setBgColor('white');
-    
+
     // 전체 페이지 배경색 변경
     if (isWriteMode) {
       document.body.style.backgroundColor = Common.colors.gray;
     } else {
       document.body.style.backgroundColor = '';
     }
-    
+
     console.log('isWriteMode', isWriteMode);
     setWriteMode(isWriteMode);
   };
@@ -373,16 +374,17 @@ const Home = () => {
         </PraiseList>
       </PageContainer>
       <Footer />
-      
-      {!isWriteMode && (
+
+      {!isWriteMode && ReactDOM.createPortal(
         <FloatingButtonWrapper>
           <FloatingActionButton onClick={() => handleWriteClick(true)}>
             <Plus size={24} strokeWidth={2.5} />
             <Tooltip>칭찬글 쓰기</Tooltip>
           </FloatingActionButton>
-        </FloatingButtonWrapper>
+        </FloatingButtonWrapper>,
+        document.body
       )}
-      
+
       <WriteSlidingPanel
         isWriteMode={isWriteMode}
         handleWriteClick={handleWriteClick}
