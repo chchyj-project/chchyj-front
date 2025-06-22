@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import styleToken from '../style/styleToken.ts';
+import Common from '../style/Common.ts';
 
 export const PraiseCard = styled.div`
   background-color: #e5ecff;
@@ -48,7 +49,7 @@ export const Icon = styled.img<IconProps>`
   @media (max-width: 480px) {
     width: ${({ mobileWidth, width = '82.96px' }) => mobileWidth || width};
     height: ${({ mobileHeight, height = '117.64px' }) =>
-      mobileHeight || height};
+    mobileHeight || height};
   }
 `;
 
@@ -135,7 +136,7 @@ export const Tooltip = styled.div`
   position: absolute;
   top: -40px;
   right: 0;
-  background-color: #333;
+  background-color: ${Common.colors.gray};
   color: white;
   padding: 8px 12px;
   border-radius: 8px;

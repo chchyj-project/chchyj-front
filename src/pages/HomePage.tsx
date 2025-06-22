@@ -27,6 +27,7 @@ import {
   LoadingIndicator,
   LoadingContainer,
 } from './HomePage.styles.ts';
+import Common from '../style/Common.ts';
 
 const Home = () => {
   const {
@@ -242,11 +243,17 @@ const Home = () => {
   ]);
 
   const handleWriteClick = (isWriteMode: boolean) => {
+    // FixedHeader의 배경색은 항상 흰색으로 유지
+    setBgColor('white');
+    
+    // 전체 페이지 배경색 변경
     if (isWriteMode) {
-      setBgColor('#4D4D4D');
+      document.body.style.backgroundColor = Common.colors.gray;
     } else {
-      setBgColor('white');
+      document.body.style.backgroundColor = '';
     }
+    
+    console.log('isWriteMode', isWriteMode);
     setWriteMode(isWriteMode);
   };
 
@@ -255,12 +262,14 @@ const Home = () => {
     // 컴포넌트 마운트 시 실행할 코드
     console.log('스크롤 컴포넌트 마운트');
 
-    // 컴포넌트 언마운트 시 Observer 정리
+    // 컴포넌트 언마운트 시 Observer 정리 및 body 배경색 초기화
     return () => {
       console.log('스크롤 컴포넌트 언마운트 - Observer 정리');
       if (observer.current) {
         observer.current.disconnect();
       }
+      // body 배경색 초기화
+      document.body.style.backgroundColor = '';
     };
   }, []);
 
@@ -288,86 +297,83 @@ const Home = () => {
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, [hasMore, loadMoreArticles]);
-
+  console.log('isWriteMode>>>', isWriteMode);
   return (
     <>
       <FixedHeader bgColor={bgColor} />
-      {!isWriteMode && (
-        <>
-          <PageContainer>
-            <PraiseCard>
-              <ContentWrapper>
-                <TextGroup>
-                  <TitleStyle>
-                    요정들 출동 완료! <br />
-                    당신을 발견했어요
-                  </TitleStyle>
-                  <Subtitle>
-                    오늘 하루 뿌듯한 일,
-                    <br />
-                    우리 요정들과 나눠보실래요?
-                  </Subtitle>
-                </TextGroup>
-                <Icon src={Logo} alt="logo" />
-              </ContentWrapper>
-              <MainButton onClick={() => handleWriteClick(true)}>
-                <Plus
-                  size={18}
-                  strokeWidth={2.5}
-                  style={{ marginRight: '8px' }}
-                />
-                칭찬 받을래요
-              </MainButton>
-            </PraiseCard>
+      <PageContainer>
+        <PraiseCard>
+          <ContentWrapper>
+            <TextGroup>
+              <TitleStyle>
+                요정들 출동 완료! <br />
+                당신을 발견했어요
+              </TitleStyle>
+              <Subtitle>
+                오늘 하루 뿌듯한 일,
+                <br />
+                우리 요정들과 나눠보실래요?
+              </Subtitle>
+            </TextGroup>
+            <Icon src={Logo} alt="logo" />
+          </ContentWrapper>
+          <MainButton onClick={() => handleWriteClick(true)}>
+            <Plus
+              size={18}
+              strokeWidth={2.5}
+              style={{ marginRight: '8px' }}
+            />
+            칭찬 받을래요
+          </MainButton>
+        </PraiseCard>
 
-            <div style={{ margin: '16px 24px 0' }}>
-              <RecentComments />
-            </div>
+        <div style={{ margin: '16px 24px 0' }}>
+          <RecentComments />
+        </div>
 
-            <PraiseList>
-              {/* 게시글 목록 */}
-              {articles.map((item, idx) => {
-                // 마지막에서 두 번째 요소까지만 ref 연결 (미리 로드하기 위해)
-                const isNearLastItem = idx === articles.length - 2;
-                return (
-                  <React.Fragment key={`article-${item.id || idx}-${offset}`}>
-                    <div
-                      ref={isNearLastItem ? lastArticleElementRef : null}
-                      data-testid={`article-${idx}`}
-                    >
-                      <PraiseItem
-                        index={idx}
-                        islast={idx === articles.length - 1}
-                        article={item}
-                      />
-                    </div>
-                    {idx !== articles.length - 1 && <ListGap />}
-                  </React.Fragment>
-                );
-              })}
+        <PraiseList>
+          {/* 게시글 목록 */}
+          {articles.map((item, idx) => {
+            // 마지막에서 두 번째 요소까지만 ref 연결 (미리 로드하기 위해)
+            const isNearLastItem = idx === articles.length - 2;
+            return (
+              <React.Fragment key={`article-${item.id || idx}-${offset}`}>
+                <div
+                  ref={isNearLastItem ? lastArticleElementRef : null}
+                  data-testid={`article-${idx}`}
+                >
+                  <PraiseItem
+                    index={idx}
+                    islast={idx === articles.length - 1}
+                    article={item}
+                  />
+                </div>
+                {idx !== articles.length - 1 && <ListGap />}
+              </React.Fragment>
+            );
+          })}
 
-              {/* 별도의 로딩 트리거 요소 (항상 존재) */}
-              <LoadingContainer
-                ref={articles.length < 2 ? lastArticleElementRef : null}
-                data-testid="loading-trigger"
-              >
-                {isLoading && (
-                  <LoadingIndicator>불러오는 중...</LoadingIndicator>
-                )}
+          {/* 별도의 로딩 트리거 요소 (항상 존재) */}
+          <LoadingContainer
+            ref={articles.length < 2 ? lastArticleElementRef : null}
+            data-testid="loading-trigger"
+          >
+            {isLoading && (
+              <LoadingIndicator>불러오는 중...</LoadingIndicator>
+            )}
 
-                {!hasMore && articles.length > 0 && (
-                  <LoadingIndicator>더 이상 글이 없습니다</LoadingIndicator>
-                )}
+            {!hasMore && articles.length > 0 && (
+              <LoadingIndicator>더 이상 글이 없습니다</LoadingIndicator>
+            )}
 
-                {!isLoading && articles.length === 0 && (
-                  <div>게시글이 없습니다. 첫 번째 글을 작성해보세요!</div>
-                )}
-              </LoadingContainer>
-            </PraiseList>
-          </PageContainer>
-          <Footer />
-        </>
-      )}
+            {!isLoading && articles.length === 0 && (
+              <div>게시글이 없습니다. 첫 번째 글을 작성해보세요!</div>
+            )}
+          </LoadingContainer>
+        </PraiseList>
+      </PageContainer>
+      <Footer />
+      
       {!isWriteMode && (
         <FloatingButtonWrapper>
           <FloatingActionButton onClick={() => handleWriteClick(true)}>
@@ -376,12 +382,11 @@ const Home = () => {
           </FloatingActionButton>
         </FloatingButtonWrapper>
       )}
-      {isWriteMode && (
-        <WriteSlidingPanel
-          isWriteMode={isWriteMode}
-          handleWriteClick={handleWriteClick}
-        />
-      )}
+      
+      <WriteSlidingPanel
+        isWriteMode={isWriteMode}
+        handleWriteClick={handleWriteClick}
+      />
     </>
   );
 };

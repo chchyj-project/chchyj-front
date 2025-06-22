@@ -3,6 +3,7 @@ import { axiosInstance } from '../../api/axiosConfig.ts';
 import { useState } from 'react';
 import { useApiError } from '../../hooks/useApiError.ts';
 import { useArticleStore } from '../../store/useArticleStore.ts';
+import { createPortal } from 'react-dom';
 import BtnText from '../../images/buttonText2.png';
 import Icon1 from '../../images/icon1.png';
 import Icon2 from '../../images/icon2.png';
@@ -32,6 +33,7 @@ export default function WriteSlidingPanel({
   isWriteMode,
   handleWriteClick,
 }: any) {
+  console.log('isWriteMode', isWriteMode);
   const [content, setContent] = useState('');
   const { handleApiError } = useApiError();
   const { fetchArticles, setSelectedArticleId } = useArticleStore();
@@ -55,69 +57,86 @@ export default function WriteSlidingPanel({
       handleApiError(error);
     }
   };
-  return (
-    <>
-      <AnimatePresence>
-        {isWriteMode && (
-          <>
-            <Overlay
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 0.8 }}
-              exit={{ opacity: 0 }}
-              onClick={() => handleWriteClick(false)}
-            />
-            <Panel
-              initial={{ y: '100%' }}
-              animate={{ y: 0 }}
-              exit={{ y: '100%' }}
-              transition={{
-                type: 'spring',
-                damping: 30,
-                stiffness: 300,
-                duration: 0.4,
-              }}
-            >
-              <PanelContent>
-                <Title>
-                  청찬받고 싶은 내용을 입력하세요.
-                  <br />
-                  칭찬요정들이 찾아올거에요~
-                </Title>
-                <StyledTextarea
-                  placeholder="이러쿵저러쿵 이렇게 저렇게 글을 써봅니다. 어떻게 쓸까요?"
-                  value={content}
-                  onChange={(e) => setContent(e.target.value)}
-                />
-                <Wrapper>
-                  <Item>
-                    <img src={Icon4} alt="icon image" />
-                    <Text>칭찬글 입력시 하트 1개가 차감됩니다.</Text>
+  console.log('[writesling pannel] isWriteMode', isWriteMode);
+  
+  // Portal을 사용해서 body에 직접 렌더링
+  const modalContent = (
+    <AnimatePresence>
+      {isWriteMode && (
+        <>
+          <Overlay
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
+            onClick={() => handleWriteClick(false)}
+          />
+          <Panel
+            initial={{ y: '100%' }}
+            animate={{ y: 0 }}
+            exit={{ y: '100%' }}
+            transition={{
+              type: 'spring',
+              damping: 25,
+              stiffness: 200,
+              duration: 0.5,
+            }}
+          >
+            <PanelContent>
+              {/* 상단 핸들 바 */}
+              <div 
+                style={{
+                  width: '40px',
+                  height: '4px',
+                  backgroundColor: '#E0E0E0',
+                  borderRadius: '2px',
+                  margin: '12px auto 20px',
+                  cursor: 'pointer'
+                }}
+                onClick={() => handleWriteClick(false)}
+              />
+              <Title>
+                칭찬받고 싶은 내용을 입력하세요.
+                <br />
+                칭찬요정들이 찾아올거에요~
+              </Title>
+              <StyledTextarea
+                placeholder="이러쿵저러쿵 이렇게 저렇게 글을 써봅니다. 어떻게 쓸까요?"
+                value={content}
+                onChange={(e) => setContent(e.target.value)}
+              />
+              <Wrapper>
+                <Item>
+                  <img src={Icon4} alt="icon image" />
+                  <Text>칭찬글 입력시 하트 1개가 차감됩니다.</Text>
+                </Item>
+                <Item>
+                  <img src={Icon3} alt="icon image" />
+                  <Text>
+                    칭찬글은 입력 후 15분 이내에만 수정할 수 있습니다.
+                  </Text>
+                </Item>
+                <Item>
+                  <img src={Icon2} alt="icon image" />
+                  <Text>
+                    칭찬글 삭제 15분 이후에는 하트는 반환되지 않습니다.
+                  </Text>
+                </Item>
+                <Item>
+                  <img src={Icon1} alt="icon image" />
+                  <Text>욕설/비방 등은 동의없이 삭제될 수 있습니다.</Text>
                   </Item>
-                  <Item>
-                    <img src={Icon3} alt="icon image" />
-                    <Text>
-                      칭찬글은 입력 후 15분 이내에만 수정할 수 있습니다.
-                    </Text>
-                  </Item>
-                  <Item>
-                    <img src={Icon2} alt="icon image" />
-                    <Text>
-                      칭찬글 삭제 15분 이후에는 하트는 반환되지 않습니다.
-                    </Text>
-                  </Item>
-                  <Item>
-                    <img src={Icon1} alt="icon image" />
-                    <Text>욕설/비방 등은 동의없이 삭제될 수 있습니다.</Text>
-                  </Item>
-                </Wrapper>
-                <Button onClick={save}>
-                  <img src={BtnText} alt="Button text" />
-                </Button>
-              </PanelContent>
-            </Panel>
-          </>
-        )}
-      </AnimatePresence>
-    </>
+              </Wrapper>
+              <Button onClick={save}>
+                <img src={BtnText} alt="Button text" />
+              </Button>
+            </PanelContent>
+          </Panel>
+        </>
+      )}
+    </AnimatePresence>
   );
+
+  // Portal을 사용해서 body에 렌더링
+  return createPortal(modalContent, document.body);
 }

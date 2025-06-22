@@ -27,7 +27,6 @@ export const AppContainer = styled.div`
   width: 100%;
   margin: 0 auto;
   position: relative;
-  overflow-x: hidden;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   transform: translateZ(0);
 

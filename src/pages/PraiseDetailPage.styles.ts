@@ -26,8 +26,7 @@ export const MainContent = styled.div`
 export const Header = styled.header`
   display: flex;
   align-items: center;
-  padding: 12px 16px 16px 16px;
-  border-bottom: 1px solid #e2e5e9;
+  padding: 12px 16px 0px 16px;
 `;
 
 export const BackButton = styled.button`
@@ -127,9 +126,14 @@ export const CommentBubble = styled.div<{ isOwn: boolean }>`
   background-color: ${(props) => (props.isOwn ? '#E0F2FF' : '#f1f3f5')};
   border-radius: 12px;
   padding: 12px;
-  max-width: calc(100% - 60px); /* 더 여유있게 설정 */
-  word-break: break-word; /* 긴 단어 줄바꿈 */
-  overflow-wrap: break-word; /* 추가적인 줄바꿈 보장 */
+  max-width: calc(100% - 60px);
+  min-height: 60px;
+  height: 60px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  word-break: break-word;
+  overflow-wrap: break-word;
 `;
 
 export const CommentHeader = styled.div`
@@ -147,11 +151,16 @@ export const CommentAuthorInfo = styled.div`
 
 export const CommentContent = styled.p`
   font-size: 15px;
-  line-height: 1.6;
+  line-height: 1.4;
   color: #333;
   margin: 0;
   word-break: break-word;
   white-space: pre-wrap;
+  flex: 1;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
 `;
 
 export const FixedBottomBar = styled.div`
@@ -194,7 +203,7 @@ export const CommentInput = styled.input`
 export const SubmitButton = styled.button`
   width: 100%;
   height: 48px;
-  background-color: #4dabf7;
+  background-color: ${Common.colors.mainBlue};
   color: white;
   border: none;
   border-radius: 8px;
@@ -204,7 +213,7 @@ export const SubmitButton = styled.button`
   transition: background-color 0.2s;
 
   &:hover {
-    background-color: #339af0;
+    background-color: ${Common.colors.mainBlue};
   }
 
   &:disabled {

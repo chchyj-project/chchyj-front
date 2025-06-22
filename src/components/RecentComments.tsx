@@ -35,10 +35,12 @@ const RecentComments = () => {
 
   useEffect(() => {
     const fetchRecentComment = async () => {
-      return await axiosInstance.get('/replies/latest');
+      return await axiosInstance.get('/replies/need-recommend');
     };
     fetchRecentComment()
       .then((response) => {
+        console.log('추천이 필요한 댓글 목록', response.data.list);
+
         setRecentComments(response.data.list);
       })
       .catch((error) => {

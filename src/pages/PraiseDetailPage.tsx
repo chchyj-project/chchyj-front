@@ -17,8 +17,6 @@ import {
   BackButton,
   PostContainer,
   PostHeader,
-  PostTitle,
-  PostDate,
   StyledContent,
   CommentInfo,
   CommentListContainer,
@@ -28,7 +26,6 @@ import {
   CommentHeader as ReplyCommentHeader,
   CommentAuthorInfo,
   CommentContent,
-  LikeButton,
   FixedBottomBar,
   CommentInputContainer,
   CommentInput,
@@ -39,6 +36,8 @@ import {
   Tail,
 } from '../components/PraiseItem.styles.ts';
 import { CommentIcon } from '../components/PraiseItem.styles.ts';
+import { TitleWrapper } from '../style/MainPage.ts';
+import { Date, Title } from '../components/PraiseItem.styles.ts';
 
 export default function PraiseDetail() {
   const navigate = useNavigate();
@@ -193,13 +192,13 @@ export default function PraiseDetail() {
         </Header>
         <PostContainer>
           <PostHeader>
-            <div>
-              <PostTitle>{articleDetail?.nickname}</PostTitle>
-              <PostDate>
+            <TitleWrapper>
+              <Title>{articleDetail?.nickname}</Title>
+              <Date>
                 {articleDetail?.createdAt &&
                   dayjs(articleDetail.createdAt).format('YYYY.MM.DD')}
-              </PostDate>
-            </div>
+              </Date>
+            </TitleWrapper>
             {articleDetail?.nickname === loggedInNickname && !isEditing && (
               <CommentActions
                 isopen={openDropdownId === 0 ? 'true' : 'false'}
@@ -292,7 +291,7 @@ export default function PraiseDetail() {
         </CommentInputContainer>
         <SubmitButton
           onClick={handleCommentSubmit}
-          disabled={!commentContent.trim()}
+          // disabled={!commentContent.trim()}
         >
           댓글 입력
         </SubmitButton>

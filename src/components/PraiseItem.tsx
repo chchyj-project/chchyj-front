@@ -26,6 +26,7 @@ import {
   CommentBox,
   HeartIcon,
 } from './PraiseItem.styles.ts';
+
 import Common from '../style/Common.ts';
 
 const PraiseItem = ({
@@ -45,7 +46,6 @@ const PraiseItem = ({
     setIsCommentOpen(!isCommentOpen);
   };
   const { showConfirm } = usePopup();
-  console.log('loggedInUserId>>>', loggedInUserId);
 
   const createdAt = dayjs(article.createdAt);
   const { openReportModal } = useReportModalStore();
