@@ -9,9 +9,11 @@ import Icon1 from '../../images/icon1.png';
 import Icon2 from '../../images/icon2.png';
 import Icon3 from '../../images/icon3.png';
 import Icon4 from '../../images/icon4.png';
+import BtnCharacter from '../../images/complimentFairy.png';
 import {
   Button,
   Panel,
+  PanelWrapper,
   PanelContent,
   StyledTextarea,
   Wrapper,
@@ -71,7 +73,7 @@ export default function WriteSlidingPanel({
             transition={{ duration: 0.3 }}
             onClick={() => handleWriteClick(false)}
           />
-          <Panel
+          <PanelWrapper
             initial={{ y: '100%' }}
             animate={{ y: 0 }}
             exit={{ y: '100%' }}
@@ -82,6 +84,7 @@ export default function WriteSlidingPanel({
               duration: 0.5,
             }}
           >
+            <Panel>
             <PanelContent>
               {/* 상단 핸들 바 */}
               <div 
@@ -100,11 +103,13 @@ export default function WriteSlidingPanel({
                 <br />
                 칭찬요정들이 찾아올거에요~
               </Title>
-              <StyledTextarea
-                placeholder="이러쿵저러쿵 이렇게 저렇게 글을 써봅니다. 어떻게 쓸까요?"
-                value={content}
-                onChange={(e) => setContent(e.target.value)}
-              />
+                              <StyledTextarea
+                  placeholder={`오늘은 딱히 대단한 일은 없었지만,
+하루 세 끼 챙겨 먹고 물도 열심히 마셨어요.
+내 몸을 잘 돌봐준 내가 조금 대견했어요.`}
+                  value={content}
+                  onChange={(e) => setContent(e.target.value)}
+                />
               <Wrapper>
                 <Item>
                   <img src={Icon4} alt="icon image" />
@@ -127,11 +132,13 @@ export default function WriteSlidingPanel({
                   <Text>욕설/비방 등은 동의없이 삭제될 수 있습니다.</Text>
                   </Item>
               </Wrapper>
-              <Button onClick={save}>
-                <img src={BtnText} alt="Button text" />
-              </Button>
+                <Button onClick={save}>
+                  칭찬 받을래요
+                  <img src={BtnCharacter} alt="Button character" />
+                </Button>
             </PanelContent>
-          </Panel>
+            </Panel>
+          </PanelWrapper>
         </>
       )}
     </AnimatePresence>
