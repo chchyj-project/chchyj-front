@@ -149,7 +149,7 @@ const PraiseItem = ({
         </Header>
         <ContentBox>
           <Content onClick={moveToDetail}>{article.content}</Content>
-          <Tail></Tail>
+          <Tail />
         </ContentBox>
 
         <RowFlexBetween>

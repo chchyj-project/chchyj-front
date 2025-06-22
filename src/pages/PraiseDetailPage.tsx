@@ -1,53 +1,53 @@
-import { ChevronLeft, Heart } from 'lucide-react';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { ChevronLeft, Heart, MessageCircle, MoreHorizontal } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 import React, { useEffect, useRef, useState } from 'react';
 import { ArticleDetail } from '../types/PraiseItem.ts';
 import { axiosInstance } from '../api/axiosConfig.ts';
 import { useParams } from 'react-router-dom';
-import { RowFlexBetween } from '../style/commonStyle.ts';
 import CommentActions from '../components/CommentActions.tsx';
 import dayjs from 'dayjs';
-import WriteCommentSlidingPanel from '../components/modal/WriteCommentSlidingPanel.tsx';
-import Siren from '../images/siren.png';
-import { Icon } from '../style/MainPage.ts';
 import { useReportModalStore } from '../store/reportModalStore.ts';
 import { toast } from 'react-toastify';
-import { useScrollDirection } from '../hooks/useScrollDirection.ts';
 import { usePopup } from '../context/PopupContext.tsx';
 import { useArticleStore } from '../store/useArticleStore.ts';
-import axios from 'axios';
-import { Plus } from 'lucide-react';
+import Comment from '../images/comment.png';
 import {
   Container,
   Header,
   BackButton,
   PostContainer,
-  PostTitle,
-  StyledContent,
-  PostDate,
-  CommentSection,
-  CommentItem,
-  CommentHeader,
   PostHeader,
-  Nickname,
-  ActionButton,
+  PostTitle,
+  PostDate,
+  StyledContent,
+  CommentInfo,
+  CommentListContainer,
+  CommentItem,
+  ProfileImage,
+  CommentBubble,
+  CommentHeader as ReplyCommentHeader,
+  CommentAuthorInfo,
   CommentContent,
   LikeButton,
-  LikeContainer,
-  FloatingButtonWrapper,
-  FloatingActionButton,
-  Tooltip,
+  FixedBottomBar,
+  CommentInputContainer,
+  CommentInput,
+  SubmitButton,
 } from './PraiseDetailPage.styles.ts';
+import {
+  ContentBox,
+  Tail,
+} from '../components/PraiseItem.styles.ts';
+import { CommentIcon } from '../components/PraiseItem.styles.ts';
 
 export default function PraiseDetail() {
   const navigate = useNavigate();
   const nickname = localStorage.getItem('nickname');
   const { postId } = useParams();
   const [isWriteMode, setWriteMode] = useState(false);
-  const [bgColor, setBgColor] = useState<string>('white');
-  const location = useLocation();
   const [isEditing, setIsEditing] = useState(false);
   const [editContent, setEditContent] = useState('');
+  const [commentContent, setCommentContent] = useState('');
   const { openReportModal } = useReportModalStore();
   const latestCommentRef = useRef<HTMLDivElement | null>(null);
   const previousCommentCountRef = useRef<number>(0);
@@ -56,7 +56,6 @@ export default function PraiseDetail() {
   const [articleDetail, setArticleDetail] = useState<ArticleDetail | null>(
     null,
   );
-  const { buttonVisible } = useScrollDirection();
   const { showConfirm } = usePopup();
   const { deleteArticle } = useArticleStore();
 
@@ -76,8 +75,6 @@ export default function PraiseDetail() {
     setEditContent(articleDetail?.content || '');
   };
 
-  const { mode } = location.state || '';
-
   const handleDropdownToggle = (id: number) => {
     setOpenDropdownId(openDropdownId === id ? null : id);
   };
@@ -93,7 +90,10 @@ export default function PraiseDetail() {
       return;
     }
 
-    if (!isWriteMode && currentCommentCount > previousCommentCountRef.current) {
+    if (
+      !isWriteMode &&
+      currentCommentCount > previousCommentCountRef.current
+    ) {
       setTimeout(() => {
         latestCommentRef.current?.scrollIntoView({ behavior: 'smooth' });
       }, 100);
@@ -105,7 +105,6 @@ export default function PraiseDetail() {
   const fetchArticleDetail = async () => {
     try {
       const { data } = await axiosInstance.get(`/articles/${postId}`);
-      console.log('detail data>>', data);
       setArticleDetail(data);
     } catch (error) {
       console.error('상세 조회 중 에러 발생:', error);
@@ -115,21 +114,6 @@ export default function PraiseDetail() {
   useEffect(() => {
     fetchArticleDetail();
   }, [postId, isWriteMode]);
-
-  useEffect(() => {
-    if (mode === 'commentOpen') {
-      handleWriteClick(true);
-    }
-  }, [mode]);
-
-  const handleWriteClick = async (isWriteMode: boolean) => {
-    if (isWriteMode) {
-      setBgColor('#4D4D4D');
-    } else {
-      setBgColor('white');
-    }
-    setWriteMode(isWriteMode);
-  };
 
   const moveToListPage = () => {
     navigate('/home?userSocialId=' + nickname);
@@ -181,37 +165,21 @@ export default function PraiseDetail() {
     }
   };
 
-  const like = async (commentId: number) => {
+  const handleCommentSubmit = async () => {
+    if (!commentContent.trim()) {
+      toast.warn('댓글 내용을 입력해주세요.');
+      return;
+    }
     try {
-      const result = await axiosInstance.post<any>(
-        `/replies/${commentId}/like`,
-      );
-
-      if (result.status === 201 || result.status === 200) {
-        if (articleDetail) {
-          const updatedReplyList = articleDetail.replyList.map((reply) => {
-            if (reply.id === commentId) {
-              return { ...reply, isLike: true };
-            }
-            return reply;
-          });
-
-          setArticleDetail({
-            ...articleDetail,
-            replyList: updatedReplyList,
-          });
-        }
-      } else {
-        toast(result.data.message);
-      }
+      await axiosInstance.post(`/replies`, {
+        articleId: postId,
+        content: commentContent,
+      });
+      setCommentContent('');
+      await fetchArticleDetail();
     } catch (error) {
-      if (axios.isAxiosError(error) && error.response) {
-        toast(
-          error.response.data.message || '요청 처리 중 오류가 발생했습니다.',
-        );
-      } else {
-        toast('네트워크 오류가 발생했습니다.');
-      }
+      console.error('댓글 작성 중 에러 발생:', error);
+      toast.error('댓글 작성에 실패했습니다.');
     }
   };
 
@@ -223,11 +191,16 @@ export default function PraiseDetail() {
             <ChevronLeft size={24} />
           </BackButton>
         </Header>
-
         <PostContainer>
           <PostHeader>
-            <PostTitle>{articleDetail?.nickname}</PostTitle>
-            {articleDetail?.nickname == loggedInNickname && !isEditing && (
+            <div>
+              <PostTitle>{articleDetail?.nickname}</PostTitle>
+              <PostDate>
+                {articleDetail?.createdAt &&
+                  dayjs(articleDetail.createdAt).format('YYYY.MM.DD')}
+              </PostDate>
+            </div>
+            {articleDetail?.nickname === loggedInNickname && !isEditing && (
               <CommentActions
                 isopen={openDropdownId === 0 ? 'true' : 'false'}
                 setIsOpen={() => handleDropdownToggle(0)}
@@ -240,90 +213,90 @@ export default function PraiseDetail() {
               />
             )}
           </PostHeader>
-          <StyledContent>{articleDetail?.content}</StyledContent>
-          <PostDate>
-            {articleDetail?.createdAt &&
-              dayjs(articleDetail.createdAt).format('YYYY.MM.DD')}
-          </PostDate>
+          <ContentBox>
+            <StyledContent>{articleDetail?.content}</StyledContent>
+            <Tail/>
+          </ContentBox>
+          <CommentInfo>
+            <CommentIcon src={Comment} alt="Comment icon" />
+
+            <span>칭찬댓글 {articleDetail?.replyList.length || 0}개</span>
+          </CommentInfo>
         </PostContainer>
 
-        <CommentSection>
+        <CommentListContainer>
           {articleDetail?.replyList && articleDetail.replyList.length > 0 ? (
-            articleDetail.replyList.map((comment, index) => (
-              <CommentItem
-                key={comment.id}
-                ref={
-                  index === articleDetail.replyList.length - 1
-                    ? (node) => {
-                        latestCommentRef.current = node;
-                      }
-                    : undefined
-                }
-              >
-                <CommentHeader>
-                  <Nickname>{comment.nickname}</Nickname>
-                  <Icon src={Siren} size={'12px'} />
-                  <ActionButton
-                    onClick={() =>
-                      handleReportClick(comment.content, comment.id, 'reply')
-                    }
-                  >
-                    신고하기
-                  </ActionButton>
-
-                  {comment.canDelete && (
-                    <CommentActions
-                      isopen={openDropdownId === comment.id ? 'true' : 'false'}
-                      setIsOpen={() => handleDropdownToggle(comment.id)}
-                      type="comment"
-                      itemId={comment.id}
-                      handleDelete={() => handleDelete('댓글', comment.id)}
-                    />
+            articleDetail.replyList.map((comment, index) => {
+              const isOwn = comment.nickname === loggedInNickname;
+              return (
+                <CommentItem
+                  key={comment.id}
+                  isOwn={isOwn}
+                  ref={
+                    index === articleDetail.replyList.length - 1
+                      ? latestCommentRef
+                      : undefined
+                  }
+                >
+                  {!isOwn && (
+                    <ProfileImage>
+                      {comment.nickname.charAt(0)}
+                    </ProfileImage>
                   )}
-                </CommentHeader>
-                <RowFlexBetween>
-                  <CommentContent>{comment.content}</CommentContent>
-                  <LikeContainer>
-                    <LikeButton onClick={() => like(comment.id)}>
-                      <Heart
-                        fill={comment.isLike ? '#87CEEB' : 'none'}
-                        color="#87CEEB"
-                        size={14}
-                        className="cursor-pointer"
-                      />
-                    </LikeButton>
-                  </LikeContainer>
-                </RowFlexBetween>
-                <PostDate>
-                  {dayjs(comment.createdAt).format('YYYY.MM.DD')}
-                </PostDate>
-              </CommentItem>
-            ))
+                  <CommentBubble isOwn={isOwn}>
+                    <ReplyCommentHeader>
+                      <CommentAuthorInfo>
+                        {comment.nickname}
+                      </CommentAuthorInfo>
+                      {comment.canDelete && (
+                        <CommentActions
+                          isopen={
+                            openDropdownId === comment.id ? 'true' : 'false'
+                          }
+                          setIsOpen={() => handleDropdownToggle(comment.id)}
+                          type="comment"
+                          itemId={comment.id}
+                          handleDelete={() =>
+                            handleDelete('댓글', comment.id)
+                          }
+                        />
+                      )}
+                    </ReplyCommentHeader>
+                    <CommentContent>{comment.content}</CommentContent>
+                  </CommentBubble>
+                </CommentItem>
+              );
+            })
           ) : (
             <div
-              style={{ padding: '30px 0', textAlign: 'center', color: '#999' }}
+              style={{
+                padding: '30px 0',
+                textAlign: 'center',
+                color: '#999',
+              }}
             >
               아직 댓글이 없습니다. 첫 번째 댓글을 작성해보세요!
             </div>
           )}
-        </CommentSection>
-
-        {/* 플로팅 버튼 추가 */}
-        {!isWriteMode && (
-          <FloatingButtonWrapper>
-            <FloatingActionButton onClick={() => handleWriteClick(true)}>
-              <Plus size={24} strokeWidth={2.5} />
-              <Tooltip>칭찬 댓글 달기</Tooltip>
-            </FloatingActionButton>
-          </FloatingButtonWrapper>
-        )}
+        </CommentListContainer>
       </Container>
-      {isWriteMode && (
-        <WriteCommentSlidingPanel
-          isWriteMode={isWriteMode}
-          handleWriteClick={handleWriteClick}
-        />
-      )}
+      <FixedBottomBar>
+        <CommentInputContainer>
+          <ProfileImage>{nickname?.charAt(0)}</ProfileImage>
+          <CommentInput
+            placeholder="댓글을 입력하세요..."
+            value={commentContent}
+            onChange={(e) => setCommentContent(e.target.value)}
+            onKeyPress={(e) => e.key === 'Enter' && handleCommentSubmit()}
+          />
+        </CommentInputContainer>
+        <SubmitButton
+          onClick={handleCommentSubmit}
+          disabled={!commentContent.trim()}
+        >
+          댓글 입력
+        </SubmitButton>
+      </FixedBottomBar>
     </>
   );
 }

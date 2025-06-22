@@ -1,12 +1,12 @@
-export type Reply = {
+export interface Reply {
   id: number;
-  createdAt: string;
-  userId: number;
   nickname: string;
   content: string;
+  createdAt: string;
   isLike: boolean;
   canDelete: boolean;
-};
+  likeCount: number;
+}
 
 export type ArticleDetail = {
   id: number;
