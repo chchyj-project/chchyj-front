@@ -13,7 +13,7 @@ import {
   Img,
   New,
 } from './FixedHeader.styles.ts';
-import { Title } from '../style/commonStyle';
+import { Title } from '../style/commonStyle.ts';
 import { useHelpModalStore } from '../store/helpModalStore';
 
 interface FixedHeaderProps {

@@ -2,20 +2,24 @@ import styled, { css } from 'styled-components';
 import Common from '../style/Common.ts';
 import styleToken from '../style/styleToken.ts';
 import { Content } from '../style/commonStyle.ts';
+import tail from '../images/tail.png';
 
 export const Container = styled.div`
   background: white;
-  height: 100vh; /* 화면 전체 높이 고정 */
-  width: 390px !important; /* 강제 적용 */
-  min-width: 390px !important; /* 최소 너비도 보장 */
-  margin: 0 auto; /* 가운데 정렬 */
+  height: 100vh;
+  width: 100%;
+  margin: 0 auto;
   box-sizing: border-box;
-  overflow: hidden; /* 전체 스크롤 방지 */
+  overflow: hidden;
   position: relative;
   display: flex;
   flex-direction: column;
-`;
 
+  @media (min-width: 501px) {
+    flex-shrink: 0;
+    min-width: 390px;
+  }
+`;
 export const MainContent = styled.div`
   flex: 1;
   overflow-y: auto; /* 세로 스크롤 허용 */
@@ -44,8 +48,13 @@ export const BackButton = styled.button`
 `;
 
 export const PostContainer = styled.article`
-  padding: 24px 20px;
-  margin-bottom: 8px; 
+  margin: 20px;
+  margin-bottom: 8px;
+
+  @media (min-width: 501px) {
+    flex-shrink: 0;
+    width: calc(100% - 40px);
+  }
 `;
 
 export const PostHeader = styled.div`
@@ -66,12 +75,31 @@ export const PostDate = styled.span`
   font-size: 13px;
   color: #999;
 `;
-
-export const ContentBox = styled.div`
-  background-color: #f8f9fa;
+export const ContentDetailBox = styled.div`
+  position: relative;
+  background-color: #fff;
+  border: 1px solid #e1e2e4;
   border-radius: 12px;
   padding: 16px;
   margin-bottom: 16px;
+  min-height: auto;
+  height: auto;
+  width: 100%;
+  box-sizing: border-box;
+  overflow: visible;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: -13px;
+    left: 16px;
+    width: 12px;
+    height: 15px;
+    background: #fff url(${tail}) no-repeat;
+    background-size: 100%;
+  }
 `;
 
 export const StyledContent = styled(Content)`
@@ -81,6 +109,18 @@ export const StyledContent = styled(Content)`
   word-break: break-word;
   white-space: pre-wrap;
   margin: 0;
+  width: 100%;
+  
+  /* 텍스트 제한 해제 - 전체 내용 표시 */
+  display: block;
+  -webkit-line-clamp: unset;
+  -webkit-box-orient: unset;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  hyphens: auto;
+  text-overflow: unset;
+  max-height: unset;
+  overflow: visible;
 `;
 
 export const CommentInfo = styled.div`
@@ -92,11 +132,17 @@ export const CommentInfo = styled.div`
   color: ${styleToken.color.primary};
   padding: 8px 0;
 `;
+
 export const CommentListContainer = styled.div`
   padding: 0 20px 20px 20px;
   min-height: 200px;
   overflow-x: hidden;
   flex: 1;
+
+  @media (min-width: 501px) {
+    width: 100%;
+    box-sizing: border-box;
+  }
 `;
 
 export const CommentItem = styled.div<{ isOwn: boolean }>`
@@ -107,8 +153,12 @@ export const CommentItem = styled.div<{ isOwn: boolean }>`
   width: 100%;
   box-sizing: border-box;
   border: 0.5px solid ${Common.colors.grey};
-`;
 
+  @media (min-width: 501px) {
+    max-width: 100%;
+    flex-shrink: 0;
+  }
+`;
 export const CommentHeader = styled.div`
   display: flex;
   align-items: flex-start;
@@ -120,7 +170,6 @@ export const CommentAuthorSection = styled.div`
   gap: 4px;
   flex: 1;
 `;
-
 
 export const CommentAuthorInfo = styled.div`
   display: flex;
@@ -138,14 +187,15 @@ export const CommentAuthorName = styled.div`
 export const CommentDate = styled.div`
   font-size: 8px;
   line-height: 10px;
+  font-weight: 400;
   color: #999;
 `;
 
 export const CommentContent = styled.p`
-  font-size: 10px;    s
+  font-size: 11px;    
   line-height: 12px;
   color: #333;
-  margin: 0;
+  margin-top: 4px;
   word-break: break-word;
   white-space: pre-wrap;
 `;

@@ -70,7 +70,7 @@ export const ContentBox = styled.div`
   border-radius: 12px;
   width: 100%;
   height: 95px;
-  padding: 16px;
+  padding: 10px;
   margin-bottom: 16px;
 `;
 

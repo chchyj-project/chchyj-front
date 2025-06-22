@@ -9,6 +9,7 @@ export const Container = styled.div`
   flex-direction: column;
 `;
 
+
 export const Header = styled.header`
   display: flex;
   align-items: center;

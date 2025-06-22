@@ -21,7 +21,6 @@ const Common = {
     placeholder: '#bdbdbd',
   },
 };
-
 export const AppContainer = styled.div`
   max-width: 390px;
   width: 100%;
@@ -29,6 +28,12 @@ export const AppContainer = styled.div`
   position: relative;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   transform: translateZ(0);
+
+  @media (max-width: 500px) {
+    max-width: none;
+    width: 100vw;
+    box-shadow: none;
+  }
 
   @media (max-width: 390px) {
     box-shadow: none;

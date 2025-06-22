@@ -1,4 +1,4 @@
-import { ChevronLeft, Heart, MessageCircle, MoreHorizontal } from 'lucide-react';
+import { ChevronLeft } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import React, { useEffect, useRef, useState } from 'react';
 import { ArticleDetail } from '../types/PraiseItem.ts';
@@ -17,7 +17,6 @@ import {
   BackButton,
   PostContainer,
   PostHeader,
-  StyledContent,
   CommentInfo,
   CommentListContainer,
   CommentItem,
@@ -28,11 +27,9 @@ import {
   CommentAuthorName,
   CommentHeader,
   CommentDate,
+  ContentDetailBox,
+  StyledContent,
 } from './PraiseDetailPage.styles.ts';
-import {
-  ContentBox,
-  Tail,
-} from '../components/PraiseItem.styles.ts';
 import { CommentIcon } from '../components/PraiseItem.styles.ts';
 import { TitleWrapper } from '../style/MainPage.ts';
 import { Date, Title } from '../components/PraiseItem.styles.ts';
@@ -210,10 +207,9 @@ export default function PraiseDetail() {
               />
             )}
           </PostHeader>
-          <ContentBox>
+          <ContentDetailBox>
             <StyledContent>{articleDetail?.content}</StyledContent>
-            <Tail />
-          </ContentBox>
+          </ContentDetailBox>
           <CommentInfo>
             <CommentIcon src={Comment} alt="Comment icon" />
 

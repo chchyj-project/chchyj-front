@@ -38,7 +38,7 @@ export const PanelWrapper = styled(motion.div)`
 `;
 
 export const Panel = styled(motion.div)`
-  width: 382px;
+  width:390px;
   height: auto;
   background-color: white;
   border-radius: 20px 20px 0 0;
