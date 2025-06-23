@@ -73,7 +73,7 @@ export const New = styled.div`
   width: 12px;
   height: 12px;
   color: #fff;
-  background-color: ${styleToken.color.primary};
+  background-color: ${styleToken.color.bannerSkyblue};
   border-radius: 8px;
   font-size: 7px;
   text-align: center;

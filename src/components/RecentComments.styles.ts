@@ -38,7 +38,7 @@ export const StyledSlider = styled(Slider)`
 export const CommentCard = styled.div<{ $isActive?: boolean }>`
   width: calc(100% - 8px);
   padding: 12px 41px;
-  background: #e5ecff;
+  background: ${styleToken.color.bannerSkyblue};
   border-radius: 8px;
   box-sizing: border-box;
   margin: 0 4px;

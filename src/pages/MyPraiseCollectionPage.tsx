@@ -136,28 +136,27 @@ const MyPraiseCollectionPage: React.FC = () => {
     setActiveTab(tab);
     setSearchParams({ tab });
   };
-  // 댓글 렌더링 함수 (업데이트된 버전)
+  // 댓글 렌더링 함수 (renderPosts와 동일한 구조로 수정)
   const renderComments = () => {
     return commentItems.map((item) => (
-      <CommentItemWrapper key={item.id}>
-        <CommentCard>
-          <CommentCardHeader>
-            <UserInfo>
-              <UserName>{item.nickname}님의 글에 남긴 댓글입니다.</UserName>
-            </UserInfo>
-            <LikeSection>
-              <Heart size={16} color={Common.colors.mainBlue} />
-              <LikeCount>받은 하트 {item.likeCount || 0}개</LikeCount>
-            </LikeSection>
-          </CommentCardHeader>
-          <CommentUserDetails>
-            <CommentDate>
-              {dayjs(item.createdAt).format('YYYY.MM.DD')}
-            </CommentDate>
-            <CommentText>{item.content}</CommentText>
-          </CommentUserDetails>
-        </CommentCard>
-      </CommentItemWrapper>
+      <PraiseItemWrapper key={item.id}>
+        {/* 메타 정보: 날짜와 하트 수 */}
+        <PraiseMeta>
+          <DateInfo>{dayjs(item.createdAt).format('YYYY.MM.DD')}</DateInfo>
+          <CommentCount>
+            <Heart size={16} color={Common.colors.mainBlue} />
+            <span>받은 하트 {item.likeCount || 0}개</span>
+          </CommentCount>
+        </PraiseMeta>
+
+        {/* 말풍선 스타일 박스 */}
+        <PraiseBubble>
+          <UserName style={{ marginBottom: '8px', fontSize: '12px', color: '#718096' }}>
+            {item.nickname}님의 글에 남긴 댓글입니다.
+          </UserName>
+          <PraiseContent>{item.content}</PraiseContent>
+        </PraiseBubble>
+      </PraiseItemWrapper>
     ));
   };
 

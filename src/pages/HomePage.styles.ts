@@ -3,7 +3,7 @@ import styleToken from '../style/styleToken.ts';
 import Common from '../style/Common.ts';
 
 export const PraiseCard = styled.div`
-  background-color: #e5ecff;
+  background-color: ${styleToken.color.bannerSkyblue};
   margin: 69px 0 0 0;
   padding: 18.99px 24px;
   text-align: left;
