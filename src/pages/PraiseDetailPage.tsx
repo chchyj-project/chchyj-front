@@ -29,6 +29,7 @@ import {
   CommentDate,
   ContentDetailBox,
   StyledContent,
+  ThumbUpWrapper,
   ThumbUpIcon,
   RecommendSection,
 } from './PraiseDetailPage.styles.ts';
@@ -215,7 +216,6 @@ export default function PraiseDetail() {
           </ContentDetailBox>
           <CommentInfo>
             <CommentIcon src={Comment} alt="Comment icon" />
-
             <span>칭찬댓글 {articleDetail?.replyList.length || 0}개</span>
           </CommentInfo>
         </PostContainer>
@@ -248,7 +248,9 @@ export default function PraiseDetail() {
                       </CommentAuthorSection>
                       <RecommendSection>
                         {comment.canRecommend && (
-                          <ThumbUpIcon src={ThumbUp} alt="추천" />
+                          <ThumbUpWrapper>
+                            <ThumbUpIcon src={ThumbUp} alt="추천" />
+                          </ThumbUpWrapper>
                         )}
                         {comment.canDelete && (
                           <CommentActions

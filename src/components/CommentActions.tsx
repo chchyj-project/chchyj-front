@@ -4,12 +4,13 @@ import {
   DropdownContainer,
   MoreButton,
   DropdownMenu,
-  MenuItem,
+  ReportButton,
+  DeleteButton,
 } from './CommentActions.styles.ts';
 
 interface CommentActionsProps {
   isopen: string;
-  setIsOpen: (e: any) => void; // boolean 파라미터 제거
+  setIsOpen: (e: any) => void;
   type: 'post' | 'comment';
   handleDelete: (replyId: number) => Promise<void>;
   itemId?: number;
@@ -27,18 +28,18 @@ const CommentActions: React.FC<CommentActionsProps> = ({
   return (
     <DropdownContainer>
       <MoreButton onClick={setIsOpen}>
-        {/* 단순히 setIsOpen 호출 */}
         <MoreVertical size={16} />
       </MoreButton>
       <DropdownMenu $isopen={isopen}>
-        {!itemId && (
-          <MenuItem onClick={() => handleEdit && handleEdit(Number(itemId))}>
-            수정하기
-          </MenuItem>
-        )}
-        <MenuItem onClick={() => handleDelete(Number(itemId))}>
+        <ReportButton onClick={() => {
+          console.log('신고하기 클릭');
+          setIsOpen(false);
+        }}>
+          신고하기
+        </ReportButton>
+        <DeleteButton onClick={() => handleDelete(Number(itemId))}>
           삭제하기
-        </MenuItem>
+        </DeleteButton>
       </DropdownMenu>
     </DropdownContainer>
   );

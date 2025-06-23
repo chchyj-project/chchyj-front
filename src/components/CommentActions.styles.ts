@@ -13,6 +13,17 @@ export const MoreButton = styled.button`
   padding: 0px;
   cursor: pointer;
   color: #999;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  transition: background-color 0.2s;
+
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+  }
 `;
 
 // 드롭다운 메뉴
@@ -23,26 +34,48 @@ export const DropdownMenu = styled.div<{ $isopen: string }>`
   background: white;
   border-radius: 8px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-  padding: 8px 0;
-  min-width: 120px;
-  display: ${(props) => (props.$isopen == 'true' ? 'block' : 'none')};
+  padding: 8px;
+  min-width: 90px;
+  display: ${(props) => (props.$isopen == 'true' ? 'flex' : 'none')};
+  flex-direction: column;
+  gap: 4px;
   z-index: 1000;
-  font-family: 'Jalnan', 'NanumSquareRound', sans-serif;
 `;
 
-// 메뉴 아이템
-export const MenuItem = styled.button`
+// 신고하기 버튼 (파란색)
+export const ReportButton = styled.button`
   width: 100%;
-  padding: 8px 16px;
+  padding: 2px;
   border: none;
-  background: none;
-  text-align: left;
+  background-color: #4285f4;
+  color: white;
+  text-align: center;
   cursor: pointer;
-  font-size: 14px;
-  color: #333;
-  font-family: 'Jalnan', 'NanumSquareRound', sans-serif;
+  font-size: 12px;
+  font-weight: 500;
+  border-radius: 6px;
+  transition: background-color 0.2s;
 
   &:hover {
-    background-color: #f5f5f5;
+    background-color: #3367d6;
+  }
+`;
+
+// 삭제하기 버튼 (회색)
+export const DeleteButton = styled.button`
+  width: 100%;
+  padding: 2px;
+  border: none;
+  background-color: #9e9e9e;
+  color: white;
+  text-align: center;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 500;
+  border-radius: 6px;
+  transition: background-color 0.2s;
+
+  &:hover {
+    background-color: #757575;
   }
 `;

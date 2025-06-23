@@ -149,7 +149,7 @@ export const CommentItem = styled.div<{ isOwn: boolean; canRecommend?: boolean }
   background-color: ${({ canRecommend }) => canRecommend ? '#f0f8ff' : 'white'};
   border-radius: 4px;
   margin-bottom: 16px;
-  padding: 10px 16px;
+  padding: 5px 10px 10px 10px;
   width: 100%;
   box-sizing: border-box;
   border: 0.5px solid ${Common.colors.grey};
@@ -243,19 +243,31 @@ export const LikeCount = styled.span`
   color: #4285f4;
 `;
 
-export const ThumbUpIcon = styled.img`
-  width: 16px;
-  height: 16px;
-  cursor: pointer;
-  transition: transform 0.2s;
-
-  &:hover {
-    transform: scale(1.1);
-  }
-`;
-
 export const RecommendSection = styled.div`
   display: flex;
   align-items: center;
-  gap: 8px;
+  height: 28px; /* ThumbUpWrapper와 같은 높이로 설정 */
+`;
+
+export const ThumbUpWrapper = styled.div`
+  width: 20px;
+  height: 20px;
+  background-color: ${Common.colors.mainBlue};
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s;
+  flex-shrink: 0; /* 크기 고정 */
+
+  &:hover {
+    transform: scale(1.1);
+    background-color: #3367d6;
+  }
+`;
+
+export const ThumbUpIcon = styled.img`
+  width: 10px;
+  height: 10px;
 `;
