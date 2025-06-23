@@ -5,7 +5,7 @@ import { AddtionalWrapper, Icon, TitleWrapper } from '../style/MainPage.ts';
 import { Article } from '../types/MainPage.ts';
 import dayjs from 'dayjs';
 import { useNavigate } from 'react-router-dom';
-import { useReportModalStore } from '../store/reportModalStore.ts';
+import { useReportModalStore } from '../store/useReportModalStore.ts';
 import CommentActions from '../components/CommentActions.tsx';
 import { useArticleStore } from '../store/useArticleStore.ts';
 import { usePopup } from '../context/PopupContext.tsx';
@@ -164,7 +164,7 @@ const PraiseItem = ({
           {String(loggedInUserId) !== String(article.userId) ? (
             <WritingCommentWrapper
               onClick={() =>
-                navigate(`/post/${article.id}`)
+                navigate(`/post/${article.id}?openComment=true`)
               }
             >
               <HeartIcon src={heart} alt="heart icon" />

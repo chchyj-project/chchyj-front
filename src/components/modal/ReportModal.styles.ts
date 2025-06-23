@@ -26,6 +26,10 @@ export const Modal = styled(motion.div)`
   margin: auto;
   display: flex;
   flex-direction: column;
+  z-index: 1001; /* Overlay보다 높은 z-index 설정 */
+  
+  /* 임시 디버깅용 스타일 */
+  border: 2px solid red;
 
   /* 모바일 최적화 */
   @media (max-width: 480px) {

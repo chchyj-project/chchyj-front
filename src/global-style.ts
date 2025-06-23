@@ -29,7 +29,7 @@ export const GlobalStyle = createGlobalStyle`
     @font-face {
         font-family: 'SUIT';
         src: url(${SUITFont}) format('woff2');
-        font-weight: normal;
+        font-weight: 100 900;
         font-style: normal;
         font-display: swap;
     }
@@ -171,6 +171,24 @@ export const GlobalStyle = createGlobalStyle`
       flex-direction: column;
       align-items: center;
       min-height: 100vh;
+      
+      /* 스크롤바 숨김 */
+      scrollbar-width: none; /* Firefox */
+      -ms-overflow-style: none; /* IE/Edge */
+    }
+    
+    body::-webkit-scrollbar {
+      display: none; /* Chrome, Safari, Opera */
+    }
+    
+    html {
+      /* 스크롤바 숨김 */
+      scrollbar-width: none; /* Firefox */
+      -ms-overflow-style: none; /* IE/Edge */
+    }
+    
+    html::-webkit-scrollbar {
+      display: none; /* Chrome, Safari, Opera */
     }
     ul,
     ol,

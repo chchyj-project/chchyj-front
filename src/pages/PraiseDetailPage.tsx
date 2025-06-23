@@ -1,12 +1,12 @@
 import { ChevronLeft } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import React, { useEffect, useRef, useState } from 'react';
 import { ArticleDetail } from '../types/PraiseItem.ts';
 import { axiosInstance } from '../api/axiosConfig.ts';
 import { useParams } from 'react-router-dom';
 import CommentActions from '../components/CommentActions.tsx';
 import dayjs from 'dayjs';
-import { useReportModalStore } from '../store/reportModalStore.ts';
+import { useReportModalStore } from '../store/useReportModalStore.ts';
 import { toast } from 'react-toastify';
 import { usePopup } from '../context/PopupContext.tsx';
 import { useArticleStore } from '../store/useArticleStore.ts';
@@ -40,11 +40,13 @@ import { CommentIcon } from '../components/PraiseItem.styles.ts';
 import { TitleWrapper } from '../style/MainPage.ts';
 import { Date, Title } from '../components/PraiseItem.styles.ts';
 import ThumbUp from '../images/thumb_up.png';
+import CommentWritePanel from '../components/modal/CommentWritePanel.tsx';
 
 export default function PraiseDetail() {
   const navigate = useNavigate();
   const nickname = localStorage.getItem('nickname');
   const { postId } = useParams();
+  const [searchParams] = useSearchParams();
   const [isWriteMode, setWriteMode] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [editContent, setEditContent] = useState('');
@@ -59,6 +61,7 @@ export default function PraiseDetail() {
   );
   const { showConfirm } = usePopup();
   const { deleteArticle } = useArticleStore();
+  const [isCommentWriteMode, setIsCommentWriteMode] = useState(false);
 
   const handleReportClick = (
     content: string,
@@ -114,7 +117,13 @@ export default function PraiseDetail() {
 
   useEffect(() => {
     fetchArticleDetail();
-  }, [postId, isWriteMode]);
+
+    // URL의 query parameter를 확인하여 댓글 작성 모달 열기
+    const openComment = searchParams.get('openComment');
+    if (openComment === 'true') {
+      setIsCommentWriteMode(true);
+    }
+  }, [postId, isWriteMode, searchParams]);
 
   const moveToListPage = () => {
     navigate('/home?userSocialId=' + nickname);
@@ -188,9 +197,13 @@ export default function PraiseDetail() {
     toast.info('버튼이 클릭되었습니다!');
   };
 
-  function handleWriteClick(arg0: boolean): void {
-    throw new Error('Function not implemented.');
-  }
+  const handleWriteClick = (mode: boolean) => {
+    setIsCommentWriteMode(mode);
+  };
+
+  const handleCommentAdded = () => {
+    fetchArticleDetail();
+  };
 
   return (
     <>
@@ -301,11 +314,18 @@ export default function PraiseDetail() {
       </Container>
 
       <FloatingButtonContainer>
-        <Tooltip>칭찬글 쓰기</Tooltip>
+        <Tooltip>댓글 작성</Tooltip>
         <FloatingButton onClick={() => handleWriteClick(true)}>
           댓글<br />입력
         </FloatingButton>
       </FloatingButtonContainer>
+
+      <CommentWritePanel
+        isOpen={isCommentWriteMode}
+        onClose={() => handleWriteClick(false)}
+        articleId={postId || ''}
+        onCommentAdded={handleCommentAdded}
+      />
     </>
   );
 }

@@ -15,6 +15,14 @@ export const Container = styled.div`
   display: flex;
   flex-direction: column;
 
+  /* 스크롤바 숨김 */
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE/Edge */
+  
+  &::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera */
+  }
+
   @media (min-width: 501px) {
     flex-shrink: 0;
     min-width: 390px;
@@ -25,6 +33,14 @@ export const MainContent = styled.div`
   overflow-y: auto; /* 세로 스크롤 허용 */
   overflow-x: hidden; /* 가로 스크롤 방지 */
   padding-bottom: 20px; /* 하단 여백 */
+  
+  /* 스크롤바 숨김 */
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE/Edge */
+  
+  &::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera */
+  }
 `;
 
 export const Header = styled.header`
@@ -138,6 +154,14 @@ export const CommentListContainer = styled.div`
   min-height: 200px;
   overflow-x: hidden;
   flex: 1;
+  
+  /* 스크롤바 숨김 */
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE/Edge */
+  
+  &::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera */
+  }
 
   @media (min-width: 501px) {
     width: 100%;

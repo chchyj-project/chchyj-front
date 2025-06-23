@@ -35,7 +35,6 @@ export const PageContainer = styled.div`
 
 export const TitleStyle = styled.h1`
   font-size: 25px;
-  font-weight: 900;
   font-family: 'SUIT Black', 'SUIT ExtraBold', 'SUIT', sans-serif;
   color: #333333;
   text-align: left;

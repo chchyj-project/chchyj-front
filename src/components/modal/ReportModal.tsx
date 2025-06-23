@@ -1,5 +1,5 @@
 // components/ReportModal.tsx
-import { useReportModalStore } from '../../store/reportModalStore';
+import { useReportModalStore } from '../../store/useReportModalStore';
 import { AnimatePresence } from 'framer-motion';
 import { useState, useEffect, useRef } from 'react';
 import {
@@ -30,6 +30,9 @@ export default function ReportModal() {
   const [otherReason, setOtherReason] = useState('');
   const modalRef = useRef(null);
 
+  // 디버깅용 로그 추가
+  console.log('ReportModal 렌더링 - isOpen:', isOpen);
+
   // 모달이 열릴 때 body 스크롤 방지
   useEffect(() => {
     if (isOpen) {
@@ -48,6 +51,7 @@ export default function ReportModal() {
     if (isOpen) {
       setSelectedType('');
       setOtherReason('');
+      console.log('ReportModal 열림 - 상태 초기화');
     }
   }, [isOpen]);
 
@@ -69,52 +73,66 @@ export default function ReportModal() {
   };
 
   return (
-    <AnimatePresence>
-      {isOpen && (
-        <Overlay
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          onClick={closeReportModal}
-        >
-          <Modal
-            ref={modalRef}
-            initial={{ scale: 0.95 }}
-            animate={{ scale: 1 }}
-            exit={{ scale: 0.95 }}
-            onClick={(e) => e.stopPropagation()}
+
+    <>
+      < div style={{
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        background: 'yellow',
+        padding: '10px',
+        zIndex: 99999
+      }
+      }>
+        모달 상태: {isOpen ? '열림' : '닫힘'}
+      </div >
+      <AnimatePresence>
+        {isOpen && (
+          <Overlay
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={closeReportModal}
           >
-            <Title>신고사유를 선택해주세요</Title>
+            <Modal
+              ref={modalRef}
+              initial={{ scale: 0.95 }}
+              animate={{ scale: 1 }}
+              exit={{ scale: 0.95 }}
+              onClick={(e) => e.stopPropagation()}
+            >
+              <Title>신고사유를 선택해주세요</Title>
 
-            <ReportTypeList>
-              {reportTypes.map((type) => (
-                <ReportTypeItem key={type.id}>
+              <ReportTypeList>
+                {reportTypes.map((type) => (
+                  <ReportTypeItem key={type.id}>
+                    <CircleButton
+                      isActive={selectedType === type.id}
+                      onClick={(e) => handleRadioChange(type.id)}
+                    />
+                    <LabelText>{type.label}</LabelText>
+                  </ReportTypeItem>
+                ))}
+                <OtherReasonContainer>
                   <CircleButton
-                    isActive={selectedType === type.id}
-                    onClick={(e) => handleRadioChange(type.id)}
+                    isActive={selectedType === 'etc'}
+                    onClick={(e) => handleRadioChange('etc')}
                   />
-                  <LabelText>{type.label}</LabelText>
-                </ReportTypeItem>
-              ))}
-              <OtherReasonContainer>
-                <CircleButton
-                  isActive={selectedType === 'etc'}
-                  onClick={(e) => handleRadioChange('etc')}
-                />
-                <LabelTextDiv>기타</LabelTextDiv>
-                <OtherReasonInput
-                  placeholder="기타 사유를 입력해주세요"
-                  value={otherReason}
-                  onChange={(e) => setOtherReason(e.target.value)}
-                  style={{ marginLeft: '30px', marginTop: '8px' }}
-                />
-              </OtherReasonContainer>
-            </ReportTypeList>
+                  <LabelTextDiv>기타</LabelTextDiv>
+                  <OtherReasonInput
+                    placeholder="기타 사유를 입력해주세요"
+                    value={otherReason}
+                    onChange={(e) => setOtherReason(e.target.value)}
+                    style={{ marginLeft: '30px', marginTop: '8px' }}
+                  />
+                </OtherReasonContainer>
+              </ReportTypeList>
 
-            <SubmitButton onClick={handleSubmit}>신고하기</SubmitButton>
-          </Modal>
-        </Overlay>
-      )}
-    </AnimatePresence>
+              <SubmitButton onClick={handleSubmit}>신고하기</SubmitButton>
+            </Modal>
+          </Overlay>
+        )}
+      </AnimatePresence>
+    </>
   );
 }

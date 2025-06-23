@@ -22,13 +22,16 @@ export const useReportModalStore = create<ReportModalStore>((set, get) => ({
   targetId: undefined,
   targetType: undefined,
 
-  openReportModal: (content, id, type) =>
+  openReportModal: (content, id, type) => {
+    console.log('openReportModal 호출됨:', { content, id, type });
     set({
       isOpen: true,
       targetContent: content,
       targetId: id,
       targetType: type,
-    }),
+    });
+    console.log('신고 모달 상태 업데이트 완료');
+  },
 
   closeReportModal: () =>
     set({

@@ -4,7 +4,6 @@ import { useState } from 'react';
 import { useApiError } from '../../hooks/useApiError.ts';
 import { useArticleStore } from '../../store/useArticleStore.ts';
 import { createPortal } from 'react-dom';
-import BtnText from '../../images/buttonText2.png';
 import Icon1 from '../../images/icon1.png';
 import Icon2 from '../../images/icon2.png';
 import Icon3 from '../../images/icon3.png';
@@ -21,7 +20,6 @@ import {
   Text,
   Title,
   Overlay,
-  PanelCloseButton,
 } from './WriteSlidingPanel.styles.ts';
 
 interface ArticleResponse {
