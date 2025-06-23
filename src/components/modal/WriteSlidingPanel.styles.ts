@@ -124,10 +124,11 @@ export const Text = styled.span`
 
 export const Title = styled(Text)`
   font-style: normal;
-  font-weight: 900;
-  font-size: 22px;
+  font-size: 25px;
+  font-weight: 700;
   line-height: 1.5;
-  font-family: 'SUIT', sans-serif;
+  font-family: 'SUIT Black', 'SUIT ExtraBold', 'SUIT', sans-serif;
+
   color: #1a1a1a;
 
   @media (max-width: 480px) {

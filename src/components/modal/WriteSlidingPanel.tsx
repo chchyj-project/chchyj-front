@@ -105,7 +105,7 @@ export default function WriteSlidingPanel({
                 <Title>
                   칭찬받고 싶은 내용을 입력하세요.
                   <br />
-                  칭찬요정들이 찾아올거에요~
+                  칭찬요정들이 찾아올거에요!
                 </Title>
                 <StyledTextarea
                   placeholder={`오늘은 딱히 대단한 일은 없었지만,

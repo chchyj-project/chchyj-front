@@ -50,15 +50,6 @@ const PraiseItem = ({
   const createdAt = dayjs(article.createdAt);
   const { openReportModal } = useReportModalStore();
   const { fetchArticles, deleteArticle } = useArticleStore();
-  const handleReportClick = (
-    content: string,
-    id: number,
-    type: 'article' | 'reply',
-  ) => {
-    console.log('신고하기 버튼 클릭됨:', { content, id, type });
-    openReportModal(content, id, type);
-    console.log('openReportModal 호출 완료');
-  };
 
   // document 레벨에서 클릭 이벤트를 감지하는 useEffect 추가
   useEffect(() => {
@@ -98,21 +89,14 @@ const PraiseItem = ({
       '게시글 삭제',
       '정말로 이 게시글을 삭제하시겠습니까?',
       async () => {
-        // 삭제 로직
-        if (openDropdownId) {
-          // 칭찬 게시글 삭제
-          try {
-            const isDeleted = await deleteArticle(articleId);
-            if (isDeleted) {
-              // 성공 처리 (예: 토스트 메시지 표시)
-              toast('게시글이 삭제되었습니다.');
-              // 목록 다시 불러오기 등
-              await fetchArticles();
-            }
-          } catch (error) {
-            toast('게시글 삭제에 실패했습니다.');
+        try {
+          const isDeleted = await deleteArticle(articleId);
+          if (isDeleted) {
+            toast('게시글이 삭제되었습니다.');
+            await fetchArticles();
           }
-          console.log('칭찬 게시글 삭제');
+        } catch (error) {
+          toast('게시글 삭제에 실패했습니다.');
         }
       },
     );
@@ -127,26 +111,18 @@ const PraiseItem = ({
             <Date>{createdAt.format('YYYY.MM.DD')}</Date>
           </TitleWrapper>
           <RightGroup>
-            <AddtionalWrapper
-              onClick={() =>
-                handleReportClick(article.content, article.id, 'article')
-              }
-            >
-              신고하기
-            </AddtionalWrapper>
-
-            {String(article.userId) === loggedInUserId && (
-              <CommentActions
-                isopen={openDropdownId === article.id ? 'true' : 'false'}
-                setIsOpen={(e) => {
-                  e.stopPropagation();
-                  handleDropdownToggle(article.id);
-                }}
-                type="comment"
-                itemId={article.id}
-                handleDelete={() => handleDelete(article.id)}
-              />
-            )}
+            <CommentActions
+              isopen={openDropdownId === article.id ? 'true' : 'false'}
+              setIsOpen={(e) => {
+                e.stopPropagation();
+                handleDropdownToggle(article.id);
+              }}
+              type="post"
+              itemId={article.id}
+              canDelete={String(article.userId) === loggedInUserId}
+              handleDelete={() => handleDelete(article.id)}
+              content={article.content}
+            />
           </RightGroup>
         </Header>
         <ContentBox>

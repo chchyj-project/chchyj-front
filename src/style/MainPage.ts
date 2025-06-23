@@ -44,7 +44,6 @@ export const TitleStyle = styled.h1`
   }
   line-height: 1.4; /* 줄 간격 조정 */
   word-wrap: break-word; /* 단어 단위로 줄바꿈 */
-  text-shadow: 0px 0px 0.5px #333333;
 `;
 
 export const Subtitle = styled.p`
