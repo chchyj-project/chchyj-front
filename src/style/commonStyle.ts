@@ -92,7 +92,7 @@ export const Content = styled.span`
   text-overflow: ellipsis;
   word-wrap: break-word;
   white-space: pre-wrap;
-  max-height: 63px; /* line-height(1.5) * font-size(14px) * 3lines = 63px */
+  max-hei   ght: 63px; /* line-height(1.5) * font-size(14px) * 3lines = 63px */
 `;
 
 export const Title = styled.h1`

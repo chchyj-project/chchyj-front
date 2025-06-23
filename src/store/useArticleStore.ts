@@ -83,7 +83,11 @@ export const useArticleStore = create<ArticleState>((set, get) => ({
   fetchArticles: async () => {
     try {
       set({ isLoading: true });
-      const articles = await get().fetchArticlesWithPagination(1);
+
+      // axiosInstance를 사용하여 첫 페이지 데이터 가져오기
+      const response = await axiosInstance.get('/articles?offset=0&limit=10');
+      console.log('fetchArticles response>>>', response);
+      const articles = response.data?.list || [];
       set({
         articles,
         page: 1,
@@ -92,7 +96,7 @@ export const useArticleStore = create<ArticleState>((set, get) => ({
       });
     } catch (error) {
       console.error('게시글을 불러오는 중 오류가 발생했습니다:', error);
-      set({ isLoading: false });
+      set({ articles: [], isLoading: false });
     }
   },
 

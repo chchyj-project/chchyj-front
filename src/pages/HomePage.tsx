@@ -1,9 +1,9 @@
-// Home.tsx에 무한 스크롤 기능을 추가한 버전 (문제 해결)
+// Home.tsx - 무한 스크롤 제거, 전체 데이터 한 번에 로드
 
 import Logo from '../images/character.png';
 import PraiseItem from '../components/PraiseItem.tsx';
 import FixedHeader from '../components/FixedHeader.tsx';
-import { useEffect, useRef, useState, useCallback } from 'react';
+import { useEffect, useState } from 'react';
 import '../pages/Login/slick.css';
 import { PageContainer, Subtitle, TitleStyle } from '../style/MainPage.ts';
 import Footer from '../components/Footer.tsx';
@@ -39,143 +39,47 @@ const Home = () => {
     setWriteMode,
     setNickname,
     setBgColor,
+    selectedArticleId,
+    setSelectedArticleId,
   } = useArticleStore();
 
-  // 무한 스크롤을 위한 상태들
-  const [offset, setOffset] = useState(0); // 다음 데이터를 가져올 시작점
-  const [limit] = useState(10); // 한 번에 가져올 항목 수
-  const [hasMore, setHasMore] = useState(true); // 더 가져올 데이터가 있는지 여부
-  const [isLoading, setIsLoading] = useState(false); // 로딩 상태 (UI 표시용)
-  const [isInitialLoad, setIsInitialLoad] = useState(true); // 초기 로딩 여부
+  // 로딩 상태
+  const [isLoading, setIsLoading] = useState(false);
+  const [isInitialLoad, setIsInitialLoad] = useState(true);
 
-  // 추가: 로딩 중 중복 요청 방지를 위한 플래그
-  const isLoadingRef = useRef(false);
-  // 마지막으로 로드한 시간 추적
-  const lastLoadTimeRef = useRef(0);
-
-  // 마지막 항목에 대한 참조 생성
-  const observer = useRef<IntersectionObserver | null>(null);
-
-  // offset/limit 정보를 포함해 게시글을 가져오는 함수
-  const fetchArticlesWithPagination = async (
-    offsetValue: number,
-    limitValue: number,
-  ) => {
+  // 전체 게시글을 가져오는 함수
+  const fetchAllArticles = async () => {
     try {
-      // offset/limit 기반 API 호출
-      const response = await axiosInstance.get(
-        `/articles?offset=${offsetValue}&limit=${limitValue}`,
+      setIsLoading(true);
+
+      // 먼저 총 개수를 알기 위해 limit=1로 요청
+      const countResponse = await axiosInstance.get(
+        `/articles?offset=0&limit=1&sort=createdAt&order=desc`,
       );
 
-      console.log(
-        `API 응답 (offset: ${offsetValue}, limit: ${limitValue}):`,
-        response.data,
-      );
+      if (countResponse.data && countResponse.data.pageInfo) {
+        const totalCount = countResponse.data.pageInfo.totalCount;
+        console.log('총 게시글 수:', totalCount);
 
-      if (response.data && Array.isArray(response.data.list)) {
-        return response.data.list;
-      } else {
-        console.error('API 응답 형식이 예상과 다릅니다:', response.data);
-        return [];
+        if (totalCount > 0) {
+          // totalCount를 limit으로 사용하여 모든 데이터 한 번에 가져오기
+          const allResponse = await axiosInstance.get(
+            `/articles?offset=0&limit=${totalCount}&sort=createdAt&order=desc`,
+          );
+
+          if (allResponse.data && Array.isArray(allResponse.data.list)) {
+            console.log(`전체 ${allResponse.data.list.length}개 게시글 로드 완료`);
+            return allResponse.data.list;
+          }
+        }
       }
+
+      return [];
     } catch (error) {
       console.error('게시글 가져오기 오류:', error);
       return [];
     }
   };
-
-  const loadMoreArticles = useCallback(async () => {
-    // 이미 로딩 중이거나, 더 이상 데이터가 없거나, 마지막 로드 후 500ms가 지나지 않았으면 무시
-    if (
-      isLoadingRef.current ||
-      !hasMore ||
-      Date.now() - lastLoadTimeRef.current < 500
-    ) {
-      return;
-    }
-
-    try {
-      // 로딩 상태 설정
-      isLoadingRef.current = true;
-      setIsLoading(true);
-      lastLoadTimeRef.current = Date.now();
-
-      // 현재 offset 계산 (현재까지 로드된 데이터 수)
-      const currentOffset = offset;
-      console.log(
-        `추가 데이터 로딩 시작 - offset: ${currentOffset}, limit: ${limit}`,
-      );
-
-      // 새로운 게시글 가져오기 (다음 offset부터)
-      const newArticles = await fetchArticlesWithPagination(
-        currentOffset,
-        limit,
-      );
-
-      // 결과가 없거나 예상보다 적게 왔다면 더 이상 데이터가 없음
-      if (newArticles.length === 0) {
-        console.log('더 이상 불러올 데이터가 없습니다');
-        setHasMore(false);
-      } else {
-        console.log(`${newArticles.length}개의 새 게시글 로드됨`);
-
-        // 기존 배열에 새 항목 추가
-        setArticles([...articles, ...newArticles]);
-
-        // 다음 요청을 위해 offset 업데이트 (현재 offset + 가져온 항목 수)
-        setOffset(currentOffset + newArticles.length);
-
-        // 가져온 항목 수가 요청한 limit보다 적으면 더 이상 데이터가 없음
-        if (newArticles.length < limit) {
-          setHasMore(false);
-        }
-      }
-    } catch (error) {
-      console.error('게시글을 불러오는 중 오류가 발생했습니다:', error);
-    } finally {
-      // 로딩 상태 해제
-      setIsLoading(false);
-      // 약간의 지연 후 로딩 플래그 해제 (너무 빠른 연속 호출 방지)
-      setTimeout(() => {
-        isLoadingRef.current = false;
-      }, 300);
-    }
-  }, [articles, hasMore, limit, offset, setArticles, setOffset]);
-
-  const lastArticleElementRef = useCallback(
-    (node: HTMLDivElement | null) => {
-      // 로딩 중이면 Observer 설정 건너뛰기
-      if (isLoadingRef.current) return;
-
-      // 기존 Observer 연결 해제
-      if (observer.current) observer.current.disconnect();
-
-      // 새 Observer 설정
-      observer.current = new IntersectionObserver(
-        (entries) => {
-          // 요소가 보이고 더 불러올 데이터가 있고 로딩 중이 아닐 때만 실행
-          if (entries[0].isIntersecting && hasMore && !isLoadingRef.current) {
-            console.log(
-              '마지막 요소가 화면에 보입니다. 추가 데이터를 로드합니다.',
-            );
-            loadMoreArticles();
-          }
-        },
-        {
-          root: null, // viewport 기준
-          rootMargin: '100px', // 요소가 화면에 진입하기 100px 전에 감지
-          threshold: 0.1, // 10%만 보여도 감지
-        },
-      );
-
-      // 노드가 있으면 관찰 시작
-      if (node) {
-        observer.current.observe(node);
-        console.log('마지막 요소에 Observer 연결:', node);
-      }
-    },
-    [hasMore, loadMoreArticles],
-  );
 
   // 초기 데이터 로딩
   useEffect(() => {
@@ -183,65 +87,32 @@ const Home = () => {
     setNickname(storedNickname);
 
     if (isInitialLoad) {
-      console.log('초기 데이터 로딩 시작');
+      console.log('전체 데이터 로딩 시작');
 
-      const loadInitialData = async () => {
+      const loadAllData = async () => {
         try {
-          setIsLoading(true);
-          isLoadingRef.current = true;
+          const allArticles = await fetchAllArticles();
 
-          // offset을 0으로 초기화
-          setOffset(0);
-
-          // 초기 데이터 로드 (offset 0부터 시작)
-          const initialArticles = await fetchArticlesWithPagination(0, limit);
-          console.log(
-            '초기 데이터 로드 완료:',
-            initialArticles?.length || 0,
-            '개 항목',
-          );
-
-          // 배열이 아니거나 비어있으면 빈 배열로 설정
-          if (!initialArticles || initialArticles.length === 0) {
-            setArticles([]);
-            setHasMore(false);
+          if (allArticles.length > 0) {
+            setArticles(allArticles);
+            console.log(`${allArticles.length}개의 게시글 로드 완료`);
           } else {
-            setArticles(initialArticles);
-            // limit 개수만큼 가져왔다면 더 있을 가능성이 있음
-            setHasMore(initialArticles.length >= limit);
-            // 다음 요청을 위한 offset 설정 (가져온 항목 수)
-            setOffset(initialArticles.length);
+            setArticles([]);
+            console.log('게시글이 없습니다');
           }
 
           setIsInitialLoad(false);
         } catch (error) {
-          console.error(
-            '초기 데이터를 불러오는 중 오류가 발생했습니다:',
-            error,
-          );
-          // 오류 발생 시 빈 배열로 설정
+          console.error('데이터를 불러오는 중 오류가 발생했습니다:', error);
           setArticles([]);
-          setHasMore(false);
-          setOffset(0);
         } finally {
           setIsLoading(false);
-          // 약간의 지연 후 로딩 플래그 해제
-          setTimeout(() => {
-            isLoadingRef.current = false;
-          }, 300);
         }
       };
 
-      loadInitialData();
+      loadAllData();
     }
-  }, [
-    limit,
-    setArticles,
-    setNickname,
-    setOffset,
-    isInitialLoad,
-    setIsInitialLoad,
-  ]);
+  }, [setArticles, setNickname, isInitialLoad]);
 
   const handleWriteClick = (isWriteMode: boolean) => {
     // FixedHeader의 배경색은 항상 흰색으로 유지
@@ -254,51 +125,55 @@ const Home = () => {
       document.body.style.backgroundColor = '';
     }
 
-    console.log('isWriteMode', isWriteMode);
     setWriteMode(isWriteMode);
   };
 
-  // 컴포넌트 마운트/언마운트시 처리
+  // 컴포넌트 언마운트시 body 배경색 초기화
   useEffect(() => {
-    // 컴포넌트 마운트 시 실행할 코드
-    console.log('스크롤 컴포넌트 마운트');
-
-    // 컴포넌트 언마운트 시 Observer 정리 및 body 배경색 초기화
     return () => {
-      console.log('스크롤 컴포넌트 언마운트 - Observer 정리');
-      if (observer.current) {
-        observer.current.disconnect();
-      }
-      // body 배경색 초기화
       document.body.style.backgroundColor = '';
     };
   }, []);
 
-  // 스크롤 이벤트를 통한 추가 보호장치
+  // 새 게시글이 추가되었을 때 목록을 새로고침하는 로직
   useEffect(() => {
-    // 스크롤 이벤트를 통해 문서 끝에 도달했는지 확인
-    const handleScroll = () => {
-      // 화면 하단에 도달했는지 확인 (200px 여유)
-      const scrollHeight = document.documentElement.scrollHeight;
-      const scrollTop =
-        document.documentElement.scrollTop || document.body.scrollTop;
-      const clientHeight = document.documentElement.clientHeight;
+    if (selectedArticleId && !isWriteMode) {
+      console.log('새 게시글 추가됨. 목록을 새로고침합니다.', selectedArticleId);
 
-      // 하단에 가까워졌을 때 (200px 내외)
-      if (
-        scrollHeight - scrollTop - clientHeight < 200 &&
-        hasMore &&
-        !isLoadingRef.current
-      ) {
-        console.log('스크롤 이벤트: 페이지 하단 도달, 추가 데이터 로드');
-        loadMoreArticles();
-      }
-    };
+      // selectedArticleId 초기화 (먼저 해서 무한루프 방지)
+      setSelectedArticleId(null);
 
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, [hasMore, loadMoreArticles]);
-  console.log('isWriteMode>>>', isWriteMode);
+      // 전체 데이터 다시 로드
+      const reloadAllData = async () => {
+        try {
+          console.log('전체 데이터 리로드 시작');
+          setIsLoading(true);
+
+          const freshArticles = await fetchAllArticles();
+          console.log('새로고침된 데이터:', freshArticles);
+
+          if (freshArticles.length > 0) {
+            setArticles(freshArticles);
+            console.log(`${freshArticles.length}개의 최신 게시글 로드 완료`);
+          } else {
+            setArticles([]);
+            console.log('새로고침 후 게시글이 없습니다');
+          }
+        } catch (error) {
+          console.error('데이터 리로드 중 오류:', error);
+          setArticles([]);
+        } finally {
+          setIsLoading(false);
+        }
+      };
+
+      // 약간의 지연 후 실행 (UI 안정화를 위해)
+      setTimeout(() => {
+        reloadAllData();
+      }, 100);
+    }
+  }, [selectedArticleId, isWriteMode, setSelectedArticleId, setArticles]);
+
   return (
     <>
       <FixedHeader bgColor={bgColor} />
@@ -334,37 +209,23 @@ const Home = () => {
 
         <PraiseList>
           {/* 게시글 목록 */}
-          {articles.map((item, idx) => {
-            // 마지막에서 두 번째 요소까지만 ref 연결 (미리 로드하기 위해)
-            const isNearLastItem = idx === articles.length - 2;
-            return (
-              <React.Fragment key={`article-${item.id || idx}-${offset}`}>
-                <div
-                  ref={isNearLastItem ? lastArticleElementRef : null}
-                  data-testid={`article-${idx}`}
-                >
-                  <PraiseItem
-                    index={idx}
-                    islast={idx === articles.length - 1}
-                    article={item}
-                  />
-                </div>
-                {idx !== articles.length - 1 && <ListGap />}
-              </React.Fragment>
-            );
-          })}
+          {articles.map((item, idx) => (
+            <React.Fragment key={`article-${item.id || idx}`}>
+              <div data-testid={`article-${idx}`}>
+                <PraiseItem
+                  index={idx}
+                  islast={idx === articles.length - 1}
+                  article={item}
+                />
+              </div>
+              {idx !== articles.length - 1 && <ListGap />}
+            </React.Fragment>
+          ))}
 
-          {/* 별도의 로딩 트리거 요소 (항상 존재) */}
-          <LoadingContainer
-            ref={articles.length < 2 ? lastArticleElementRef : null}
-            data-testid="loading-trigger"
-          >
+          {/* 로딩/빈 목록 표시 */}
+          <LoadingContainer data-testid="status-container">
             {isLoading && (
               <LoadingIndicator>불러오는 중...</LoadingIndicator>
-            )}
-
-            {!hasMore && articles.length > 0 && (
-              <LoadingIndicator>더 이상 글이 없습니다</LoadingIndicator>
             )}
 
             {!isLoading && articles.length === 0 && (

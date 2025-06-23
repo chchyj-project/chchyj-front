@@ -145,8 +145,8 @@ export const CommentListContainer = styled.div`
   }
 `;
 
-export const CommentItem = styled.div<{ isOwn: boolean }>`
-  background-color: white;
+export const CommentItem = styled.div<{ isOwn: boolean; canRecommend?: boolean }>`
+  background-color: ${({ canRecommend }) => canRecommend ? '#f0f8ff' : 'white'};
   border-radius: 4px;
   margin-bottom: 16px;
   padding: 10px 16px;
@@ -159,6 +159,7 @@ export const CommentItem = styled.div<{ isOwn: boolean }>`
     flex-shrink: 0;
   }
 `;
+
 export const CommentHeader = styled.div`
   display: flex;
   align-items: flex-start;
@@ -240,4 +241,21 @@ export const LikeCount = styled.span`
   font-size: 13px;
   font-weight: 500;
   color: #4285f4;
+`;
+
+export const ThumbUpIcon = styled.img`
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+  transition: transform 0.2s;
+
+  &:hover {
+    transform: scale(1.1);
+  }
+`;
+
+export const RecommendSection = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 8px;
 `;

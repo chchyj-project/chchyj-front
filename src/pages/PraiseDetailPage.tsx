@@ -29,10 +29,13 @@ import {
   CommentDate,
   ContentDetailBox,
   StyledContent,
+  ThumbUpIcon,
+  RecommendSection,
 } from './PraiseDetailPage.styles.ts';
 import { CommentIcon } from '../components/PraiseItem.styles.ts';
 import { TitleWrapper } from '../style/MainPage.ts';
 import { Date, Title } from '../components/PraiseItem.styles.ts';
+import ThumbUp from '../images/thumb_up.png';
 
 export default function PraiseDetail() {
   const navigate = useNavigate();
@@ -224,6 +227,7 @@ export default function PraiseDetail() {
                 <CommentItem
                   key={comment.id}
                   isOwn={isOwn}
+                  canRecommend={comment.canRecommend}
                   ref={
                     index === articleDetail.replyList.length - 1
                       ? latestCommentRef
@@ -242,19 +246,24 @@ export default function PraiseDetail() {
                           </CommentDate>
                         </CommentAuthorInfo>
                       </CommentAuthorSection>
-                      {comment.canDelete && (
-                        <CommentActions
-                          isopen={
-                            openDropdownId === comment.id ? 'true' : 'false'
-                          }
-                          setIsOpen={() => handleDropdownToggle(comment.id)}
-                          type="comment"
-                          itemId={comment.id}
-                          handleDelete={() =>
-                            handleDelete('댓글', comment.id)
-                          }
-                        />
-                      )}
+                      <RecommendSection>
+                        {comment.canRecommend && (
+                          <ThumbUpIcon src={ThumbUp} alt="추천" />
+                        )}
+                        {comment.canDelete && (
+                          <CommentActions
+                            isopen={
+                              openDropdownId === comment.id ? 'true' : 'false'
+                            }
+                            setIsOpen={() => handleDropdownToggle(comment.id)}
+                            type="comment"
+                            itemId={comment.id}
+                            handleDelete={() =>
+                              handleDelete('댓글', comment.id)
+                            }
+                          />
+                        )}
+                      </RecommendSection>
                     </CommentHeader>
                     <CommentContent>{comment.content}</CommentContent>
                   </CommentBubble>

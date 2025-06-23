@@ -1,4 +1,5 @@
 export interface Reply {
+  canRecommend: boolean | undefined;
   id: number;
   nickname: string;
   content: string;
@@ -15,6 +16,8 @@ export type ArticleDetail = {
   nickname: string;
   content: string;
   replyList: Reply[];
+  canRecommend: boolean;
+  canDelete: boolean;
 };
 
 export type ScrollAwareBottomButtonProps = {
