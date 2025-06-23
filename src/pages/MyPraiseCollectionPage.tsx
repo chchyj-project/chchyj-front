@@ -22,16 +22,13 @@ import {
   CommentDate,
   CommentCard,
   LikeSection,
-  UserDetails,
   LikeCount,
   CommentText,
   UserInfo,
-  EnhancedUserDetails,
   CommentUserDetails,
 } from './MyPraiseCollectionPage.styles.ts';
 import { Title as TitleLogo } from '../style/commonStyle.ts';
 import Footer from '../components/Footer.tsx';
-import { MessageCircle } from 'lucide-react';
 import { MyArticle, useArticleStore } from '../store/useArticleStore.ts';
 import dayjs from 'dayjs';
 import { CommentIcon } from '../components/PraiseItem.styles.ts';
@@ -39,15 +36,7 @@ import Comment from '../images/comment.png';
 import { axiosInstance } from '../api/axiosConfig.ts';
 import Common from '../style/Common.ts';
 
-// 타입 정의
-interface PraiseItem {
-  id: number;
-  nickname: string;
-  content: string;
-  date: string;
-  commentCount?: number;
-  avatarUrl?: string;
-}
+
 
 // 댓글 타입 정의
 interface MyComment {

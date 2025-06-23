@@ -6,6 +6,7 @@ import { ACCESS_TOKEN_NAME, USER_NAME } from '../constant/constant.ts';
 interface UserInfoResponse {
   nickname: string;
   userId: string;
+  isNewReply: boolean;
   // 다른 사용자 정보 필드들도 필요하다면 여기에 추가
 }
 export type KakaoLoginReturnType = {
@@ -54,6 +55,7 @@ class AuthService {
       } else {
         try {
           const result = await this.getUserInfo();
+          console.log('result>>', result);
           const { nickname: nicknameVal, userId } = result;
 
           if (result && nicknameVal && userId) {
@@ -111,7 +113,7 @@ class AuthService {
       // Axios 요청을 await하여 결과를 기다립니다.
       const result = await axiosInstance.get('/users/me');
       // 결과를 콘솔에 출력하여 디버깅을 용이하게 합니다.
-      console.log('executeKakao result:', result);
+      console.log('@@@@executeKakao result:', result);
 
       // 결과를 반환합니다.
       return result.data;

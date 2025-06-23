@@ -32,6 +32,9 @@ import {
   ThumbUpWrapper,
   ThumbUpIcon,
   RecommendSection,
+  FloatingButton,
+  FloatingButtonContainer,
+  Tooltip,
 } from './PraiseDetailPage.styles.ts';
 import { CommentIcon } from '../components/PraiseItem.styles.ts';
 import { TitleWrapper } from '../style/MainPage.ts';
@@ -181,6 +184,14 @@ export default function PraiseDetail() {
     }
   };
 
+  const handleFloatingButtonClick = () => {
+    toast.info('버튼이 클릭되었습니다!');
+  };
+
+  function handleWriteClick(arg0: boolean): void {
+    throw new Error('Function not implemented.');
+  }
+
   return (
     <>
       <Container>
@@ -288,23 +299,13 @@ export default function PraiseDetail() {
           )}
         </CommentListContainer>
       </Container>
-      {/* <FixedBottomBar>
-        <CommentInputContainer>
-          <ProfileImage>{nickname?.charAt(0)}</ProfileImage>
-          <CommentInput
-            placeholder="댓글을 입력하세요..."
-            value={commentContent}
-            onChange={(e: { target: { value: React.SetStateAction<string>; }; }) => setCommentContent(e.target.value)}
-            onKeyPress={(e: { key: string; }) => e.key === 'Enter' && handleCommentSubmit()}
-          />
-        </CommentInputContainer>
-        <SubmitButton
-          onClick={handleCommentSubmit}
-          // disabled={!commentContent.trim()}
-        >
-          댓글 입력
-        </SubmitButton>
-      </FixedBottomBar> */}
+
+      <FloatingButtonContainer>
+        <Tooltip>칭찬글 쓰기</Tooltip>
+        <FloatingButton onClick={() => handleWriteClick(true)}>
+          댓글<br />입력
+        </FloatingButton>
+      </FloatingButtonContainer>
     </>
   );
 }

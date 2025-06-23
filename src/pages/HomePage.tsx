@@ -202,7 +202,7 @@ const Home = () => {
             칭찬 받을래요
           </MainButton>
         </PraiseCard>
-
+        {/* 추천받아야 하는 댓그 목록 */}
         <div style={{ margin: '16px 24px 0' }}>
           <RecentComments />
         </div>

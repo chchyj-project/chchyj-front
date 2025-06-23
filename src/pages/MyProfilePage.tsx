@@ -64,7 +64,9 @@ export default function Profile() {
     AuthService.logout();
     navigate('/home');
   };
-  const [danger, setDanger] = useState(true);
+
+  console.log('myProfileInfo>>', myProfileInfo);
+
   return (
     <Container>
       <Header>

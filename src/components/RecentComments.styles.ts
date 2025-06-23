@@ -43,6 +43,9 @@ export const CommentCard = styled.div<{ $isActive?: boolean }>`
   box-sizing: border-box;
   margin: 0 4px;
   touch-action: pan-y pinch-zoom;
+  min-height: 84px;
+  display: flex;
+  flex-direction: column;
 
   /* 비활성 슬라이드일 때 포커스 방지 */
   ${(props) =>
@@ -74,6 +77,12 @@ export const CommentText = styled.p`
   font-size: 11px;
   line-height: 1.4;
   margin: 0;
+  flex: 1;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
 `;
 
 export const ClickableText = styled.span`

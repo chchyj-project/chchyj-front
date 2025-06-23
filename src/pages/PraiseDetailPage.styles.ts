@@ -271,3 +271,90 @@ export const ThumbUpIcon = styled.img`
   width: 10px;
   height: 10px;
 `;
+
+export const FloatingButtonContainer = styled.div`
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 12px;
+`;
+
+export const Tooltip = styled.div`
+  background-color: #333;
+  color: white;
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  white-space: nowrap;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: all 0.3s ease;
+  pointer-events: none;
+  position: relative;
+  
+  /* 말풍선 꼬리 */
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: -6px;
+    right: 20px;
+    width: 0;
+    height: 0;
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    border-top: 6px solid #333;
+  }
+`;
+
+export const FloatingButton = styled.button`
+  background: ${Common.colors.mainBlue};
+  border: none;
+  border-radius: 16px;
+  padding: 12px 20px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1001;
+  transition: all 0.3s ease;
+  position: relative;
+  box-shadow: 0 4px 12px rgba(66, 133, 244, 0.3);
+  color: white;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.2;
+  text-align: center;
+  font-family: 'Jalnan', 'NanumSquareRound', sans-serif;
+
+  /* 말풍선 꼬리 - 틈 없이 버튼에 붙여서 배치 */
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: -9px;
+    right: 0px; /* 버튼의 오른쪽 변과 일직선 */
+    width: 0;
+    height: 0;
+    border-top: 18px solid transparent;
+    border-bottom: 18px solid transparent;
+    border-right: 32px solid ${Common.colors.mainBlue}; /* 큰 삼각형으로 왼쪽 향하게 */
+  }
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(66, 133, 244, 0.4);
+    background: #3367d6;
+    
+    &::after {
+      border-right-color: #3367d6;
+    }
+  }
+
+  &:active {
+    transform: translateY(-1px);
+  }
+`;
