@@ -151,7 +151,7 @@ export const CommentInfo = styled.div`
 
 export const CommentListContainer = styled.div`
   padding: 0 20px 20px 20px;
-  min-height: 200px;
+  // min-height: 100px;
   overflow-x: hidden;
   flex: 1;
   
@@ -172,7 +172,7 @@ export const CommentListContainer = styled.div`
 export const CommentItem = styled.div<{ isOwn: boolean; canRecommend?: boolean }>`
   background-color: ${({ canRecommend }) => canRecommend ? '#f0f8ff' : 'white'};
   border-radius: 4px;
-  margin-bottom: 16px;
+  margin-bottom: 8px;
   padding: 5px 10px 10px 10px;
   width: 100%;
   box-sizing: border-box;
@@ -186,7 +186,6 @@ export const CommentItem = styled.div<{ isOwn: boolean; canRecommend?: boolean }
 
 export const CommentHeader = styled.div`
   display: flex;
-  align-items: flex-start;
 `;
 
 export const CommentAuthorSection = styled.div`
@@ -380,5 +379,27 @@ export const FloatingButton = styled.button`
 
   &:active {
     transform: translateY(-1px);
+  }
+`;
+
+export const EmptyCommentContainer = styled.div`
+  padding: 60px 20px;
+  text-align: center;
+  color: #999;
+  background-color: white;
+  border-radius: 12px;
+  margin: 20px 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.2;
+
+  /* CommentIcon의 기본 margin-right 제거 */
+  img {
+    margin-right: 0;
+    vertical-align: middle;
   }
 `;

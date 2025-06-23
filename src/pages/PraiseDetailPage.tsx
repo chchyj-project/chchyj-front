@@ -11,6 +11,7 @@ import { toast } from 'react-toastify';
 import { usePopup } from '../context/PopupContext.tsx';
 import { useArticleStore } from '../store/useArticleStore.ts';
 import Comment from '../images/comment.png';
+import GreyComment from '../images/grey_comment.png';
 import {
   Container,
   Header,
@@ -35,6 +36,7 @@ import {
   FloatingButton,
   FloatingButtonContainer,
   Tooltip,
+  EmptyCommentContainer,
 } from './PraiseDetailPage.styles.ts';
 import { CommentIcon } from '../components/PraiseItem.styles.ts';
 import { TitleWrapper } from '../style/MainPage.ts';
@@ -297,18 +299,10 @@ export default function PraiseDetail() {
               );
             })
           ) : (
-            <div
-              style={{
-                padding: '60px 20px',
-                textAlign: 'center',
-                color: '#999',
-                backgroundColor: 'white',
-                borderRadius: '12px',
-                margin: '20px 0',
-              }}
-            >
-              아직 댓글이 없습니다. 첫 번째 댓글을 작성해보세요!
-            </div>
+            <EmptyCommentContainer>
+              <CommentIcon src={GreyComment} alt="Comment icon" $width="20px" $height="20px" />
+              댓글을 기다리고 있어요
+            </EmptyCommentContainer>
           )}
         </CommentListContainer>
       </Container>

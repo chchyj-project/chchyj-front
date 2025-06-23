@@ -12,7 +12,7 @@ export const MoreButton = styled.button`
   border: none;
   padding: 0px;
   cursor: pointer;
-  color: #999;
+  color: black;
   width: 28px;
   height: 28px;
   display: flex;
@@ -31,11 +31,9 @@ export const DropdownMenu = styled.div<{ $isopen: string }>`
   position: absolute;
   top: 100%;
   right: 0;
-  background: white;
   border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-  padding: 8px;
-  min-width: 90px;
+  padding: 4px 8px;
+  min-width: 60px;
   display: ${(props) => (props.$isopen == 'true' ? 'flex' : 'none')};
   flex-direction: column;
   gap: 4px;
@@ -51,9 +49,9 @@ export const ReportButton = styled.button`
   color: white;
   text-align: center;
   cursor: pointer;
-  font-size: 12px;
+  font-size: 9px;
   font-weight: 500;
-  border-radius: 6px;
+  border-radius: 3px;
   transition: background-color 0.2s;
 
   &:hover {
@@ -70,9 +68,9 @@ export const DeleteButton = styled.button`
   color: white;
   text-align: center;
   cursor: pointer;
-  font-size: 12px;
+  font-size: 9px;
   font-weight: 500;
-  border-radius: 6px;
+  border-radius: 3px;
   transition: background-color 0.2s;
 
   &:hover {

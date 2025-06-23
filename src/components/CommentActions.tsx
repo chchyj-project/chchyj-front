@@ -1,5 +1,6 @@
 import { MoreVertical } from 'lucide-react';
 import React from 'react';
+import { useReportModalStore } from '../store/useReportModalStore';
 import {
   DropdownContainer,
   MoreButton,
@@ -16,6 +17,7 @@ interface CommentActionsProps {
   itemId?: number;
   handleEdit?: any;
   canDelete?: boolean;
+  content?: string; // 신고할 내용
 }
 
 const CommentActions: React.FC<CommentActionsProps> = ({
@@ -26,17 +28,26 @@ const CommentActions: React.FC<CommentActionsProps> = ({
   handleEdit,
   handleDelete,
   canDelete = false,
+  content = '', // 신고할 내용
 }) => {
+  const { openReportModal } = useReportModalStore();
+
+  const handleReport = () => {
+    if (itemId) {
+      // type이 'post'면 'article', 'comment'면 'reply'로 변환
+      const reportType = type === 'post' ? 'article' : 'reply';
+      openReportModal(content, itemId, reportType);
+    }
+    setIsOpen(false);
+  };
+
   return (
     <DropdownContainer>
       <MoreButton onClick={setIsOpen}>
         <MoreVertical size={16} />
       </MoreButton>
       <DropdownMenu $isopen={isopen}>
-        <ReportButton onClick={() => {
-          console.log('신고하기 클릭');
-          setIsOpen(false);
-        }}>
+        <ReportButton onClick={handleReport}>
           신고하기
         </ReportButton>
         {canDelete && (

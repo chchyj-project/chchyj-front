@@ -9,11 +9,10 @@ import {
   Title,
   ReportTypeList,
   ReportTypeItem,
-  SubmitButton,
+  SubmitButton, 
   OtherReasonInput,
   LabelText,
   OtherReasonContainer,
-  LabelTextDiv,
 } from './ReportModal.styles';
 import CircleButton from '../common/CircleButton';
 
@@ -95,13 +94,8 @@ export default function ReportModal() {
                 </ReportTypeItem>
               ))}
               <OtherReasonContainer>
-                <CircleButton
-                  isActive={selectedType === 'etc'}
-                  onClick={(e) => handleRadioChange('etc')}
-                />
-                <LabelTextDiv>기타</LabelTextDiv>
                 <OtherReasonInput
-                  placeholder="기타 사유를 입력해주세요"
+                  placeholder="내용을 기재하세요"
                   value={otherReason}
                   onChange={(e) => setOtherReason(e.target.value)}
                   style={{ marginLeft: '30px', marginTop: '8px' }}

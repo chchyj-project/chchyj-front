@@ -84,9 +84,14 @@ export const Tail = styled.div`
   background-size: 100%;
 `;
 
-export const CommentIcon = styled.img`
-  width: 17px;
-  height: 16px;
+interface CommentIconProps {
+  $width?: string;
+  $height?: string;
+}
+
+export const CommentIcon = styled.img<CommentIconProps>`
+  width: ${(props) => props.$width || '17px'};
+  height: ${(props) => props.$height || '16px'};
   margin-right: 4px;
 `;
 
