@@ -55,7 +55,9 @@ const PraiseItem = ({
     id: number,
     type: 'article' | 'reply',
   ) => {
+    console.log('신고하기 버튼 클릭됨:', { content, id, type });
     openReportModal(content, id, type);
+    console.log('openReportModal 호출 완료');
   };
 
   // document 레벨에서 클릭 이벤트를 감지하는 useEffect 추가

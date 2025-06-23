@@ -2,39 +2,37 @@ import { motion } from 'framer-motion';
 import styled from 'styled-components';
 
 export const Overlay = styled(motion.div)`
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: rgba(0, 0, 0, 0.5);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 1000;
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  background-color: rgba(0, 0, 0, 0.5) !important;
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  z-index: 9999 !important;
   overflow-y: auto; /* 모바일에서 스크롤 가능하도록 */
   padding: 20px 0; /* 상하 여백 추가 */
 `;
 
 export const Modal = styled(motion.div)`
-  position: relative;
-  width: 267px;
-  background: white;
-  border-radius: 8px;
-  padding: 24px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  margin: auto;
-  display: flex;
-  flex-direction: column;
-  z-index: 1001; /* Overlay보다 높은 z-index 설정 */
+  position: relative !important;
+  width: 267px !important;
+  background: white !important;
+  border-radius: 8px !important;
+  padding: 24px !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
+  margin: auto !important;
+  display: flex !important;
+  flex-direction: column !important;
+  z-index: 10000 !important; /* Overlay보다 높은 z-index 설정 */
   
-  /* 임시 디버깅용 스타일 */
-  border: 2px solid red;
 
   /* 모바일 최적화 */
   @media (max-width: 480px) {
-    width: 95%;
-    max-height: 80vh; /* 모바일에서는 더 작게 */
+    width: 95% !important;
+    max-height: 80vh !important; /* 모바일에서는 더 작게 */
   }
 
   /* 스크롤바 스타일링 */

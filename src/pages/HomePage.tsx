@@ -13,6 +13,7 @@ import { useArticleStore } from '../store/useArticleStore.ts';
 import React from 'react';
 import { Plus } from 'lucide-react';
 import { axiosInstance } from '../api/axiosConfig.ts';
+import ReportModal from '../components/modal/ReportModal.tsx';
 import {
   PraiseCard,
   ContentWrapper,
@@ -250,6 +251,7 @@ const Home = () => {
         isWriteMode={isWriteMode}
         handleWriteClick={handleWriteClick}
       />
+      <ReportModal />
     </>
   );
 };

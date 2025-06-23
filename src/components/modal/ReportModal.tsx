@@ -2,6 +2,7 @@
 import { useReportModalStore } from '../../store/useReportModalStore';
 import { AnimatePresence } from 'framer-motion';
 import { useState, useEffect, useRef } from 'react';
+import ReactDOM from 'react-dom';
 import {
   Overlay,
   Modal,
@@ -72,67 +73,49 @@ export default function ReportModal() {
     setSelectedType(typeId);
   };
 
-  return (
-
+  // Portal로 렌더링할 Modal 컴포넌트
+  const modalContent = (
     <>
-      < div style={{
-        position: 'fixed',
-        top: 0,
-        left: 0,
-        background: 'yellow',
-        padding: '10px',
-        zIndex: 99999
-      }
-      }>
-        모달 상태: {isOpen ? '열림' : '닫힘'}
-      </div >
-      <AnimatePresence>
-        {isOpen && (
-          <Overlay
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            onClick={closeReportModal}
-          >
-            <Modal
-              ref={modalRef}
-              initial={{ scale: 0.95 }}
-              animate={{ scale: 1 }}
-              exit={{ scale: 0.95 }}
-              onClick={(e) => e.stopPropagation()}
-            >
-              <Title>신고사유를 선택해주세요</Title>
 
-              <ReportTypeList>
-                {reportTypes.map((type) => (
-                  <ReportTypeItem key={type.id}>
-                    <CircleButton
-                      isActive={selectedType === type.id}
-                      onClick={(e) => handleRadioChange(type.id)}
-                    />
-                    <LabelText>{type.label}</LabelText>
-                  </ReportTypeItem>
-                ))}
-                <OtherReasonContainer>
+      {/* AnimatePresence 일시적으로 제거하고 직접 렌더링 */}
+      {isOpen && (
+        <Overlay onClick={closeReportModal}>
+          <Modal onClick={(e) => e.stopPropagation()}>
+
+            <Title>신고사유를 선택해주세요</Title>
+
+            <ReportTypeList>
+              {reportTypes.map((type) => (
+                <ReportTypeItem key={type.id}>
                   <CircleButton
-                    isActive={selectedType === 'etc'}
-                    onClick={(e) => handleRadioChange('etc')}
+                    isActive={selectedType === type.id}
+                    onClick={(e) => handleRadioChange(type.id)}
                   />
-                  <LabelTextDiv>기타</LabelTextDiv>
-                  <OtherReasonInput
-                    placeholder="기타 사유를 입력해주세요"
-                    value={otherReason}
-                    onChange={(e) => setOtherReason(e.target.value)}
-                    style={{ marginLeft: '30px', marginTop: '8px' }}
-                  />
-                </OtherReasonContainer>
-              </ReportTypeList>
+                  <LabelText>{type.label}</LabelText>
+                </ReportTypeItem>
+              ))}
+              <OtherReasonContainer>
+                <CircleButton
+                  isActive={selectedType === 'etc'}
+                  onClick={(e) => handleRadioChange('etc')}
+                />
+                <LabelTextDiv>기타</LabelTextDiv>
+                <OtherReasonInput
+                  placeholder="기타 사유를 입력해주세요"
+                  value={otherReason}
+                  onChange={(e) => setOtherReason(e.target.value)}
+                  style={{ marginLeft: '30px', marginTop: '8px' }}
+                />
+              </OtherReasonContainer>
+            </ReportTypeList>
 
-              <SubmitButton onClick={handleSubmit}>신고하기</SubmitButton>
-            </Modal>
-          </Overlay>
-        )}
-      </AnimatePresence>
+            <SubmitButton onClick={handleSubmit}>신고하기</SubmitButton>
+          </Modal>
+        </Overlay>
+      )}
     </>
   );
+
+  // Portal을 사용해서 document.body에 직접 렌더링
+  return ReactDOM.createPortal(modalContent, document.body);
 }
