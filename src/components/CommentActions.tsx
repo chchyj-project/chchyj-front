@@ -15,6 +15,7 @@ interface CommentActionsProps {
   handleDelete: (replyId: number) => Promise<void>;
   itemId?: number;
   handleEdit?: any;
+  canDelete?: boolean;
 }
 
 const CommentActions: React.FC<CommentActionsProps> = ({
@@ -24,6 +25,7 @@ const CommentActions: React.FC<CommentActionsProps> = ({
   itemId,
   handleEdit,
   handleDelete,
+  canDelete = false,
 }) => {
   return (
     <DropdownContainer>
@@ -37,9 +39,11 @@ const CommentActions: React.FC<CommentActionsProps> = ({
         }}>
           신고하기
         </ReportButton>
-        <DeleteButton onClick={() => handleDelete(Number(itemId))}>
-          삭제하기
-        </DeleteButton>
+        {canDelete && (
+          <DeleteButton onClick={() => handleDelete(Number(itemId))}>
+            삭제하기
+          </DeleteButton>
+        )}
       </DropdownMenu>
     </DropdownContainer>
   );

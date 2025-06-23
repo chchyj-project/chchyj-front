@@ -204,6 +204,7 @@ export default function PraiseDetail() {
                 setIsOpen={() => handleDropdownToggle(0)}
                 type="post"
                 itemId={articleDetail?.id}
+                canDelete={true}
                 handleEdit={handleEdit}
                 handleDelete={() =>
                   handleDelete('게시글', Number(articleDetail?.id))
@@ -252,19 +253,18 @@ export default function PraiseDetail() {
                             <ThumbUpIcon src={ThumbUp} alt="추천" />
                           </ThumbUpWrapper>
                         )}
-                        {comment.canDelete && (
-                          <CommentActions
-                            isopen={
-                              openDropdownId === comment.id ? 'true' : 'false'
-                            }
-                            setIsOpen={() => handleDropdownToggle(comment.id)}
-                            type="comment"
-                            itemId={comment.id}
-                            handleDelete={() =>
-                              handleDelete('댓글', comment.id)
-                            }
-                          />
-                        )}
+                        <CommentActions
+                          isopen={
+                            openDropdownId === comment.id ? 'true' : 'false'
+                          }
+                          setIsOpen={() => handleDropdownToggle(comment.id)}
+                          type="comment"
+                          itemId={comment.id}
+                          canDelete={comment.canDelete}
+                          handleDelete={() =>
+                            handleDelete('댓글', comment.id)
+                          }
+                        />
                       </RecommendSection>
                     </CommentHeader>
                     <CommentContent>{comment.content}</CommentContent>
