@@ -15,17 +15,11 @@ import {
   PraiseMeta,
   CommentCount,
   PraiseBubble,
-  // 새로운 댓글 UI 스타일들
-  CommentItemWrapper,
-  CommentCardHeader,
   UserName,
-  CommentDate,
-  CommentCard,
-  LikeSection,
-  LikeCount,
-  CommentText,
-  UserInfo,
-  CommentUserDetails,
+  ContentWrapper,
+  DateContentWrapper,
+  NickNameText,
+  CommentInfoText,
 } from './MyPraiseCollectionPage.styles.ts';
 import { Title as TitleLogo } from '../style/commonStyle.ts';
 import Footer from '../components/Footer.tsx';
@@ -34,8 +28,8 @@ import dayjs from 'dayjs';
 import { CommentIcon } from '../components/PraiseItem.styles.ts';
 import Comment from '../images/comment.png';
 import { axiosInstance } from '../api/axiosConfig.ts';
-import Common from '../style/Common.ts';
-
+import { ThumbUpIcon } from './PraiseDetailPage.styles.ts';
+import ThumbUp from '../images/thumb_up_bordered.png';
 
 
 // 댓글 타입 정의
@@ -47,6 +41,7 @@ interface MyComment {
   likeCount: number;
   userId: number;
   articleId: number;
+  replyStatus: 'ready' | 'normal';
 }
 
 interface MyCommentResponse {
@@ -113,6 +108,7 @@ const MyPraiseCollectionPage: React.FC = () => {
           const response = await fetchMyCommentsWithPagination(1, 10);
           console.log('댓글 response>>>', response);
           setCommentItems(response.list);
+          console.log('commentItems>>>', response.list);
         }
       } catch (error) {
         console.error('Failed to fetch items:', error);
@@ -140,21 +136,24 @@ const MyPraiseCollectionPage: React.FC = () => {
   const renderComments = () => {
     return commentItems.map((item) => (
       <PraiseItemWrapper key={item.id}>
-        {/* 메타 정보: 날짜와 하트 수 */}
-        <PraiseMeta>
-          <DateInfo>{dayjs(item.createdAt).format('YYYY.MM.DD')}</DateInfo>
-          <CommentCount>
-            <Heart size={16} color={Common.colors.mainBlue} />
-            <span>받은 하트 {item.likeCount || 0}개</span>
-          </CommentCount>
-        </PraiseMeta>
+        <PraiseBubble $replyStatus={item.replyStatus}>
+          <PraiseMeta>
+            <UserName style={{ marginBottom: '8px' }}>
+              <NickNameText>{item.nickname}</NickNameText>
+              <CommentInfoText>님의 글에 남긴 댓글입니다.</CommentInfoText>
+            </UserName>
+            {item.replyStatus === 'ready' && (
+              <CommentCount>
+                <ThumbUpIcon src={ThumbUp} size={15} />
+                <span>추천을 기다려요</span>
+              </CommentCount>
+            )}
+          </PraiseMeta>
 
-        {/* 말풍선 스타일 박스 */}
-        <PraiseBubble>
-          <UserName style={{ marginBottom: '8px', fontSize: '12px', color: '#718096' }}>
-            {item.nickname}님의 글에 남긴 댓글입니다.
-          </UserName>
-          <PraiseContent>{item.content}</PraiseContent>
+          <DateContentWrapper $replyStatus={item.replyStatus}>
+            <DateInfo>{dayjs(item.createdAt).format('YYYY.MM.DD')}</DateInfo>
+            <PraiseContent>{item.content}</PraiseContent>
+          </DateContentWrapper>
         </PraiseBubble>
       </PraiseItemWrapper>
     ));

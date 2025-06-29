@@ -290,9 +290,15 @@ export const ThumbUpWrapper = styled.div`
   }
 `;
 
-export const ThumbUpIcon = styled.img`
-  width: 10px;
-  height: 10px;
+interface ThumbUpIconProps {
+  size?: number;
+  width?: number;
+  height?: number;
+}
+
+export const ThumbUpIcon = styled.img<ThumbUpIconProps>`
+  width: ${({ width, size }) => width ? `${width}px` : size ? `${size}px` : '10px'};
+  height: ${({ height, size }) => height ? `${height}px` : size ? `${size}px` : '10px'};
 `;
 
 export const FloatingButtonContainer = styled.div`

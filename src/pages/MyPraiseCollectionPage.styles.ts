@@ -80,25 +80,25 @@ export const TabMenu = styled.div`
   display: flex;
   background-color: white;
   margin-bottom: 16px;
-  // border-bottom: 3px solid ${Common.colors.grey};
 `;
 
 export const Tab = styled.button<{ active: boolean }>`
   flex: 1;
   padding: 16px;
   background: none;
+  height: 54px;
   border: none;
   background-color: ${Common.colors.backgroundSkyblue2};
   border-top: 3px solid
     ${(props) => (props.active ? Common.colors.mainBlue : Common.colors.grey)};
   color: black;
-  font-size: 16px;
+  font-size: 15px;
+  line-height: 20px;
   cursor: pointer;
   transition: all 0.2s;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
 `;
 
 export const PraiseListSection = styled.section`
@@ -119,7 +119,6 @@ export const PraiseMeta = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  // padding: 0 16px;
   margin-bottom: 8px;
 `;
 
@@ -130,13 +129,16 @@ export const CommentCount = styled.div`
   gap: 4px;
   color: ${Common.colors.mainBlue};
   font-size: 11px;
+  line-height: 14px;
+  font-weight: 400;
 `;
 
 // 3) 말풍선 박스
-export const PraiseBubble = styled.div`
+export const PraiseBubble = styled.div<{ $replyStatus?: string }>`
   position: relative;
   background: white;
-  border: 1px solid #e2e8f0;
+  border: 0.5px solid
+    ${(props) => (props.$replyStatus === 'ready' ? '#EDF0FF' : '#E1E2E4')};
   border-radius: 12px;
   padding: 16px;
 `;
@@ -174,14 +176,48 @@ export const Nickname = styled.div`
 
 export const DateInfo = styled.div`
   color: #a0aec0;
-  font-size: 11px;
+  font-size: 8px;
 `;
 
 export const PraiseContent = styled.p`
   color: #4a5568;
+
+  font-family: 'SUIT';
+  font-style: normal;
+  font-weight: 400;
   font-size: 14px;
-  line-height: 1.5;
-  margin: 0;
+  line-height: 19px;
+  display: flex;
+  align-items: flex-end;
+  letter-spacing: -0.05em;
+
+  color: #303030;
+`;
+
+export const ContentWrapper = styled.div`
+  margin-top: 8px;
+`;
+
+export const DateContentWrapper = styled.div<{ $replyStatus?: string }>`
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  background-color: ${(props) =>
+    props.$replyStatus === 'ready' ? '#EDF2FF' : '#E1E2E4'};
+  padding: 12px;
+  border-radius: 4px;
+  opacity: ${(props) => (props.$replyStatus === 'normal' ? 0.5 : 1)};
+`;
+
+export const NickNameText = styled.span`
+  font-size: 12px;
+  font-weight: bold;
+  color: #718096;
+`;
+
+export const CommentInfoText = styled.span`
+  font-size: 8px;x
+  color: #718096;
 `;
 
 export const Pagination = styled.div`
